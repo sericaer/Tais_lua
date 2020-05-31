@@ -1,0 +1,76 @@
+root_table = 
+{
+    init_func = function(self)
+        for key,value in pairs(self) do
+            if type(value) == 'table' then
+                value.name = key
+                value.num = 0
+                value.test = function(self)
+                    print(self.name)
+                end
+                value.new = function(self, num)
+                    local lookup_table = {}
+                    local function copyObj( self )
+                        if type( self ) ~= "table" then
+                            return self
+                        elseif lookup_table[self] then
+                            return lookup_table[self]
+                        end
+                        
+                        local new_table = {}
+                        lookup_table[self] = new_table
+                        for key, value in pairs( self ) do
+                            new_table[copyObj( key )] = copyObj( value )
+                        end
+                        return setmetatable( new_table, getmetatable( self ) )
+                    end
+                    local rslt = copyObj( self )
+                    rslt.num = num
+                    return rslt
+                end
+
+                value.showNum = function(self)
+                    print(self.name..self.num)
+                end
+            end
+        end
+    end
+}
+
+root_table.sub_table = 
+{
+    a = 1,
+    b = 'strb',
+
+    init_func()
+}
+
+function clone( object )
+    local lookup_table = {}
+    local function copyObj( object )
+        if type( object ) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        
+        local new_table = {}
+        lookup_table[object] = new_table
+        for key, value in pairs( object ) do
+            new_table[copyObj( key )] = copyObj( value )
+        end
+        return setmetatable( new_table, getmetatable( object ) )
+    end
+    return copyObj( object )
+end
+
+tt1 = clone(root_table.sub_table)
+tt1.num = 9
+
+tt2 = root_table.sub_table:new(10)
+
+root_table.sub_table:showNum()
+tt1:showNum()
+tt2:showNum()
+
+

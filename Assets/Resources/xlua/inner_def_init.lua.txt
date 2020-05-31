@@ -1,0 +1,3 @@
+DEPART.init_table(DEPART)
+EVENT:init_func()
+TASK:init_func()

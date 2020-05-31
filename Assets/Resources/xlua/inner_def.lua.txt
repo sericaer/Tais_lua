@@ -1,0 +1,104 @@
+INIT_SELECT = {}
+
+BACKGROUND = {}
+
+POP = {
+    init_func = function(self)
+        for key,value in pairs(self) do
+            if type(value) == 'table' then
+                value.name = key
+                value.num = 0
+                value.new = function(self, num)
+                    local lookup_table = {}
+                    local function copyObj( self )
+                        if type( self ) ~= "table" then
+                            return self
+                        elseif lookup_table[self] then
+                            return lookup_table[self]
+                        end
+                        
+                        local new_table = {}
+                        lookup_table[self] = new_table
+                        for key, value in pairs( self ) do
+                            new_table[copyObj( key )] = copyObj( value )
+                        end
+                        return setmetatable( new_table, getmetatable( self ) )
+                    end
+                    local rslt = copyObj( self )
+                    rslt.num = num
+                    return rslt
+                end
+            end
+        end
+    end
+}
+
+DEPART = {
+    init_table = function (self)
+        for key,value in pairs(self) do
+            if type(value) == "table" then
+                value.name = key
+            end
+        end
+    end
+}
+
+EVENT = 
+{
+    init_func = function(self)
+        for key,value in pairs(self) do
+            if type(value) == 'table' then
+                value.name = key
+                if(value['title'] == nil) then
+                    value.title = function (self)
+                        return self.name.."_TITLE"
+                    end
+                end
+                if(value['desc'] == nil) then
+                    value.desc = function (self)
+                        return self.name.."_DESC"
+                    end
+                end
+                for keyO,valueO in pairs(value['options']) do
+                    if(valueO['desc'] == nil) then
+                        valueO.desc = function (self)
+                            return value.name.."_"..keyO.."_DESC"
+                        end
+                    end
+                end
+            end
+        end
+    end
+}
+
+TASK = 
+{
+    init_func = function(self)
+        for key,value in pairs(self) do
+            if type(value) == 'table' then
+                value.name = key
+                value.curr_percent = 0
+                value.curr_speed = 0
+                value._is_start = false
+                value.start = function (this)
+                    this.curr_percent = 0
+                    this._is_start = true
+                end
+                value.is_start = function (this)
+                    return this._is_start
+                end
+                value.finish = function (this)
+                    this._is_start = false
+                end
+            end
+        end
+    end
+}
+
+init_data = function ()
+    return CS.TaisEngine.InitData.inst
+end
+
+gm_data = function ()
+    return CS.TaisEngine.ToLua.inst
+end
