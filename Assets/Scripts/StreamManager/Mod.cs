@@ -16,9 +16,11 @@ namespace TaisEngine
         //internal static ScriptEngine engine = Python.CreateEngine();
         //internal ScriptScope scope;
 
-        internal static void Load(string path)
+        internal static void Load()
         {
-            foreach (var modPath in Directory.EnumerateDirectories(path))
+            listMod.Clear();
+
+            foreach (var modPath in Config.inst.select_mods.Values)
             {
                 var name = Path.GetFileNameWithoutExtension(modPath);
 

@@ -12,8 +12,9 @@ public class sceneLoad : MonoBehaviour
     void Start()
     {
 
-        TaisEngine.Config.Load($"{Application.streamingAssetsPath}/config.json");
-        TaisEngine.Mod.Load($"{Application.streamingAssetsPath}/mod/");
+        TaisEngine.Config.Load();
+
+        TaisEngine.Mod.Load();
 
         LocalText.getLocalString = TaisEngine.Mod.GetLocalString;
 

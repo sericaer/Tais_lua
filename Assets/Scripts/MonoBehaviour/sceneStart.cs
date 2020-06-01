@@ -1,9 +1,14 @@
 ﻿using System.Collections;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class sceneStart : MonoBehaviour
 {
+    public GameObject modSelectPanl;
+
     public void onNew()
     {
         //TaisEngine.GMData.New("native.SHIZU");
@@ -25,6 +30,11 @@ public class sceneStart : MonoBehaviour
         //TaisEngine.GMData.inst = TaisEngine.GMSerialize.Load();
 
         //SceneManager.LoadScene("sceneMain");
+    }
+
+    public void OnMod()
+    {
+        modSelectPanl.SetActive(true);
     }
 
     public void onQuit()
