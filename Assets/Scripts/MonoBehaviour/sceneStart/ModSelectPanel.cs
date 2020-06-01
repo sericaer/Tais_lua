@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class ModSelectPanel : MonoBehaviour
 {
     public GameObject modTogglePrefabs;
+    public GameObject modToggleContent;
 
     public GameObject restartPanel;
 
@@ -21,36 +22,35 @@ public class ModSelectPanel : MonoBehaviour
 
         foreach (var mod in modDict.Keys)
         {
-            var panel = Instantiate(modTogglePrefabs, transform.Find("content"));
+            var panel = Instantiate(modTogglePrefabs, modToggleContent.transform);
             panel.GetComponentInChildren<Text>().text = mod;
             panel.name = mod;
 
-            panel.GetComponentInChildren<Toggle>().isOn = TaisEngine.Config.inst.select_mods.ContainsKey(mod);
+            panel.GetComponentInChildren<Toggle>().isOn = TaisEngine.Config.inst.select_mods.Contains(mod);
         }
 
     }
 
-    public void OnModSelected()
+    public void OnConfirm()
     {
-        var selected = GetComponentsInChildren<Toggle>().Where(x => x.isOn).Select(x => x.name).ToList();
+        var selected = modToggleContent.GetComponentsInChildren<Toggle>().Where(x => x.isOn).Select(x => x.GetComponentInChildren<Text>().text).ToList();
         Debug.Log($"select mod {string.Join(",", selected)}");
 
-        var refreshDict = selected.ToDictionary(k => k, v => modDict[v]);
 
-        if (refreshDict.Keys.Equals(TaisEngine.Config.inst.select_mods.Keys))
+        if (selected.Except(TaisEngine.Config.inst.select_mods).Any() && selected.Count()== TaisEngine.Config.inst.select_mods.Count())
         {
             this.gameObject.SetActive(false);
             return;
         }
 
 
-        TaisEngine.Config.inst.select_mods = refreshDict;
+        TaisEngine.Config.inst.select_mods = selected;
         TaisEngine.Config.Save();
 
         restartPanel.SetActive(true);
     }
 
-    public void OnModCanel()
+    public void OnCanel()
     {
         this.gameObject.SetActive(false);
     }

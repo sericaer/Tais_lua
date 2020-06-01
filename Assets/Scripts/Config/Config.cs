@@ -24,7 +24,7 @@ namespace TaisEngine
 
         public string lang;
 
-        [JsonExtensionData]
-        public Dictionary<string, string> select_mods;
+
+        public IList<string> select_mods;
     }
 }

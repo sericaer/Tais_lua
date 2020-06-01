@@ -12,6 +12,7 @@ namespace TaisEngine
     partial class Mod
     {
         internal static List<Mod> listMod = new List<Mod>();
+        internal static string modRootPath = Application.streamingAssetsPath + "/mod/";
 
         //internal static ScriptEngine engine = Python.CreateEngine();
         //internal ScriptScope scope;
@@ -20,11 +21,11 @@ namespace TaisEngine
         {
             listMod.Clear();
 
-            foreach (var modPath in Config.inst.select_mods.Values)
+            foreach (var modPath in Config.inst.select_mods.Select(x=>modRootPath+x))
             {
-                var name = Path.GetFileNameWithoutExtension(modPath);
+                var name = Path.GetFileNameWithoutExtension(modPath as string);
 
-                listMod.Add(new Mod(name, modPath));
+                listMod.Add(new Mod(name, modPath as string));
             }
         }
 
