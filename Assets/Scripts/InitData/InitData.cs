@@ -15,12 +15,14 @@ namespace TaisEngine
 
         public InitDataTaishou taishou;
 
-        internal static void Random()
+        internal static InitData Random()
         {
             inst = new InitData()
             {
                 taishou = InitDataTaishou.Random()
             };
+
+            return inst;
         }
 
         internal static void Generate()

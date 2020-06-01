@@ -11,7 +11,7 @@ public class sceneStart : MonoBehaviour
 
 #if UNITY_EDITOR_OSX
         TaisEngine.GMData.New(TaisEngine.InitData.Random());
-        TaisEngine.Mod.SetData(TaisEngine.GMData.inst);
+        //aisEngine.Mod.SetData(TaisEngine.GMData.inst);
 
         SceneManager.LoadScene("sceneMain");
 #else
