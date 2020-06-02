@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UniRx.Async;
 using UnityEngine;
 
 namespace TaisEngine
 {
+    [JsonObject(MemberSerialization.OptIn)]
     internal class GMData
     {
         internal static GMData inst;
@@ -24,14 +26,21 @@ namespace TaisEngine
             }
         }
 
+        [JsonProperty]
         internal int _days;
+
+        [JsonProperty]
         internal Taishou taishou;
 
 
         //internal Economy economy = new Economy();
-
+        [JsonProperty]
         internal List<Depart> listDepart = new List<Depart>();
+
+        [JsonProperty]
         internal List<Task> listTask = new List<Task>();
+
+        [JsonProperty]
         internal List<Pop> listPop = new List<Pop>();
 
         internal GMDate date = new GMDate();
