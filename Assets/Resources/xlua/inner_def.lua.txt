@@ -38,6 +38,11 @@ DEPART = {
         for key,value in pairs(self) do
             if type(value) == "table" then
                 value.name = key
+                value.pops = {}
+                local pop_init = value['pop_init']
+                for key_pi,value_pi in pairs(pop_init) do
+                    value.pops[key_pi] = POP[key_pi]:new(value_pi)
+                end
             end
         end
     end

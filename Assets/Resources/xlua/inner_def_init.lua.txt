@@ -1,3 +1,4 @@
-DEPART.init_table(DEPART)
+POP:init_func()
+DEPART:init_table()
 EVENT:init_func()
 TASK:init_func()
