@@ -21,11 +21,20 @@ namespace TaisEngine
         {
             listMod.Clear();
 
+            listMod.Add(new Mod("native", Application.streamingAssetsPath + "/native/"));
+
             foreach (var modPath in Config.inst.select_mods.Select(x=>modRootPath+x))
             {
-                var name = Path.GetFileNameWithoutExtension(modPath as string);
+                try
+                {
+                    var name = Path.GetFileNameWithoutExtension(modPath as string);
 
-                listMod.Add(new Mod(name, modPath as string));
+                    listMod.Add(new Mod(name, modPath as string));
+                }
+                catch(Exception e)
+                {
+                    throw new Exception($"load mod:{modPath} failed!", e);
+                }
             }
         }
 
