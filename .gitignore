@@ -6,8 +6,9 @@
 /Temp
 /Assets/XLua/Gen
 /Assets/XLua/Gen.meta
-Assets/xLuaTest.meta
-Assets/xLuaTest/
+/Assets/xLuaTest.meta
+/Assets/xLuaTest/
+/Assets/StreamingAssets/save
 /*.csproj
 /*.sln
 /build/build*

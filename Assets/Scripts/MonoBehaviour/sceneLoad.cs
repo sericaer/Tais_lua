@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
-//using UnityEngine.UI.Extensions;
+using TaisEngine;
 
 
 public class sceneLoad : MonoBehaviour
@@ -16,11 +16,13 @@ public class sceneLoad : MonoBehaviour
     void Start()
     {
 
-        TaisEngine.Config.Load();
+        Config.Load();
 
         try
         {
-            TaisEngine.Mod.Load();
+            Directory.CreateDirectory(GMSerialize.savePath);
+
+            Mod.Load();
         }
         catch(Exception e) 
         {
@@ -33,7 +35,7 @@ public class sceneLoad : MonoBehaviour
             loadErrorPanel.transform.Find("detail").GetComponent<Text>().text = e.InnerException.Message;
         }
 
-        LocalText.getLocalString = TaisEngine.Mod.GetLocalString;
+        LocalText.getLocalString = Mod.GetLocalString;
 
         SceneManager.LoadScene("sceneStart");
     }

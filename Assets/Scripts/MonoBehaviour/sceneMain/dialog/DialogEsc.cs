@@ -6,10 +6,11 @@ using TaisEngine;
 public class DialogEsc : MonoBehaviour
 {
     public Toggle toggle;
+    public GameObject saveFileDialog;
 
     public void onClickSave()
     {
-        GMSerialize.Save(GMData.inst);
+        saveFileDialog.SetActive(true);
     }
 
     public void onClickQuit()

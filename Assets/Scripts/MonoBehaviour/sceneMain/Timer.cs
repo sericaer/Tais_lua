@@ -45,6 +45,7 @@ public class Timer : MonoBehaviour
             {
                 while (true)
                 {
+                    await UniTask.WaitUntil(() => !isPaused);
                     await TaisEngine.GMData.inst.DaysInc(CreateDialog);
                     await UniTask.Delay(1000);
                 }

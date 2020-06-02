@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace TaisEngine
 {
+    [JsonConverter(typeof(PopConverter))]
     public class Pop
     { 
         //internal Family family;
-
         internal PopDef def;
 
         //internal List<Buffer> buffers = new List<Buffer>();
@@ -72,5 +74,29 @@ namespace TaisEngine
         //{
         //    return def.num * 0.001;
         //}
+    }
+
+    public class PopConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(Pop) == objectType;
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var pop = value as Pop;
+
+            var popJObject = new JObject();
+            popJObject.Add("name", pop.def.name);
+            popJObject.Add("num", pop.def.num);
+
+            popJObject.WriteTo(writer);
+        }
     }
 }

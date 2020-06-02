@@ -13,7 +13,7 @@ namespace TaisEngine
         {
             var expect = new EXPECT_BRANCH("POP_TAX", null);
 
-            foreach (var depart in GMData.inst.listDepart)
+            foreach (var depart in GMData.inst.departs)
             {
                 var expectDepart = new EXPECT_BRANCH(depart.def.name, null);
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -7,6 +9,9 @@ using UnityEngine;
 
 namespace TaisEngine
 {
+
+    [JsonConverter(typeof(DepartConverter))]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Depart
     {
         public static int growingdays = 240;
@@ -34,7 +39,8 @@ namespace TaisEngine
         //    yield break;
         //}
 
-        public List<Pop> pops = new List<Pop>();
+        [JsonProperty]
+        internal List<Pop> pops = new List<Pop>();
 
         //public List<Buffer> buffers = new List<Buffer>();
 
@@ -85,5 +91,35 @@ namespace TaisEngine
         //{
         //    cropGrowing = null;
         //}
+    }
+
+    public class DepartConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(Depart) == objectType;
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var depart = value as Depart;
+
+            var departJObject = new JObject();
+            departJObject.Add("name", depart.def.name);
+
+            var popsJObject = new JArray();
+            foreach (var pop in depart.pops)
+            {
+                popsJObject.Add(JToken.FromObject(pop));
+            }
+            departJObject.Add("pops", popsJObject);
+
+            departJObject.WriteTo(writer);
+        }
     }
 }

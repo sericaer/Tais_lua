@@ -35,12 +35,11 @@ namespace TaisEngine
 
         //internal Economy economy = new Economy();
         [JsonProperty]
-        internal List<Depart> listDepart = new List<Depart>();
+        internal List<Depart> departs = new List<Depart>();
 
         [JsonProperty]
         internal List<Task> listTask = new List<Task>();
 
-        [JsonProperty]
         internal List<Pop> listPop = new List<Pop>();
 
         internal GMDate date = new GMDate();
@@ -123,7 +122,7 @@ namespace TaisEngine
 
         internal Depart FindDepartByColor(string color)
         {
-            return listDepart.SingleOrDefault(x => x.color == color);
+            return departs.SingleOrDefault(x => x.color == color);
         }
 
         //internal double collectTaxExpect(string level)
@@ -164,7 +163,7 @@ namespace TaisEngine
             foreach (var elem in Mod.EnumerateDepart())
             {
                 var depart = new Depart(elem);
-                listDepart.Add(depart);
+                departs.Add(depart);
             }
 
             foreach (var elem in  Mod.EnumerateTask())

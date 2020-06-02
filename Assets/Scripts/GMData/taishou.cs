@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Linq;
 
 using UnityEngine;
 
 namespace TaisEngine
 {
+    [JsonObject(MemberSerialization.OptIn)]
     internal class Taishou
     {
+        [JsonProperty]
         internal string name;
+
+        [JsonProperty]
         internal int age;
 
         internal BackgroundDef background
@@ -25,6 +30,7 @@ namespace TaisEngine
             this._background = background;
         }
 
+        [JsonProperty]
         private string _background;
     }
 }
