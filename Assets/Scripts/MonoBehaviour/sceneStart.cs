@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class sceneStart : MonoBehaviour
 {
     public GameObject modSelectPanl;
+    public GameObject saveSelectPanl;
 
     public void onNew()
     {
@@ -27,9 +28,7 @@ public class sceneStart : MonoBehaviour
 
     public void onLoad()
     {
-        //TaisEngine.GMData.inst = TaisEngine.GMSerialize.Load();
-
-        //SceneManager.LoadScene("sceneMain");
+        saveSelectPanl.SetActive(true);
     }
 
     public void OnMod()

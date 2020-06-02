@@ -10,12 +10,12 @@ using UnityEngine.UI.Extensions;
 public class DialogSave : MonoBehaviour
 {
     public GameObject saveItemPrefabs;
-    public GameObject saveItemContent;
+    public SaveFileContent saveItemContent;
     public InputField saveFileNameInput;
 
     public GameObject saveErrorDialog;
 
-    public List<GameObject> saveItems;
+    
 
     public void onClickSave()
     {
@@ -23,7 +23,7 @@ public class DialogSave : MonoBehaviour
         try
         {
             GMSerialize.Save(saveFileNameInput.text, GMData.inst);
-            RefreshSave();
+            saveItemContent.RefreshSave();
         }
         catch(Exception e)
         {
@@ -37,41 +37,14 @@ public class DialogSave : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void onClickDelete(string saveFileName)
-    {
-        File.Delete($"{GMSerialize.savePath}/{saveFileName}.save");
-        RefreshSave();
-    }
-
     public void onSaveErrorDialogConfirm()
     {
         saveErrorDialog.SetActive(false);
     }
 
-    void Start()
+    void OnEnable()
     {
-        saveItems = new List<GameObject>();
+        saveItemContent.canSelectd = false;
         saveFileNameInput.text = DateTime.Now.ToString("yyyyMMddHHmmss");
-        RefreshSave();
-    }
-
-    private void RefreshSave()
-    {
-        foreach(var elem in saveItems)
-        {
-            Destroy(elem);
-        }
-        saveItems.Clear();
-
-        foreach (var elem in Directory.EnumerateFiles(GMSerialize.savePath, "*.save"))
-        {
-            var saveItem = Instantiate(saveItemPrefabs, saveItemContent.transform) as GameObject;
-
-            var saveFileName = Path.GetFileNameWithoutExtension(elem);
-            saveItem.GetComponentInChildren<Text>().text = saveFileName;
-            saveItem.GetComponentInChildren<Button>().onClick.AddListener(() => { onClickDelete(saveFileName); });
-
-            saveItems.Add(saveItem);
-        }
     }
 }
