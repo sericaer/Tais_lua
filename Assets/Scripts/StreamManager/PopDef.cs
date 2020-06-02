@@ -11,6 +11,8 @@ namespace TaisEngine
         string name { get; }
         double num { get; set; }
         bool is_tax { get; }
+
+        DepartDef depart();
     }
 
 }

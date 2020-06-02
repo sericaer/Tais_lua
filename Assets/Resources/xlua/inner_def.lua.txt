@@ -42,6 +42,9 @@ DEPART = {
                 local pop_init = value['pop_init']
                 for key_pi,value_pi in pairs(pop_init) do
                     value.pops[key_pi] = POP[key_pi]:new(value_pi)
+                    value.pops[key_pi].depart = function(this)
+                        return value
+                    end
                 end
             end
         end

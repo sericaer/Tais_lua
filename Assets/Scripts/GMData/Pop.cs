@@ -16,7 +16,7 @@ namespace TaisEngine
         {
             get
             {
-                return $"{depart.def.name}|{def.name}";
+                return $"{def.depart().name}|{def.name}";
             }
         }
 
@@ -50,13 +50,13 @@ namespace TaisEngine
         //    }
         //}
 
-        internal Depart depart;
+        //internal Depart depart;
 
-        internal Pop(PopDef def, Depart depart)
+        internal Pop(PopDef def)
         {
             this.def = def;
 
-            this.depart = depart;
+            //this.depart = depart;
 
             //if(def.with_family)
             //{
@@ -68,9 +68,9 @@ namespace TaisEngine
             GMData.inst.listPop.Add(this);
         }
 
-        internal double getExpectTax(int level)
-        {
-            return def.num * 0.001;
-        }
+        //internal double getExpectTax(int level)
+        //{
+        //    return def.num * 0.001;
+        //}
     }
 }

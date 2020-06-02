@@ -70,7 +70,7 @@ namespace TaisEngine
             foreach (var popdef in def.pops.Values)
             {
 
-                pops.Add(new Pop(popdef, this));
+                pops.Add(new Pop(popdef));
             }
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);

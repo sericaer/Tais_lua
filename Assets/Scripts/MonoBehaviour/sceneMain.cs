@@ -1,4 +1,5 @@
-﻿using UniRx.Async;
+﻿using TaisEngine;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,7 @@ public class sceneMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GMSerialize.Save(GMData.inst);
         //if (TaisEngine.GMData.inst.gmEnd)
         //{
         //    SceneManager.LoadScene("sceneEnd");
