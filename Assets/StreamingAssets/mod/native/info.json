@@ -1,4 +1,5 @@
 {
     "name": "native",
-    "author": "sericaer"
+    "author": "sericaer",
+    "master": true
 }

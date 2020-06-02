@@ -24,6 +24,8 @@ public class sceneLoad : MonoBehaviour
         }
         catch(Exception e) 
         {
+            Debug.Log(e.Message);
+
             loadErrorPanel.SetActive(true);
 
             loadErrorPanel.transform.Find("title").GetComponent<Text>().text = e.Message;

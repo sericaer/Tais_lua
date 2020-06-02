@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 using XLua;
 
@@ -11,32 +10,35 @@ namespace TaisEngine
 {
     partial class Mod
     {
-        internal static List<Mod> listMod = new List<Mod>();
-        internal static string modRootPath = Application.streamingAssetsPath + "/mod/";
 
-        //internal static ScriptEngine engine = Python.CreateEngine();
-        //internal ScriptScope scope;
+        internal static string modRootPath = Application.streamingAssetsPath + "/mod/";
+        internal static List<Mod> listMod = new List<Mod>();
 
         internal static void Load()
         {
+
             listMod.Clear();
 
-            listMod.Add(new Mod("native", Application.streamingAssetsPath + "/native/"));
-
-            foreach (var modPath in Config.inst.select_mods.Select(x=>modRootPath+x))
+            foreach (var path in Directory.EnumerateDirectories(modRootPath))
             {
                 try
                 {
-                    var name = Path.GetFileNameWithoutExtension(modPath as string);
+                    var infoFile = $"{path}/info.json";
+                    if (!File.Exists(infoFile))
+                    {
+                        continue;
+                    }
 
-                    listMod.Add(new Mod(name, modPath as string));
+                    listMod.Add(new Mod(path));
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    throw new Exception($"load mod:{modPath} failed!", e);
+                    throw new Exception($"load mod {path} failed!", e);
                 }
+
             }
         }
+
 
         internal static string GetLocalString(string arg)
         {
@@ -46,9 +48,9 @@ namespace TaisEngine
 
         internal static IEnumerable<InitSelectDef> EnumerateInitSelect()
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x=>x.content != null))
             {
-                foreach (var select in mod.dictInitSelect.Values)
+                foreach (var select in mod.content.dictInitSelect.Values)
                 {
                     yield return select;
                 }
@@ -57,9 +59,9 @@ namespace TaisEngine
 
         internal static IEnumerable<BackgroundDef> EnumerateBackground()
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                foreach (var bk in mod.dictBackground.Values)
+                foreach (var bk in mod.content.dictBackground.Values)
                 {
                     yield return bk;
                 }
@@ -68,9 +70,9 @@ namespace TaisEngine
 
         internal static IEnumerable<DepartDef> EnumerateDepart()
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                foreach (var depart in mod.dictDepart.Values)
+                foreach (var depart in mod.content.dictDepart.Values)
                 {
                     yield return depart;
                 }
@@ -79,9 +81,9 @@ namespace TaisEngine
 
         internal static IEnumerable<TaskDef> EnumerateTask()
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                foreach (var depart in mod.dictTask.Values)
+                foreach (var depart in mod.content.dictTask.Values)
                 {
                     yield return depart;
                 }
@@ -110,11 +112,11 @@ namespace TaisEngine
 
                 string tRslt = x;
 
-                foreach (var mod in listMod)
+                foreach (var mod in listMod.Where(y => y.content != null))
                 {
-                    if(mod.dictlang[Config.inst.lang].ContainsKey(x))
+                    if(mod.content.dictlang[Config.inst.lang].ContainsKey(x))
                     {
-                        tRslt = mod.dictlang[Config.inst.lang][x];
+                        tRslt = mod.content.dictlang[Config.inst.lang][x];
                         if (objs.Count() != 0)
                         {
                             tRslt = string.Format(tRslt, objs);
@@ -131,47 +133,42 @@ namespace TaisEngine
 
         internal static GEvent getEvent(string finish_event)
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                if (mod.dictEvent.ContainsKey(finish_event))
+                if (mod.content.dictEvent.ContainsKey(finish_event))
                 {
-                    return mod.dictEvent[finish_event];
+                    return mod.content.dictEvent[finish_event];
                 }
             }
 
             return null;
         }
 
-        internal string name;
         internal string path;
-        internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
-        internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
-        internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
-        internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
-        //internal Dictionary<string, BufferDef> dictBuffer = new Dictionary<string, BufferDef>();
-        internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
-
-        internal Dictionary<string, InitSelectDef> dictInitSelect = new Dictionary<string, InitSelectDef>();
-
-        internal Dictionary<string, Dictionary<string, string>> dictlang = new Dictionary<string, Dictionary<string, string>>();
-        internal Dictionary<string, PersonName> dictlan2PersonName = new Dictionary<string, PersonName>();
+        internal Info info;
+        internal Content content;
 
         //internal TaxLevelDef taxlevelDef;
 
-        internal Mod(string name, string path)
+        internal Mod(string modPath)
         {
-            this.path = path;
+            path = modPath;
 
             Debug.Log($"****************load mod {path} *************");
 
-            this.name = name;
+            info = JsonConvert.DeserializeObject<Info>(File.ReadAllText($"{path}/info.json"));
+
+            if(!info.master && !Config.inst.select_mods.Contains(info.name))
+            {
+                return;
+            }
+
+            content = new Content();
 
             if (Directory.Exists($"{path}/lang/"))
             {
                 loadLocalText(Directory.EnumerateDirectories($"{path}/lang/"));
             }
-
-            Debug.Log($"{Application.streamingAssetsPath}");
 
             var allLuaFiles = new List<string>() {
                                                     "require 'xlua.class_func'",
@@ -204,22 +201,28 @@ namespace TaisEngine
             LoadDepart(luaenv);
             LoadEvent(luaenv);
             LoadTask(luaenv);
+        }
 
-            //luaenv.Global.Get<CalcNew>("Calc.New");
+        public class Info
+        {
+            public string name;
+            public bool master;
+            public string author;
+        }
 
-            //PyLoader.Add($"{path}depart", typeof(DepartDef), this);
-            //PyLoader.Add($"{path}pop", typeof(PopDef), this);
-            //PyLoader.Add($"{path}event", typeof(GEvent), this);
-            //PyLoader.Add($"{path}event/depart", typeof(GEventDepart), this);
-            //PyLoader.Add($"{path}event/pop", typeof(GEventPop), this);
-            //PyLoader.Add($"{path}task", typeof(TaskDef), this);
-            //PyLoader.Add($"{path}init_select", typeof(InitSelectDef), this);
-            //PyLoader.Add($"{path}buffer/depart", typeof(BufferDef), this);
-            //PyLoader.Add($"{path}buffer/pop", typeof(BufferDef), this);
-            //PyLoader.Add($"{path}background", typeof(BackgroundDef), this);
-            //PyLoader.Add($"{path}taxlevel", typeof(TaxLevelDef), this);
+        internal class Content
+        {
+            internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
+            internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
+            internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
+            internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
+            //internal Dictionary<string, BufferDef> dictBuffer = new Dictionary<string, BufferDef>();
+            internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
 
-            //scope = PyLoader.Load(engine);
+            internal Dictionary<string, InitSelectDef> dictInitSelect = new Dictionary<string, InitSelectDef>();
+
+            internal Dictionary<string, Dictionary<string, string>> dictlang = new Dictionary<string, Dictionary<string, string>>();
+            internal Dictionary<string, PersonName> dictlan2PersonName = new Dictionary<string, PersonName>();
         }
 
         private void LoadTask(LuaEnv luaenv)
@@ -231,7 +234,7 @@ namespace TaisEngine
                 var value = luaTable.Get<TaskDef>(key);
                 if (value != null)
                 {
-                    dictTask.Add(key, luaTable.Get<TaskDef>(key));
+                    content.dictTask.Add(key, luaTable.Get<TaskDef>(key));
                 }
             }
         }
@@ -245,7 +248,7 @@ namespace TaisEngine
                 var value = luaTable.Get<GEvent>(key);
                 if (value != null)
                 {
-                    dictEvent.Add(key, luaTable.Get<GEvent>(key));
+                    content.dictEvent.Add(key, luaTable.Get<GEvent>(key));
                 }
             }
         }
@@ -259,7 +262,7 @@ namespace TaisEngine
                 var value = luaTable.Get<PopDef>(key);
                 if (value != null)
                 {
-                    dictPop.Add(key, luaTable.Get<PopDef>(key));
+                    content.dictPop.Add(key, luaTable.Get<PopDef>(key));
                 }
             }
         }
@@ -273,7 +276,7 @@ namespace TaisEngine
                 var value = luaTable.Get<DepartDef>(key);
                 if(value != null)
                 {
-                    dictDepart.Add(key, luaTable.Get<DepartDef>(key));
+                    content.dictDepart.Add(key, luaTable.Get<DepartDef>(key));
                 }
             }
         }
@@ -284,7 +287,7 @@ namespace TaisEngine
 
             foreach (var key in luaTable.GetKeys<string>())
             {
-                dictBackground.Add(key, luaTable.Get<BackgroundDef>(key).DefaultSet(key));
+                content.dictBackground.Add(key, luaTable.Get<BackgroundDef>(key).DefaultSet(key));
             }
         }
 
@@ -294,7 +297,7 @@ namespace TaisEngine
 
             foreach (var key in luaTable.GetKeys<string>())
             {
-                dictInitSelect.Add(key, luaTable.Get<InitSelectDef>(key).DefaultSet(key));
+                content.dictInitSelect.Add(key, luaTable.Get<InitSelectDef>(key).DefaultSet(key));
             }
         }
 
@@ -308,7 +311,7 @@ namespace TaisEngine
             foreach (var dir in dirs)
             {
                 var dirName = Path.GetFileNameWithoutExtension(dir);
-                Debug.Log($"****************load mod {name} langue {dirName} *************");
+                Debug.Log($"****************load mod {info.name} langue {dirName} *************");
 
                 var dictText = new Dictionary<string, string>();
 
@@ -336,9 +339,9 @@ namespace TaisEngine
                     }
                 }
 
-                dictlang.Add(dirName, dictText);
+                content.dictlang.Add(dirName, dictText);
 
-                dictlan2PersonName.Add(dirName, PersonName.Generate(dir));
+                content.dictlan2PersonName.Add(dirName, PersonName.Generate(dir));
             }
         }
 
@@ -346,9 +349,9 @@ namespace TaisEngine
         {
             Debug.Log("Generate start ");
 
-            foreach(var mod in Mod.listMod)
+            foreach(var mod in Mod.listMod.Where(x => x.content != null))
             {
-                foreach (var gevent in mod.dictEvent.Values)
+                foreach (var gevent in mod.content.dictEvent.Values)
                 {
                     if(Tools.GRandom.isOccur(gevent.occur_rate()*100))
                     {

@@ -11,14 +11,14 @@ namespace TaisEngine
     {
         internal static IEnumerable<string> EnumFamily()
         {
-            foreach(var mod in Mod.listMod)
+            foreach(var mod in Mod.listMod.Where(x=>x.content!= null))
             {
-                if(mod.dictlan2PersonName[Config.inst.lang] == null)
+                if(mod.content.dictlan2PersonName[Config.inst.lang] == null)
                 {
                     continue;
                 }
 
-                foreach(var name in mod.dictlan2PersonName[Config.inst.lang].family)
+                foreach(var name in mod.content.dictlan2PersonName[Config.inst.lang].family)
                 {
                     yield return name;
                 }
@@ -27,14 +27,14 @@ namespace TaisEngine
 
         internal static IEnumerable<string> EnumGiven()
         {
-            foreach (var mod in Mod.listMod)
+            foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                if (mod.dictlan2PersonName[Config.inst.lang] == null)
+                if (mod.content.dictlan2PersonName[Config.inst.lang] == null)
                 {
                     continue;
                 }
 
-                foreach (var name in mod.dictlan2PersonName[Config.inst.lang].given)
+                foreach (var name in mod.content.dictlan2PersonName[Config.inst.lang].given)
                 {
                     yield return name;
                 }
