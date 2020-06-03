@@ -38,7 +38,14 @@ namespace TaisEngine
 
         //    yield break;
         //}
-        internal List<Pop> pops = new List<Pop>();
+        internal IEnumerable<Pop> pops
+        {
+            get
+            {
+                return GMData.inst.pops.Where(x=>x.depart == name);
+            }
+        }
+
 
         //public List<Buffer> buffers = new List<Buffer>();
 
@@ -82,10 +89,15 @@ namespace TaisEngine
 
             foreach (var elem in def.pop_init)
             {
-                pops.Add(new Pop(PopDef.Find(elem.Key), this.name, elem.Value));
+                new Pop(PopDef.Find(elem.Key), this.name, elem.Value);
             }
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
+        }
+
+        internal Depart()
+        {
+
         }
 
         //internal void growStart()

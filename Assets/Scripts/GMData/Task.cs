@@ -35,6 +35,11 @@ namespace TaisEngine
             this.def.curr_speed = def.base_speed;
         }
 
+        internal Task()
+        {
+
+        }
+
         internal TaskDef def;
     }
 }

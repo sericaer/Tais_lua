@@ -23,5 +23,14 @@ namespace TaisEngine
 
             Debug.Log(serialData);
         }
+
+        internal static GMData Load(string saveFileName)
+        {
+            string fullPath = $"{savePath}{saveFileName}.save";
+
+            string jsonStr = File.ReadAllText(fullPath);
+
+            return JsonConvert.DeserializeObject<GMData>(jsonStr);
+        }
     }
 }

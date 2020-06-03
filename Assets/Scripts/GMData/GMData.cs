@@ -151,6 +151,11 @@ namespace TaisEngine
         //    return EXPECT_TAX.histroy.Last().taxed.value;
         //}
 
+        internal GMData()
+        {
+
+        }
+
         private GMData(InitData InitData)
         {
             inst = this;

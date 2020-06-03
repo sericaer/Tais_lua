@@ -38,6 +38,7 @@ namespace TaisEngine
                 return PopDef.Find(name);
             }
         }
+
         //{
         //    get
         //    {
@@ -93,6 +94,10 @@ namespace TaisEngine
             GMData.inst.pops.Add(this);
         }
 
+        internal Pop()
+        {
+
+        }
         //internal double getExpectTax(int level)
         //{
         //    return def.num * 0.001;

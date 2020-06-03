@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TaisEngine;
 
 public class SaveSelectPanel : MonoBehaviour
 {
@@ -38,5 +40,9 @@ public class SaveSelectPanel : MonoBehaviour
     public void OnConfirm()
     {
         gameObject.SetActive(false);
+
+        GMData.inst = GMSerialize.Load(selectText.text);
+        SceneManager.LoadScene("sceneMain");
+
     }
 }

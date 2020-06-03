@@ -30,6 +30,11 @@ namespace TaisEngine
             this._background = background;
         }
 
+        internal Taishou()
+        {
+
+        }
+
         [JsonProperty]
         private string _background;
     }
