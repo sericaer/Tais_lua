@@ -1,4 +1,4 @@
-TASK.COLLECT_TAX = 
+TASK_DEF.COLLECT_TAX = 
 {
     base_speed = 10,
 

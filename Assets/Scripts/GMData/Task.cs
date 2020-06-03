@@ -1,36 +1,70 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tools;
+using XLua;
 
 namespace TaisEngine
 {
+    [LuaCallCSharp]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Task
     {
-        public readonly string key;
+        [JsonProperty]
+        public readonly string name;
 
+        [JsonProperty]
         public double curr_percent;
+
+        [JsonProperty]
         public double curr_speed;
+
+        [JsonProperty]
+        public bool start
+        {
+            get
+            {
+                return _isStart;
+            }
+            set
+            {
+                curr_percent = 0;
+                _isStart = value;
+            }
+        }
+
+        //public TaskToMod toMod
+        //{
+        //    get
+        //    {
+        //        return new TaskToMod() { _funcName =()=> key,}
+        //    }
+        //}
 
         internal static IEnumerable<EventDef.Interface> DaysInc()
         {
-            for (int i = 0; i < GMData.inst.listTask.Count(); i++)
+            foreach(var task in GMData.inst.tasks.Where(x=>x.start))
             {
-                var task = GMData.inst.listTask[i];
-
                 task.curr_percent += task.curr_speed;
 
                 if (task.curr_percent.Equals(100))
                 {
-                    yield return EventDef.Find(task.def.finish_event());
+                    var eventName = task.def.finish_event();
+                    if(eventName != "")
+                    {
+                        yield return EventDef.Find(eventName);
+                    }
+                    
+                    task._isStart = false;
                 }
             }
         }
 
 
+
         internal Task(TaskDef.Interface def)
         {
-            this.key = def.name;
+            this.name = def.name;
 
             this.curr_percent = 0;
             this.curr_speed = def.base_speed;
@@ -45,8 +79,11 @@ namespace TaisEngine
         {
             get
             {
-                return TaskDef.Find(key);
+                return TaskDef.Find(name);
             }
         }
+
+        private bool _isStart;
     }
+
 }

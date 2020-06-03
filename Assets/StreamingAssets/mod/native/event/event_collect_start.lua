@@ -13,7 +13,7 @@ EVENT_DEF.EVENT_COLLECT_TAX_START =
         OPTION_1 = 
         {
             selected = function ()
-                gm_data().tasks:find('COLLECT_TAX'):start()
+                gm_data().tasks:find('COLLECT_TAX').start = true
                 gm_data():collect_tax_start('level1')
             end
         }

@@ -44,7 +44,7 @@ public class Timer : MonoBehaviour
         {
             try
             {
-                while (true)
+                while (!GMData.inst.quit)
                 {
                     await UniTask.WaitUntil(() => !isPaused);
                     await GMData.inst.DaysInc(CreateDialog);

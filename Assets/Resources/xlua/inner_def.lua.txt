@@ -78,25 +78,12 @@ EVENT_DEF =
     end
 }
 
-TASK = 
+TASK_DEF = 
 {
     init_func = function(self)
         for key,value in pairs(self) do
             if type(value) == 'table' then
                 value.name = key
-                value.curr_percent = 0
-                value.curr_speed = 0
-                value._is_start = false
-                value.start = function (this)
-                    this.curr_percent = 0
-                    this._is_start = true
-                end
-                value.is_start = function (this)
-                    return this._is_start
-                end
-                value.finish = function (this)
-                    this._is_start = false
-                end
             end
         end
     end

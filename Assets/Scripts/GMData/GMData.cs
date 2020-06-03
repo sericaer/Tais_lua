@@ -38,12 +38,14 @@ namespace TaisEngine
         internal List<Depart> departs = new List<Depart>();
 
         [JsonProperty]
-        internal List<Task> listTask = new List<Task>();
+        internal List<Task> tasks = new List<Task>();
 
         [JsonProperty]
         internal List<Pop> pops = new List<Pop>();
 
         internal GMDate date = new GMDate();
+
+        internal bool quit;
 
         //internal static IEnumerable<GEvent> GenerateEvent()
         //{
@@ -103,11 +105,11 @@ namespace TaisEngine
                 Debug.Log("DaysInc_0_1");
             }
 
-            //Debug.Log("DaysInc_1");
-            //foreach (var gevent in Task.DaysInc())
-            //{
-            //    await act(gevent);
-            //}
+            Debug.Log("DaysInc_1");
+            foreach (var gevent in Task.DaysInc())
+            {
+                await act(gevent);
+            }
 
             //Debug.Log("DaysInc_2");
             //foreach (var gevent in Depart.DaysInc())
@@ -174,7 +176,7 @@ namespace TaisEngine
 
             foreach (var elem in  TaskDef.Enumerate())
             {
-                listTask.Add(new Task(elem));
+                tasks.Add(new Task(elem));
             }
         }
 

@@ -40,9 +40,9 @@ namespace TaisEngine
     [LuaCallCSharp]
     public class Tasks
     {
-        public TaskDef find(string name)
+        public Task find(string name)
         {
-            return GMData.inst.listTask.SingleOrDefault(x => x.key == name)?.def;
+            return GMData.inst.tasks.SingleOrDefault(x => x.name == name);
         }
     }
 }

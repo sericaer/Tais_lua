@@ -131,18 +131,18 @@ namespace TaisEngine
             return rslt;
         }
 
-        internal static GEvent getEvent(string finish_event)
-        {
-            foreach (var mod in Mod.listMod.Where(x => x.content != null))
-            {
-                if (mod.content.dictEvent.ContainsKey(finish_event))
-                {
-                    return mod.content.dictEvent[finish_event];
-                }
-            }
+        //internal static GEvent getEvent(string finish_event)
+        //{
+        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
+        //    {
+        //        if (mod.content.dictEvent.ContainsKey(finish_event))
+        //        {
+        //            return mod.content.dictEvent[finish_event];
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         internal string path;
         internal Info info;
@@ -197,7 +197,7 @@ namespace TaisEngine
 
             content.Load(info.name, luaenv);
 
-            //LoadInitSelectDef(luaenv);
+            LoadInitSelectDef(luaenv);
             //LoadPop(luaenv);
             //LoadBackground(luaenv);
             //LoadDepart(luaenv);
@@ -239,6 +239,8 @@ namespace TaisEngine
                 backgroundDef = new BackgroundDef(mod,luaenv);
                 eventDef = new EventDef(mod, luaenv);
                 taskDef = new TaskDef(mod, luaenv);
+
+               
             }
         }
 
