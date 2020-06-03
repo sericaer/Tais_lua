@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using TaisEngine;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,7 +47,7 @@ public class Timer : MonoBehaviour
                 while (true)
                 {
                     await UniTask.WaitUntil(() => !isPaused);
-                    await TaisEngine.GMData.inst.DaysInc(CreateDialog);
+                    await GMData.inst.DaysInc(CreateDialog);
                     await UniTask.Delay(1000);
                 }
             }
@@ -61,7 +62,7 @@ public class Timer : MonoBehaviour
     {
 
     }
-    async UniTask CreateDialog(TaisEngine.GEvent gevent)
+    async UniTask CreateDialog(EventDef.Interface gevent)
     {
         if (gevent != null)
         {

@@ -1,4 +1,4 @@
-EVENT.EVENT_COLLECT_TAX_START = 
+EVENT_DEF.EVENT_COLLECT_TAX_START = 
 {
     occur_rate = function ()
         if gm_data().date.month == 1 and gm_data().date.day == 5 then

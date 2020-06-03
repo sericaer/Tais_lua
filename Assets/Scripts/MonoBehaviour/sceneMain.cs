@@ -29,7 +29,7 @@ public class sceneMain : MonoBehaviour
         //}
     }
 
-    internal async UniTask CreateEventDialogAsync(TaisEngine.GEvent eventobj)
+    internal async UniTask CreateEventDialogAsync(EventDef.Interface eventobj)
     {
         var panelDialog = Instantiate(dialogCommon, this.transform) as GameObject;
         panelDialog.GetComponentInChildren<DialogCommon>().gEvent = eventobj;

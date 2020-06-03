@@ -50,7 +50,7 @@ DEPART_DEF = {
     end
 }
 
-EVENT = 
+EVENT_DEF = 
 {
     init_func = function(self)
         for key,value in pairs(self) do

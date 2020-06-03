@@ -92,10 +92,10 @@ namespace TaisEngine
         //    }
         //}
 
-        internal async UniTask DaysInc(Func<TaisEngine.GEvent, UniTask> act)
+        internal async UniTask DaysInc(Func<EventDef.Interface, UniTask> act)
         {
             Debug.Log("DaysInc_0");
-            foreach (var gevent in Mod.GenerateEvent())
+            foreach (var gevent in EventDef.Generate())
             {
                 Debug.Log("DaysInc_0_0");
                 await act(gevent);
@@ -103,11 +103,11 @@ namespace TaisEngine
                 Debug.Log("DaysInc_0_1");
             }
 
-            Debug.Log("DaysInc_1");
-            foreach (var gevent in Task.DaysInc())
-            {
-                await act(gevent);
-            }
+            //Debug.Log("DaysInc_1");
+            //foreach (var gevent in Task.DaysInc())
+            //{
+            //    await act(gevent);
+            //}
 
             //Debug.Log("DaysInc_2");
             //foreach (var gevent in Depart.DaysInc())
@@ -118,7 +118,7 @@ namespace TaisEngine
             //Debug.Log("DaysInc_3");
             _days++;
 
-            Debug.Log(listTask[0].def.is_start());
+            //Debug.Log(listTask[0].def.is_start());
         }
 
         internal Depart FindDepartByColor(string color)

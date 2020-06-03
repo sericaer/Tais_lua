@@ -1,4 +1,4 @@
-EVENT.EVENT_TEST = 
+EVENT_DEF.EVENT_TEST = 
 {
     occur_rate = function ()
         if gm_data().date.day % 3 == 0 then

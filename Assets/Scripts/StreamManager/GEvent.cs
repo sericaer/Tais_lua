@@ -142,100 +142,100 @@ namespace TaisEngine
         void selected();
     }
 
-        //class Option
-        //{
-        //    internal string desc
-        //    {
-        //        get
-        //        {
-        //            var rslt = $"{_gevent.key}_{_name}_DESC";
-        //            if (_getDesc != null)
-        //            {
-        //                var descList = _getDesc();
+    //class Option
+    //{
+    //    internal string desc
+    //    {
+    //        get
+    //        {
+    //            var rslt = $"{_gevent.key}_{_name}_DESC";
+    //            if (_getDesc != null)
+    //            {
+    //                var descList = _getDesc();
 
-        //                rslt = Mod.GetLocalString(rslt, descList.ToArray());
-        //            }
-        //            return rslt;
-        //        }
-        //    }
+    //                rslt = Mod.GetLocalString(rslt, descList.ToArray());
+    //            }
+    //            return rslt;
+    //        }
+    //    }
 
-        //    internal Option(string name, GEvent gevent, dynamic pyDef)
-        //    {
-        //        _name = name;
-        //        _pyDef = pyDef;
-        //        _gevent = gevent;
+    //    internal Option(string name, GEvent gevent, dynamic pyDef)
+    //    {
+    //        _name = name;
+    //        _pyDef = pyDef;
+    //        _gevent = gevent;
 
-        //        if (Mod.engine.Operations.ContainsMember(pyDef, "isValid"))
-        //        {
-        //            _isValid = Mod.engine.Operations.GetMember<Func<bool>>(pyDef, "isValid");
-        //        }
+    //        if (Mod.engine.Operations.ContainsMember(pyDef, "isValid"))
+    //        {
+    //            _isValid = Mod.engine.Operations.GetMember<Func<bool>>(pyDef, "isValid");
+    //        }
 
-        //        if (Mod.engine.Operations.ContainsMember(pyDef, "desc"))
-        //        {
-        //            _getDesc = Mod.engine.Operations.GetMember<Func<IList<object>>>(pyDef, "desc");
-        //        }
+    //        if (Mod.engine.Operations.ContainsMember(pyDef, "desc"))
+    //        {
+    //            _getDesc = Mod.engine.Operations.GetMember<Func<IList<object>>>(pyDef, "desc");
+    //        }
 
-        //        if (Mod.engine.Operations.ContainsMember(pyDef, "selected"))
-        //        {
-        //            _selected = Mod.engine.Operations.GetMember<Action>(pyDef, "selected");
-        //        }
-        //    }
+    //        if (Mod.engine.Operations.ContainsMember(pyDef, "selected"))
+    //        {
+    //            _selected = Mod.engine.Operations.GetMember<Action>(pyDef, "selected");
+    //        }
+    //    }
 
-        //    internal bool isVaild()
-        //    {
-        //        if (_isValid == null)
-        //            return true;
-        //        return _isValid();
-        //    }
+    //    internal bool isVaild()
+    //    {
+    //        if (_isValid == null)
+    //            return true;
+    //        return _isValid();
+    //    }
 
-        //    internal void Selected()
-        //    {
-        //        _selected?.Invoke();
-        //    }
+    //    internal void Selected()
+    //    {
+    //        _selected?.Invoke();
+    //    }
 
-        //    internal dynamic _pyDef;
-        //    internal string _name;
+    //    internal dynamic _pyDef;
+    //    internal string _name;
 
-        //    private Func<bool> _isValid;
-        //    private Func<IList<object>> _getDesc;
-        //    private Action _selected;
-        //    private GEvent _gevent;
-        //}
+    //    private Func<bool> _isValid;
+    //    private Func<IList<object>> _getDesc;
+    //    private Action _selected;
+    //    private GEvent _gevent;
+    //}
 
-        //internal class GEventDepart : GEvent
-        //{
-        //    public GEventDepart(string name, object pyObj, Mod mod) : base(name, pyObj, mod)
-        //    {
+    //internal class GEventDepart : GEvent
+    //{
+    //    public GEventDepart(string name, object pyObj, Mod mod) : base(name, pyObj, mod)
+    //    {
 
-        //    }
+    //    }
 
-        //    internal void setDepart(dynamic pyObj)
-        //    {
-        //        Mod.engine.Operations.SetMember(this.pyObj, "depart", pyObj);
+    //    internal void setDepart(dynamic pyObj)
+    //    {
+    //        Mod.engine.Operations.SetMember(this.pyObj, "depart", pyObj);
 
-        //        foreach (var op in options)
-        //        {
-        //            Mod.engine.Operations.SetMember(op._pyDef, "depart", pyObj);
-        //        }
-        //    }
-        //}
+    //        foreach (var op in options)
+    //        {
+    //            Mod.engine.Operations.SetMember(op._pyDef, "depart", pyObj);
+    //        }
+    //    }
+    //}
 
-        //internal class GEventPop : GEvent
-        //{
-        //    public GEventPop(string name, object pyObj, Mod mod) : base(name, pyObj, mod)
-        //    {
+    //internal class GEventPop : GEvent
+    //{
+    //    public GEventPop(string name, object pyObj, Mod mod) : base(name, pyObj, mod)
+    //    {
 
-        //    }
+    //    }
 
-        //    internal void setDepart(dynamic pyObj)
-        //    {
-        //        Mod.engine.Operations.SetMember(this.pyObj, "pop", pyObj);
+    //    internal void setDepart(dynamic pyObj)
+    //    {
+    //        Mod.engine.Operations.SetMember(this.pyObj, "pop", pyObj);
 
-        //        foreach (var op in options)
-        //        {
-        //            Mod.engine.Operations.SetMember(op._pyDef, "pop", pyObj);
-        //        }
-        //    }
-        //}
+    //        foreach (var op in options)
+    //        {
+    //            Mod.engine.Operations.SetMember(op._pyDef, "pop", pyObj);
+    //        }
+    //    }
+    //}
 
-    }
+}

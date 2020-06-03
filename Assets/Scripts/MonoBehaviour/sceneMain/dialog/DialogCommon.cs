@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using TaisEngine;
 
 public class DialogCommon : Dialog
 {
@@ -15,7 +16,7 @@ public class DialogCommon : Dialog
 
     public List<Button> btns;
 
-    internal TaisEngine.GEvent gEvent;
+    internal EventDef.Interface gEvent;
 
     void Start ()
     {

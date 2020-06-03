@@ -217,10 +217,11 @@ namespace TaisEngine
             internal BackgroundDef backgroundDef;
             internal DepartDef departDef;
             internal PopDef popDef;
+            internal EventDef eventDef;
 
             internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
             //internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
-            internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
+            //internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
             internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
             //internal Dictionary<string, BufferDef> dictBuffer = new Dictionary<string, BufferDef>();
             //internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
@@ -235,6 +236,7 @@ namespace TaisEngine
                 popDef = new PopDef(mod, luaenv);
                 departDef = new DepartDef(mod, luaenv);
                 backgroundDef = new BackgroundDef(mod,luaenv);
+                eventDef = new EventDef(mod, luaenv);
             }
         }
 
@@ -266,19 +268,19 @@ namespace TaisEngine
             }
         }
 
-        private void LoadPop(LuaEnv luaenv)
-        {
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>("POP");//映射到LuaTable，by ref
+        //private void LoadPop(LuaEnv luaenv)
+        //{
+        //    LuaTable luaTable = luaenv.Global.Get<LuaTable>("POP");//映射到LuaTable，by ref
 
-            foreach (var key in luaTable.GetKeys<string>())
-            {
-                var value = luaTable.Get<PopDef>(key);
-                if (value != null)
-                {
-                    content.dictPop.Add(key, luaTable.Get<PopDef>(key));
-                }
-            }
-        }
+        //    foreach (var key in luaTable.GetKeys<string>())
+        //    {
+        //        var value = luaTable.Get<PopDef>(key);
+        //        if (value != null)
+        //        {
+        //            content.dictPop.Add(key, luaTable.Get<PopDef>(key));
+        //        }
+        //    }
+        //}
 
         private void LoadDepart(LuaEnv luaenv)
         {
@@ -349,53 +351,53 @@ namespace TaisEngine
             }
         }
 
-        internal static IEnumerable<GEvent> GenerateEvent()
-        {
-            Debug.Log("Generate start ");
+        //internal static IEnumerable<GEvent> GenerateEvent()
+        //{
+            //Debug.Log("Generate start ");
 
-            foreach(var mod in Mod.listMod.Where(x => x.content != null))
-            {
-                foreach (var gevent in mod.content.dictEvent.Values)
-                {
-                    if(Tools.GRandom.isOccur(gevent.occur_rate()*100))
-                    {
-                        yield return gevent;
-                    }
-                    //if (gevent is GEventDepart)
-                    //{
-                    //    var departEvnet = gevent as GEventDepart;
-                    //    foreach (var depart in GMData.inst.listDepart)
-                    //    {
-                    //        departEvnet.setDepart(depart.def.pyObj);
-                    //        if (departEvnet.isTrigger())
-                    //        {
-                    //            yield return departEvnet;
-                    //        }
-                    //    }
-                    //}
-                    //if (gevent is GEventPop)
-                    //{
-                    //    var popEvent = gevent as GEventPop;
-                    //    foreach (var pop in GMData.inst.listPop)
-                    //    {
-                    //        popEvent.setDepart(pop.def.pyObj);
-                    //        if (popEvent.isTrigger())
-                    //        {
-                    //            yield return popEvent;
-                    //        }
-                    //    }
-                    //}
-                    //else if (gevent.isTrigger())
-                    //{
-                    //    yield return gevent;
-                    //}
-                }
+            //foreach(var mod in Mod.listMod.Where(x => x.content != null))
+            //{
+            //    foreach (var gevent in mod.content.dictEvent.Values)
+            //    {
+            //        if(Tools.GRandom.isOccur(gevent.occur_rate()*100))
+            //        {
+            //            yield return gevent;
+            //        }
+            //        //if (gevent is GEventDepart)
+            //        //{
+            //        //    var departEvnet = gevent as GEventDepart;
+            //        //    foreach (var depart in GMData.inst.listDepart)
+            //        //    {
+            //        //        departEvnet.setDepart(depart.def.pyObj);
+            //        //        if (departEvnet.isTrigger())
+            //        //        {
+            //        //            yield return departEvnet;
+            //        //        }
+            //        //    }
+            //        //}
+            //        //if (gevent is GEventPop)
+            //        //{
+            //        //    var popEvent = gevent as GEventPop;
+            //        //    foreach (var pop in GMData.inst.listPop)
+            //        //    {
+            //        //        popEvent.setDepart(pop.def.pyObj);
+            //        //        if (popEvent.isTrigger())
+            //        //        {
+            //        //            yield return popEvent;
+            //        //        }
+            //        //    }
+            //        //}
+            //        //else if (gevent.isTrigger())
+            //        //{
+            //        //    yield return gevent;
+            //        //}
+            //    }
 
-                Debug.Log("Generate finish ");
-            }
+            //    Debug.Log("Generate finish ");
+            //}
             
 
-        }
+        //}
 
         //internal dynamic CreatePythonObj(dynamic parent, string pyType, string name)
         //{
