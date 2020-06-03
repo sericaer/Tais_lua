@@ -79,16 +79,16 @@ namespace TaisEngine
         //    }
         //}
 
-        internal static IEnumerable<TaskDef> EnumerateTask()
-        {
-            foreach (var mod in Mod.listMod.Where(x => x.content != null))
-            {
-                foreach (var depart in mod.content.dictTask.Values)
-                {
-                    yield return depart;
-                }
-            }
-        }
+        //internal static IEnumerable<TaskDef> EnumerateTask()
+        //{
+        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
+        //    {
+        //        foreach (var depart in mod.content.dictTask.Values)
+        //        {
+        //            yield return depart;
+        //        }
+        //    }
+        //}
 
         //internal static IEnumerable<PopDef> EnumratePop()
         //{
@@ -223,7 +223,7 @@ namespace TaisEngine
             //internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
             //internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
             //internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
-            internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
+            //internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
             //internal Dictionary<string, BufferDef> dictBuffer = new Dictionary<string, BufferDef>();
             //internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
 
