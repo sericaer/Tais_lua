@@ -6,11 +6,20 @@ using System.Linq;
 
 namespace TaisEngine
 {
-    [JsonConverter(typeof(PopConverter))]
+
+    //[JsonConverter(typeof(PopConverter))]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Pop
-    { 
+    {
         //internal Family family;
-        internal PopDef def;
+        [JsonProperty]
+        internal string name;
+
+        [JsonProperty]
+        internal string depart;
+
+        [JsonProperty]
+        internal double num;
 
         //internal List<Buffer> buffers = new List<Buffer>();
 
@@ -18,9 +27,23 @@ namespace TaisEngine
         {
             get
             {
-                return $"{def.depart().name}|{def.name}";
+                return $"{depart}|{name}";
             }
         }
+
+        internal PopDef.Interface def
+        {
+            get
+            {
+                return PopDef.Find(name);
+            }
+        }
+        //{
+        //    get
+        //    {
+        //        return Mod.
+        //    }
+        //}
 
         //internal double? consume
         //{
@@ -54,11 +77,11 @@ namespace TaisEngine
 
         //internal Depart depart;
 
-        internal Pop(PopDef def)
+        internal Pop(PopDef.Interface popDef, string depart, double num)
         {
-            this.def = def;
-
-            //this.depart = depart;
+            this.name = popDef.name;
+            this.depart = depart;
+            this.num = num;
 
             //if(def.with_family)
             //{
@@ -67,7 +90,7 @@ namespace TaisEngine
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
 
-            GMData.inst.listPop.Add(this);
+            GMData.inst.pops.Add(this);
         }
 
         //internal double getExpectTax(int level)
@@ -93,8 +116,8 @@ namespace TaisEngine
             var pop = value as Pop;
 
             var popJObject = new JObject();
-            popJObject.Add("name", pop.def.name);
-            popJObject.Add("num", pop.def.num);
+            popJObject.Add("name", pop.name);
+            popJObject.Add("num", pop.num);
 
             popJObject.WriteTo(writer);
         }

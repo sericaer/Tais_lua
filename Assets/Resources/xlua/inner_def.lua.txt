@@ -1,13 +1,20 @@
 INIT_SELECT = {}
 
-BACKGROUND = {}
+BACKGROUND_DEF = {
+    init_func = function(self)
+         for key,value in pairs(self) do
+            if type(value) == 'table' then
+                value.name = key
+            end
+        end
+    end
+}
 
-POP = {
+POP_DEF = {
     init_func = function(self)
         for key,value in pairs(self) do
             if type(value) == 'table' then
                 value.name = key
-                value.num = 0
                 value.new = function(self, num)
                     local lookup_table = {}
                     local function copyObj( self )
@@ -33,19 +40,11 @@ POP = {
     end
 }
 
-DEPART = {
+DEPART_DEF = {
     init_table = function (self)
         for key,value in pairs(self) do
             if type(value) == "table" then
                 value.name = key
-                value.pops = {}
-                local pop_init = value['pop_init']
-                for key_pi,value_pi in pairs(pop_init) do
-                    value.pops[key_pi] = POP[key_pi]:new(value_pi)
-                    value.pops[key_pi].depart = function(this)
-                        return value
-                    end
-                end
             end
         end
     end

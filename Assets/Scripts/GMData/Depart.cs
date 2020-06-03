@@ -10,7 +10,7 @@ using UnityEngine;
 namespace TaisEngine
 {
 
-    [JsonConverter(typeof(DepartConverter))]
+    //[JsonConverter(typeof(DepartConverter))]
     [JsonObject(MemberSerialization.OptIn)]
     public class Depart
     {
@@ -38,8 +38,6 @@ namespace TaisEngine
 
         //    yield break;
         //}
-
-        [JsonProperty]
         internal List<Pop> pops = new List<Pop>();
 
         //public List<Buffer> buffers = new List<Buffer>();
@@ -52,7 +50,16 @@ namespace TaisEngine
             }
         }
 
-        internal DepartDef def;
+        [JsonProperty]
+        internal string name;
+
+        internal DepartDef.Interface def
+        {
+            get
+            {
+                return DepartDef.Find(name);
+            }
+        }
 
         //internal double? cropGrowing;
 
@@ -69,14 +76,13 @@ namespace TaisEngine
         //    }
         //}
 
-        internal Depart(DepartDef def)
+        internal Depart(DepartDef.Interface def)
         {
-            this.def = def;
+            this.name = def.name;
 
-            foreach (var popdef in def.pops.Values)
+            foreach (var elem in def.pop_init)
             {
-
-                pops.Add(new Pop(popdef));
+                pops.Add(new Pop(PopDef.Find(elem.Key), this.name, elem.Value));
             }
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
@@ -93,33 +99,33 @@ namespace TaisEngine
         //}
     }
 
-    public class DepartConverter : JsonConverter
-    {
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(Depart) == objectType;
-        }
+    //public class DepartConverter : JsonConverter
+    //{
+    //    public override bool CanConvert(Type objectType)
+    //    {
+    //        return typeof(Depart) == objectType;
+    //    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+    //    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var depart = value as Depart;
+    //    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    //    {
+    //        var depart = value as Depart;
 
-            var departJObject = new JObject();
-            departJObject.Add("name", depart.def.name);
+    //        var departJObject = new JObject();
+    //        departJObject.Add("name", depart.def.name);
 
-            var popsJObject = new JArray();
-            foreach (var pop in depart.pops)
-            {
-                popsJObject.Add(JToken.FromObject(pop));
-            }
-            departJObject.Add("pops", popsJObject);
+    //        var popsJObject = new JArray();
+    //        foreach (var pop in depart.pops)
+    //        {
+    //            popsJObject.Add(JToken.FromObject(pop));
+    //        }
+    //        departJObject.Add("pops", popsJObject);
 
-            departJObject.WriteTo(writer);
-        }
-    }
+    //        departJObject.WriteTo(writer);
+    //    }
+    //}
 }

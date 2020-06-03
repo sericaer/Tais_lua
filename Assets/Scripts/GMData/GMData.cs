@@ -40,7 +40,8 @@ namespace TaisEngine
         [JsonProperty]
         internal List<Task> listTask = new List<Task>();
 
-        internal List<Pop> listPop = new List<Pop>();
+        [JsonProperty]
+        internal List<Pop> pops = new List<Pop>();
 
         internal GMDate date = new GMDate();
 
@@ -160,7 +161,7 @@ namespace TaisEngine
 
             //economy.value = 100;
 
-            foreach (var elem in Mod.EnumerateDepart())
+            foreach (var elem in DepartDef.Enumerate())
             {
                 var depart = new Depart(elem);
                 departs.Add(depart);

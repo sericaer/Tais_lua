@@ -15,11 +15,11 @@ namespace TaisEngine
         [JsonProperty]
         internal int age;
 
-        internal BackgroundDef background
+        internal BackgroundDef.Interface background
         {
             get
             {
-                return Mod.EnumerateBackground().Single(x=>x.name == _background);
+                return BackgroundDef.Enumerate().Single(x=>x.name == _background);
             }
         }
 

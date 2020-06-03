@@ -57,27 +57,27 @@ namespace TaisEngine
             }
         }
 
-        internal static IEnumerable<BackgroundDef> EnumerateBackground()
-        {
-            foreach (var mod in Mod.listMod.Where(x => x.content != null))
-            {
-                foreach (var bk in mod.content.dictBackground.Values)
-                {
-                    yield return bk;
-                }
-            }
-        }
+        //internal static IEnumerable<BackgroundDef> EnumerateBackground()
+        //{
+        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
+        //    {
+        //        foreach (var bk in mod.content.dictBackground.Values)
+        //        {
+        //            yield return bk;
+        //        }
+        //    }
+        //}
 
-        internal static IEnumerable<DepartDef> EnumerateDepart()
-        {
-            foreach (var mod in Mod.listMod.Where(x => x.content != null))
-            {
-                foreach (var depart in mod.content.dictDepart.Values)
-                {
-                    yield return depart;
-                }
-            }
-        }
+        //internal static IEnumerable<DepartDef> EnumerateDepart()
+        //{
+        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
+        //    {
+        //        foreach (var depart in mod.content.dictDepart.Values)
+        //        {
+        //            yield return depart;
+        //        }
+        //    }
+        //}
 
         internal static IEnumerable<TaskDef> EnumerateTask()
         {
@@ -195,12 +195,14 @@ namespace TaisEngine
 
             luaenv.DoString(string.Join("\n", allLuaFiles));
 
-            LoadInitSelectDef(luaenv);
-            LoadPop(luaenv);
-            LoadBackground(luaenv);
-            LoadDepart(luaenv);
-            LoadEvent(luaenv);
-            LoadTask(luaenv);
+            content.Load(info.name, luaenv);
+
+            //LoadInitSelectDef(luaenv);
+            //LoadPop(luaenv);
+            //LoadBackground(luaenv);
+            //LoadDepart(luaenv);
+            //LoadEvent(luaenv);
+            //LoadTask(luaenv);
         }
 
         public class Info
@@ -212,17 +214,28 @@ namespace TaisEngine
 
         internal class Content
         {
+            internal BackgroundDef backgroundDef;
+            internal DepartDef departDef;
+            internal PopDef popDef;
+
             internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
-            internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
+            //internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
             internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
             internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
             //internal Dictionary<string, BufferDef> dictBuffer = new Dictionary<string, BufferDef>();
-            internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
+            //internal Dictionary<string, BackgroundDef> dictBackground = new Dictionary<string, BackgroundDef>();
 
             internal Dictionary<string, InitSelectDef> dictInitSelect = new Dictionary<string, InitSelectDef>();
 
             internal Dictionary<string, Dictionary<string, string>> dictlang = new Dictionary<string, Dictionary<string, string>>();
             internal Dictionary<string, PersonName> dictlan2PersonName = new Dictionary<string, PersonName>();
+
+            internal void Load(string mod, LuaEnv luaenv)
+            {
+                popDef = new PopDef(mod, luaenv);
+                departDef = new DepartDef(mod, luaenv);
+                backgroundDef = new BackgroundDef(mod,luaenv);
+            }
         }
 
         private void LoadTask(LuaEnv luaenv)
@@ -269,27 +282,18 @@ namespace TaisEngine
 
         private void LoadDepart(LuaEnv luaenv)
         {
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>("DEPART");//映射到LuaTable，by ref
 
-            foreach (var key in luaTable.GetKeys<string>())
-            {
-                var value = luaTable.Get<DepartDef>(key);
-                if(value != null)
-                {
-                    content.dictDepart.Add(key, luaTable.Get<DepartDef>(key));
-                }
-            }
         }
 
-        private void LoadBackground(LuaEnv luaenv)
-        {
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>("BACKGROUND");//映射到LuaTable，by ref
+        //private void LoadBackground(LuaEnv luaenv)
+        //{
+        //    LuaTable luaTable = luaenv.Global.Get<LuaTable>("BACKGROUND");//映射到LuaTable，by ref
 
-            foreach (var key in luaTable.GetKeys<string>())
-            {
-                content.dictBackground.Add(key, luaTable.Get<BackgroundDef>(key).DefaultSet(key));
-            }
-        }
+        //    foreach (var key in luaTable.GetKeys<string>())
+        //    {
+        //        content.dictBackground.Add(key, luaTable.Get<BackgroundDef>(key).DefaultSet(key));
+        //    }
+        //}
 
         private void LoadInitSelectDef(LuaEnv luaenv)
         {

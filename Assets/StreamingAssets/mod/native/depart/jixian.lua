@@ -1,4 +1,4 @@
-DEPART.JIXIAN = 
+DEPART_DEF.JIXIAN = 
 {
     color = {136, 0, 21},
     

@@ -19,7 +19,7 @@ namespace TaisEngine
 
                 foreach(var pop in depart.pops.Where(x => x.def.is_tax))
                 {
-                    var expectPop = new EXPECT_LEAF(pop.key, pop.def.num * rate, null);
+                    var expectPop = new EXPECT_LEAF(pop.key, pop.num * rate, null);
                     expectPop.getBuffs = () => new List<(string, double)>(); //pop.buffers.Where(y => y.def.taxEffect != null).Select(y => (y.key, y.def.taxEffect()));
 
                     expectDepart.children.Add(expectPop);

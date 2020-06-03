@@ -7,18 +7,44 @@ using XLua;
 
 namespace TaisEngine
 {
-    [CSharpCallLua]
-    public interface BackgroundDef
+    public class BackgroundDef : BaseDef<BackgroundDef.Interface>
     {
-        string name { get; set; }
-    }
 
-    static class ExtendBackground
-    {
-        public static BackgroundDef DefaultSet(this BackgroundDef luaItf, string name)
+        [CSharpCallLua]
+        public interface Interface
         {
-            luaItf.name = name;
-            return luaItf;
+            string name { get; }
         }
+
+        //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();
+
+        public BackgroundDef(string mod, LuaEnv luaenv) : base(luaenv, mod, "BACKGROUND_DEF")
+        {
+            //LuaTable luaTable = luaenv.Global.Get<LuaTable>("BACKGROUND_DEF");
+            //if(luaTable == null)
+            //{
+            //    return;
+            //}
+
+            //foreach (var key in luaTable.GetKeys<string>())
+            //{
+            //    var value = luaTable.Get<Interface>(key);
+            //    if (value != null)
+            //    {
+            //        dict.Add(key, luaTable.Get<Interface>(key));
+            //    }
+            //}
+        }
+
+        //internal static IEnumerable<BackgroundDef.Interface> Enumerate()
+        //{
+        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
+        //    {
+        //        foreach (var bk in mod.content.backgroundDef.dict)
+        //        {
+        //            yield return bk.Value;
+        //        }
+        //    }
+        //}
     }
 }

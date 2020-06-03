@@ -1,4 +1,5 @@
-POP:init_func()
-DEPART:init_table()
+BACKGROUND_DEF:init_func()
+POP_DEF:init_func()
+DEPART_DEF:init_table()
 EVENT:init_func()
 TASK:init_func()

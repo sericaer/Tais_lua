@@ -59,8 +59,8 @@ public class Depart : MonoBehaviour
     void Update()
     {
         popNum.text = string.Format("{0:N0}/{1:N0}",
-                                    gmDepart.def.pops.Values.Where(x => x.is_tax).Sum(x => x.num),
-                                    gmDepart.def.pops.Values.Sum(x => x.num));
+                                    gmDepart.pops.Where(x => x.def.is_tax).Sum(x => x.num),
+                                    gmDepart.pops.Sum(x => x.num));
 
         //var cropGrowingValue = cropGrowing.transform.Find("value").GetComponent<Text>();
         //cropGrowingValue.text = "--";
@@ -71,7 +71,7 @@ public class Depart : MonoBehaviour
 
         foreach (var pop in listDepartPops)
         {
-            pop.gameObject.SetActive(pop.gmPop.def.num > 0);
+            pop.gameObject.SetActive(pop.gmPop.num > 0);
         }
 
         UpdateBuffers();

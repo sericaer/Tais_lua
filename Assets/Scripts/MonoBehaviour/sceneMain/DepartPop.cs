@@ -22,13 +22,13 @@ public class DepartPop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        num.text = gmPop.def.num.ToString("N0");
+        num.text = gmPop.num.ToString("N0");
     }
 
     // Use this for initialization
     void Start()
     {
-        type.format = gmPop.def.name;
+        type.format = gmPop.name;
 
         family.gameObject.SetActive(false);
         //if (gmPop.family != null)
