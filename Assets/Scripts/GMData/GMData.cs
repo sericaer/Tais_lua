@@ -172,7 +172,7 @@ namespace TaisEngine
                 departs.Add(depart);
             }
 
-            foreach (var elem in  Mod.EnumerateTask())
+            foreach (var elem in  TaskDef.Enumerate())
             {
                 listTask.Add(new Task(elem));
             }

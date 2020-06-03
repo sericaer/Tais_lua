@@ -218,8 +218,9 @@ namespace TaisEngine
             internal DepartDef departDef;
             internal PopDef popDef;
             internal EventDef eventDef;
+            internal TaskDef taskDef;
 
-            internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
+            //internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
             //internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
             //internal Dictionary<string, PopDef> dictPop = new Dictionary<string, PopDef>();
             internal Dictionary<string, TaskDef> dictTask = new Dictionary<string, TaskDef>();
@@ -237,36 +238,37 @@ namespace TaisEngine
                 departDef = new DepartDef(mod, luaenv);
                 backgroundDef = new BackgroundDef(mod,luaenv);
                 eventDef = new EventDef(mod, luaenv);
+                taskDef = new TaskDef(mod, luaenv);
             }
         }
 
-        private void LoadTask(LuaEnv luaenv)
-        {
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>("TASK");//映射到LuaTable，by ref
+        //private void LoadTask(LuaEnv luaenv)
+        //{
+        //    LuaTable luaTable = luaenv.Global.Get<LuaTable>("TASK");//映射到LuaTable，by ref
 
-            foreach (var key in luaTable.GetKeys<string>())
-            {
-                var value = luaTable.Get<TaskDef>(key);
-                if (value != null)
-                {
-                    content.dictTask.Add(key, luaTable.Get<TaskDef>(key));
-                }
-            }
-        }
+        //    foreach (var key in luaTable.GetKeys<string>())
+        //    {
+        //        var value = luaTable.Get<TaskDef>(key);
+        //        if (value != null)
+        //        {
+        //            content.dictTask.Add(key, luaTable.Get<TaskDef>(key));
+        //        }
+        //    }
+        //}
 
-        private void LoadEvent(LuaEnv luaenv)
-        {
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>("EVENT");//映射到LuaTable，by ref
+        //private void LoadEvent(LuaEnv luaenv)
+        //{
+        //    LuaTable luaTable = luaenv.Global.Get<LuaTable>("EVENT");//映射到LuaTable，by ref
 
-            foreach (var key in luaTable.GetKeys<string>())
-            {
-                var value = luaTable.Get<GEvent>(key);
-                if (value != null)
-                {
-                    content.dictEvent.Add(key, luaTable.Get<GEvent>(key));
-                }
-            }
-        }
+        //    foreach (var key in luaTable.GetKeys<string>())
+        //    {
+        //        var value = luaTable.Get<GEvent>(key);
+        //        if (value != null)
+        //        {
+        //            content.dictEvent.Add(key, luaTable.Get<GEvent>(key));
+        //        }
+        //    }
+        //}
 
         //private void LoadPop(LuaEnv luaenv)
         //{
@@ -282,10 +284,10 @@ namespace TaisEngine
         //    }
         //}
 
-        private void LoadDepart(LuaEnv luaenv)
-        {
+        //private void LoadDepart(LuaEnv luaenv)
+        //{
 
-        }
+        //}
 
         //private void LoadBackground(LuaEnv luaenv)
         //{

@@ -8,19 +8,22 @@ using XLua;
 
 namespace TaisEngine
 {
-    [CSharpCallLua]
-    public interface TaskDef
-    {
-        string name { get; }
-        
-        double base_speed { get; }
-        double curr_percent { get; set; }
-        double curr_speed { get; set; }
-        string finish_event();
 
-        void start();
-        void finish();
-        bool is_start();
+    public class TaskDef : BaseDef<TaskDef.Interface>
+    {
+        public TaskDef(string mod, LuaEnv luaenv) : base(luaenv, mod, "TASK_DEF")
+        {
+        }
+
+        [CSharpCallLua]
+        public interface Interface
+        {
+            string name { get; }
+
+            double base_speed { get; }
+            string finish_event();
+        }
+
 
         //public double init_speed
         //{

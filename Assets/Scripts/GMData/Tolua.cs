@@ -42,7 +42,7 @@ namespace TaisEngine
     {
         public TaskDef find(string name)
         {
-            return GMData.inst.listTask.SingleOrDefault(x => x.def.name == name)?.def;
+            return GMData.inst.listTask.SingleOrDefault(x => x.key == name)?.def;
         }
     }
 }
