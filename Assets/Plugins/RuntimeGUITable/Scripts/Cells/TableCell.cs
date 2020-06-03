@@ -53,7 +53,7 @@ namespace UnityUITable
 		}
 
 		public Table table { get { return container.table; } }
-		public TableColumn column { get { return container.column; } }
+		//public TableColumn column { get { return container.column; } }
 
 		MemberInfo _member;
 		protected MemberInfo member
@@ -65,7 +65,7 @@ namespace UnityUITable
 				return _member;
 			}
 		}
-		public int elmtIndex { get { return container.rowIndex - 1; } }
+		public int elmtIndex { get { return container.rowIndex; } }
 		public object obj { get { return table.GetSortedElements()[elmtIndex]; } }
 
 		public TableColumnInfo columnInfo { get { return container.columnInfo; } }

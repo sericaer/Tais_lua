@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -112,25 +112,35 @@ namespace UnityUITable
 		List<float> heights = new List<float>();
 		public float GetHeight(int rowIndex)
 		{
-			if (rowIndex == 0 || rowIndex - 1 >= heights.Count)
+			if (rowIndex < 0 || rowIndex >= heights.Count)
 				return rowHeight;
-			return heights[rowIndex - 1];
+			return heights[rowIndex];
 		}
 
 		int selectedRow = -1;
 
 		public int SelectedRow {  get { return selectedRow; } }
 
-		[SerializeField] [HideInInspector] List<TableColumn> tableColumns = new List<TableColumn>();
-
 		#region CachedElements
 
 		List<TableColumnInfo> validColumns = new List<TableColumnInfo>();
 
-		void UpdateValidColumns()
+		bool UpdateValidColumns()
 		{
+			int oldCount = validColumns.Count;
 			validColumns = columns.Where(c => c.IsDefined).ToList();
+			return validColumns.Count != oldCount;
 		}
+
+		[SerializeField] [HideInInspector] HeaderRow headerRow;
+
+		[SerializeField] [HideInInspector] List<TableRow> tableRows = new List<TableRow>();
+
+		[SerializeField] [HideInInspector] AddRow addRow;
+
+		[SerializeField] [HideInInspector] bool hasRowDeleteButtons;
+
+		[SerializeField] [HideInInspector] bool hasRowAddButton;
 
 		#endregion
 
@@ -153,6 +163,14 @@ namespace UnityUITable
 		}
 
 		public int ElementCount
+		{
+			get
+			{
+				return GetSortedElements().Count;
+			}
+		}
+
+		public int ActualElementCount
 		{
 			get
 			{
@@ -230,10 +248,13 @@ namespace UnityUITable
 			UpdateValidColumns();
 			sortingState = new SortingState();
 			UpdateContent();
+			UpdateStyle();
 		}
 
 		void HandleInputs()
-		{
+        {
+            if (currentState != State.Valid)
+                return;
 #if ENABLE_INPUT_SYSTEM
 			if (Keyboard.current.tabKey.wasPressedThisFrame)
 				HandleTabKey(Keyboard.current.shiftKey.isPressed);
@@ -268,9 +289,9 @@ namespace UnityUITable
 		{
 			int columnIndex = -1, rowIndex = - 1;
 			CellContainer cellContainer = selectable.GetComponentInParent<CellContainer>();
-			for (int i = 0; i < tableColumns.Count; i++)
+			for (int i = 0; i < tableRows.Count; i++)
 			{
-				int row = tableColumns[i].IndexOf(cellContainer);
+				int row = tableRows[i].IndexOf(cellContainer);
 				if (row >= 0)
 				{
 					columnIndex = i;
@@ -285,7 +306,7 @@ namespace UnityUITable
 				for (int i = rowIndex; i < ElementCount; i++)
 				{
 					int startIndex = (i == rowIndex) ? columnIndex + 1 : 0;
-					for (int j = startIndex; j < tableColumns.Count; j++)
+					for (int j = startIndex; j < tableRows.Count; j++)
 					{
 						Selectable s = GetSelectableFromCellAt(j, i);
 						if (s != null)
@@ -297,7 +318,7 @@ namespace UnityUITable
 			{
 				for (int i = rowIndex; i >= 0; i--)
 				{
-					int startIndex = (i == rowIndex) ? columnIndex - 1 : tableColumns.Count - 1;
+					int startIndex = (i == rowIndex) ? columnIndex - 1 : tableRows.Count - 1;
 					for (int j = startIndex; j >= 0; j--)
 					{
 						Selectable s = GetSelectableFromCellAt(j, i);
@@ -311,8 +332,8 @@ namespace UnityUITable
 
 		Selectable GetSelectableFromCellAt(int columnIndex, int rowIndex)
 		{
-			TableColumn column = tableColumns[columnIndex];
-			CellContainer cc = column.GetCellAt(rowIndex);
+			TableRow column = tableRows[rowIndex];
+			CellContainer cc = column.GetCellAt(columnIndex);
 			return (cc == null) ? null : cc.GetComponentsInChildren<Selectable>().FirstOrDefault(s => s.gameObject != cc.gameObject);
 		}
 
@@ -350,12 +371,11 @@ namespace UnityUITable
 			else
 			{
 				for (int i = 0; i < heights.Count; i++)
-					heights[i] = Mathf.Max(rowHeight, tableColumns.Max(tc =>
-					{
-						CellContainer cell = tc.GetCellAt(i);
-						if (cell != null) return cell.contentRequiredHeight;
-						return 0f;
-					}));
+					heights[i] = Mathf.Max(rowHeight, tableRows[i + (hasTitles ? 1 : 0)].CellContainers.Max(c =>
+                    {
+                        if (c != null) return c.contentRequiredHeight;
+                        return 0f;
+                    }));
 			}
 		}
 
@@ -363,7 +383,11 @@ namespace UnityUITable
 		{
 			Canvas.ForceUpdateCanvases();
 
-			UpdateValidColumns();
+			if (UpdateValidColumns())
+				SetDirty();
+
+			if (currentState == State.Valid && (hasRowDeleteButtons != rowDeleteButtons || hasRowAddButton != rowAddButton || (headerRow != null) != hasTitles))
+				SetDirty();
 
 			if (rectTransform.sizeDelta.x == 0f && rectTransform.anchorMin.x == rectTransform.anchorMax.x)
 				rectTransform.sizeDelta = new Vector2(200f, 100f);
@@ -373,41 +397,47 @@ namespace UnityUITable
 			ContentSizeFitter.FitMode fitMode = unconstrained ? ContentSizeFitter.FitMode.Unconstrained : ContentSizeFitter.FitMode.PreferredSize;
 
 			if (horizontal)
-				fitter.verticalFit = fitMode;
-			else
-				fitter.horizontalFit = fitMode;
-
-			UpdateState();
-
-			UpdateColumnWidths();
-			UpdateRowHeights();
-
-			if (horizontal != (hGroup is VerticalLayoutGroup))
 			{
-				SetDirty();
-				DestroyImmediate(hGroup);
-				gameObject.AddComponent(horizontal ? typeof(VerticalLayoutGroup): typeof(HorizontalLayoutGroup));
-				hGroup.childControlWidth = hGroup.childControlHeight = hGroup.childForceExpandWidth = hGroup.childForceExpandHeight = true;
-				hGroup.spacing = -1f;
+				fitter.verticalFit = fitMode;
+				fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+			}
+			else
+			{
+				fitter.horizontalFit = fitMode;
+				fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 			}
 
-			if (currentState == State.Valid && transform.childCount != validColumns.Count() + (rowDeleteButtons ? 1 : 0))
-			SetDirty();
+			UpdateState();
+			if (currentState == State.Valid && !isDirty)
+			{
+
+				UpdateColumnWidths();
+				UpdateRowHeights();
+
+				if (horizontal != (hGroup is HorizontalLayoutGroup))
+				{
+					SetDirty();
+					DestroyImmediate(hGroup);
+					gameObject.AddComponent(horizontal ? typeof(HorizontalLayoutGroup) : typeof(VerticalLayoutGroup));
+					hGroup.childControlWidth = hGroup.childControlHeight = hGroup.childForceExpandWidth = hGroup.childForceExpandHeight = true;
+					hGroup.spacing = -1f;
+				}
+			}
 
 			if (isDirty)
 			{
 				Debug.Log("Reinitialize");
 				Initialize();
 			}
-			//else
-			{
-				if (updateCellContentAtRuntime || !Application.isPlaying)
-					UpdateContent();
-				if (updateCellStyleAtRuntime || !Application.isPlaying)
-					UpdateStyle();
-			}
+
+			if (updateCellContentAtRuntime || !Application.isPlaying)
+				UpdateContent();
+			if (updateCellStyleAtRuntime || !Application.isPlaying)
+				UpdateStyle();
 
 			hGroup.spacing = spacing;
+
+			UpdateLayout();
 
 		}
 
@@ -417,7 +447,14 @@ namespace UnityUITable
 			Debug.Log("Initialize");
 			while (transform.childCount > 0)
 				DestroyImmediate(transform.GetChild(0).gameObject);
-			tableColumns.Clear();
+			if (IsScrollable)
+			{
+				Transform headerContainer = GetComponentInParent<ScrollTableContainer>().headerContainer;
+				while (headerContainer.childCount > 0)
+					DestroyImmediate(headerContainer.GetChild(0).gameObject);
+				rectTransform.sizeDelta = Vector2.zero;
+			}
+			tableRows.Clear();
 			if (!targetCollection.IsDefined)
 			{
 				GameObject content = transform.CreateChildGameObject("Text");
@@ -441,30 +478,74 @@ namespace UnityUITable
 				isDirty = false;
 				return;
 			}
-			int columnIndex = 0;
-			foreach (TableColumnInfo column in validColumns)
+			if (hasTitles)
 			{
-				TableColumn tableColumn = CreateColumn<TableColumn>("Column_" + column.fieldName);
-				tableColumn.Initialize(columnIndex);
-				tableColumns.Add(tableColumn);
-				columnIndex++;
+				headerRow = CreateHeaderRow();
+				headerRow.Initialize(-1);
+				tableRows.Add(headerRow);
 			}
-			if (rowDeleteButtons)
+			UpdateSortedElements();
+			for (int i = 0; i < ElementCount; i++)
 			{
-				TableColumn tableColumn = CreateColumn<DeleteColumn>("Column_Delete");
-				tableColumn.Initialize(columnIndex);
-				tableColumns.Add(tableColumn);
-				columnIndex++;
+				TableRow tableRow = CreateRow("Row_" + i);
+				tableRow.Initialize(i);
+				tableRows.Add(tableRow);
 			}
+			if (rowAddButton)
+			{
+				addRow = CreateAddRow();
+				addRow.Initialize(-1);
+			}
+			hasRowDeleteButtons = rowDeleteButtons;
+			hasRowAddButton = rowAddButton;
 			isDirty = false;
+
+			Update();
+
 		}
 
-		TableColumn CreateColumn<ColumnType>(string goName) where ColumnType : TableColumn
+		void UpdateLayout()
+		{
+			foreach (var row in tableRows)
+				row.UpdateLayout();
+			if (addRow != null)
+				addRow.UpdateLayout();
+		}
+
+		AddRow CreateAddRow()
+		{
+			GameObject columnGO = transform.CreateChildGameObject("AddRow");
+			columnGO.transform.parent = transform;
+			AddRow tableRow = columnGO.AddComponent<AddRow>();
+			return tableRow;
+		}
+
+		HeaderRow CreateHeaderRow()
+		{
+			GameObject columnGO = transform.CreateChildGameObject("HeaderRow");
+			if (IsScrollable)
+			{
+				Transform headerContainer = GetComponentInParent<ScrollTableContainer>().headerContainer;
+				while (headerContainer.childCount > 0)
+					DestroyImmediate(headerContainer.GetChild(0).gameObject);
+				columnGO.transform.parent = headerContainer;
+				RectTransform rt = columnGO.AddComponent<RectTransform>();
+				rt.anchorMin = Vector2.zero;
+				rt.anchorMax = Vector2.one;
+				rt.anchoredPosition = rt.sizeDelta = Vector2.zero;
+			}
+			else
+				columnGO.transform.parent = transform;
+			HeaderRow tableRow = columnGO.AddComponent<HeaderRow>();
+			return tableRow;
+		}
+
+		TableRow CreateRow(string goName)
 		{
 			GameObject columnGO = transform.CreateChildGameObject(goName);
 			columnGO.transform.parent = transform;
-			TableColumn tableColumn = columnGO.AddComponent<ColumnType>();
-			return tableColumn;
+			TableRow tableRow = columnGO.AddComponent<TableRow>();
+			return tableRow;
 		}
 
 		List<object> _sortedElements;
@@ -487,6 +568,7 @@ namespace UnityUITable
 		public void ColumnTitleClicked(TableColumnInfo column)
 		{
 			sortingState.ClickOnColumn(column);
+			UpdateSortedElements();
 			UpdateContent();
 		}
 
@@ -500,15 +582,52 @@ namespace UnityUITable
 			if (currentState != State.Valid)
 				return;
 			targetCollection.UpdateCache();
-			UpdateSortedElements();
-			foreach (TableColumn column in tableColumns)
-				column.UpdateContent();
+			int bottomRows = (rowAddButton ? 1 : 0);
+			int titleRows = (hasTitles ? 1 : 0);
+			int expectedNbRows = ActualElementCount + titleRows;
+			int actualNbRows = tableRows.Count;
+			if (actualNbRows != expectedNbRows)
+			{
+				UpdateSortedElements();
+				UpdateRows(expectedNbRows, actualNbRows, bottomRows, titleRows);
+			}
+
+			foreach (TableRow row in tableRows)
+				row.UpdateContent();
 		}
 
+		void UpdateRows(int expectedNbRows, int actualNbRows, int bottomRows, int titleRows)
+		{
+			if (actualNbRows < expectedNbRows)
+			{
+				int nbToAdd = expectedNbRows - actualNbRows;
+				for (int i = 0; i < nbToAdd; i++)
+				{
+					int rowIndex = actualNbRows + i - 1 + titleRows - bottomRows;
+					TableRow tableRow = CreateRow("Row_" + rowIndex);
+					tableRow.Initialize(rowIndex);
+					tableRows.Add(tableRow);
+				}
+			}
+			else if (actualNbRows > expectedNbRows)
+			{
+				int nbToRemove = actualNbRows - expectedNbRows;
+				int removalIndex = expectedNbRows - bottomRows + titleRows;
+				for (int i = 0; i < nbToRemove; i++)
+				{
+					DestroyImmediate(tableRows[removalIndex].gameObject);
+					tableRows.RemoveAt(removalIndex);
+				}
+			}
+		}
+
+		
 		public void UpdateStyle()
 		{
-			foreach (TableColumn column in tableColumns)
-				column.UpdateStyle();
+			foreach (TableRow row in tableRows)
+				row.UpdateStyle();
+			if (addRow != null)
+				addRow.UpdateStyle();
 		}
 
 		void UpdateState()
@@ -532,7 +651,7 @@ namespace UnityUITable
 
 #if UNITY_EDITOR
 
-		public ScrollRect scrollViewPrefab;
+		public ScrollTableContainer scrollContainerPrefab;
 
 		public bool IsScrollable
 		{
@@ -548,34 +667,39 @@ namespace UnityUITable
 			{
 				if (IsScrollable)
 					return;
-				this.GetComponent<ContentSizeFitter>().enabled = false;
-				ScrollRect scrollView = (ScrollRect)GameObjectUtils.InstantiatePrefab(scrollViewPrefab);
-				scrollView.transform.SetParent(this.transform.parent, false);
+				fitter.enabled = false;
+				ScrollTableContainer container = (ScrollTableContainer)GameObjectUtils.InstantiatePrefab(scrollContainerPrefab);
+				ScrollRect scrollView = container.scrollView;
+				container.transform.SetParent(this.transform.parent, false);
 				RectTransform tableRT = GetComponent<RectTransform>();
-				RectTransform scrollViewRT = scrollView.GetComponent<RectTransform>();
+				RectTransform containerRT = container.GetComponent<RectTransform>();
 				UnityEditorInternal.ComponentUtility.CopyComponent(tableRT);
-				UnityEditorInternal.ComponentUtility.PasteComponentValues(scrollViewRT);
+				UnityEditorInternal.ComponentUtility.PasteComponentValues(containerRT);
 				tableRT.SetParent(scrollView.viewport, false);
-				tableRT.sizeDelta = Vector2.zero;
+				tableRT.sizeDelta = tableRT.anchoredPosition = Vector2.zero;
+				tableRT.anchorMin = Vector2.zero;
+				tableRT.anchorMax = Vector2.one;
+				tableRT.pivot = new Vector2(0f, 1f);
 				scrollView.content = tableRT;
-				this.GetComponent<ContentSizeFitter>().enabled = true;
+				fitter.enabled = true;
 				EditorGUIUtility.PingObject(gameObject);
 			}
 			else
 			{
 				if (!IsScrollable)
 					return;
-				this.GetComponent<ContentSizeFitter>().enabled = false;
-				ScrollRect scrollView = this.transform.parent.parent.GetComponent<ScrollRect>();
+				fitter.enabled = false;
+				ScrollTableContainer container = this.transform.parent.parent.parent.GetComponent<ScrollTableContainer>();
 				RectTransform tableRT = GetComponent<RectTransform>();
-				RectTransform scrollViewRT = scrollView.GetComponent<RectTransform>();
-				tableRT.parent = scrollViewRT.parent;
-				UnityEditorInternal.ComponentUtility.CopyComponent(scrollViewRT);
+				RectTransform containerRT = container.GetComponent<RectTransform>();
+				tableRT.parent = containerRT.parent;
+				UnityEditorInternal.ComponentUtility.CopyComponent(containerRT);
 				UnityEditorInternal.ComponentUtility.PasteComponentValues(tableRT);
-				DestroyImmediate(scrollView.gameObject);
-				this.GetComponent<ContentSizeFitter>().enabled = true;
+				DestroyImmediate(containerRT.gameObject);
+				fitter.enabled = true;
 				EditorGUIUtility.PingObject(gameObject);
 			}
+			SetDirty();
 		}
 
 #endif

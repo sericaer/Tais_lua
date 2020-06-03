@@ -28,6 +28,11 @@ namespace UnityUITable
 			}
 		}
 
+		public override float contentRequiredHeight
+		{
+			get { return 0f; }
+		}
+
 		protected override void Update()
 		{
 			if (table == null)
@@ -59,7 +64,7 @@ namespace UnityUITable
 
 		void UpdateSortModeIcon()
 		{
-			if (table.sortingState.sortingColumn != column.info)
+			if (table.sortingState.sortingColumn != info)
 			{
 				sortModeIcon.enabled = false;
 			}
@@ -81,7 +86,7 @@ namespace UnityUITable
 
 		public void OnTitleClicked()
 		{
-			column.TitleClicked();
+			table.ColumnTitleClicked(info);
 		}
 
 	}

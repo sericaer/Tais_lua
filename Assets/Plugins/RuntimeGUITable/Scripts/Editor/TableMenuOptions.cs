@@ -254,7 +254,7 @@ namespace UnityUITable
 		{
 			GameObject buttonRoot = CreateUIElementRoot("Table", s_ThickElementSize);
 
-			HorizontalLayoutGroup layoutGroup = buttonRoot.AddComponent<HorizontalLayoutGroup>();
+			VerticalLayoutGroup layoutGroup = buttonRoot.AddComponent<VerticalLayoutGroup>();
 			layoutGroup.childControlWidth = layoutGroup.childControlHeight = layoutGroup.childForceExpandWidth = layoutGroup.childForceExpandHeight = true;
 			layoutGroup.spacing = -1f;
 

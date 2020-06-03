@@ -34,6 +34,8 @@ namespace UnityUITable
 				Texture2D tex2D = (Texture2D)v;
 				image.sprite = Sprite.Create(tex2D, new Rect(0f, 0f, tex2D.width, tex2D.height), 0.5f * Vector2.one);
 			}
+			else
+				image.sprite = null;
 		}
 
 	}

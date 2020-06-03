@@ -8,6 +8,5 @@ public class EnemiesManager : MonoBehaviour
 {
 
 	public List<Enemy> enemies;
-    public List<Enemy> enemiesTitle;
 
 }

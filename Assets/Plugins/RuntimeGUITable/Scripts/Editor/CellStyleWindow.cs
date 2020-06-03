@@ -22,7 +22,7 @@ namespace UnityUITable
 
 		public static CellStyleWindow CreateStyleWindow(SerializedProperty styleProperty, Table table, MemberInfo memberInfo, TableCell cellPrefab, ScriptableObject template, string filename)
 		{
-			CellStyleWindow window = new CellStyleWindow();
+			CellStyleWindow window = CreateInstance<CellStyleWindow>();
 			window.titleContent = new GUIContent((memberInfo == null) ? "Style" : memberInfo.Name + " Style");
 			window.styleProperty = styleProperty;
 			window.stylePropertyPath = styleProperty.propertyPath;

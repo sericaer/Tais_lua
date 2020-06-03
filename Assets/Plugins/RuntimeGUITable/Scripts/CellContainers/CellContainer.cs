@@ -11,26 +11,30 @@ namespace UnityUITable
 	public class CellContainer : MonoBehaviour
 	{
 
-		TableColumn _column;
-		public TableColumn column
+		TableRow _row;
+		public TableRow row
 		{
 			get
 			{
-				if (_column == null)
-					_column = GetComponentInParent<TableColumn>();
-				return _column;
+				if (_row == null)
+					_row = GetComponentInParent<TableRow>();
+				return _row;
 			}
 		}
-		public Table table { get { return column.table; } }
-		public virtual TableColumnInfo columnInfo { get { return column.info; } }
-		public int rowIndex { get { return transform.GetSiblingIndex() + 1 - (table.hasTitles ? 1 : 0); } }
+		public Table table { get { return row.table; } }
+
+		public TableColumnInfo info { get { return table.GetColumnInfoAt(columnIndex); } }
+
+		public int columnIndex;
+		public virtual TableColumnInfo columnInfo { get { return table.GetColumnInfoAt(columnIndex); } }
+		public int rowIndex { get { return row.rowIndex; } }
 
 		[SerializeField][HideInInspector] LayoutElement layoutElement;
 		public Transform content;
 		[SerializeField][HideInInspector] TableCell _cellInstance;
 		public TableCell cellInstance { get { return _cellInstance; } private set { _cellInstance = value; } }
 
-		public float contentRequiredHeight
+		public virtual float contentRequiredHeight
 		{
 			get
 			{
@@ -38,16 +42,17 @@ namespace UnityUITable
 			}
 		}
 
-		public void Initialize()
+		 void Initialize()
 		{
 			layoutElement = gameObject.AddComponent<LayoutElement>();
 			Update();
 		}
 
-		public void Initialize(int rowIndex)
+		public void Initialize(int rowIndex, int columnIndex)
 		{
-			SetRowIndex(rowIndex);
-			gameObject.name += rowIndex;
+			SetRowIndex(columnIndex);
+			this.columnIndex = columnIndex;
+			gameObject.name += columnIndex;
 			Initialize();
 		}
 
@@ -59,17 +64,20 @@ namespace UnityUITable
 
 		void SetRowIndex(int rowIndex)
 		{
-			transform.SetSiblingIndex(rowIndex + 1);
+			transform.SetSiblingIndex(rowIndex);
 		}
 
 		protected virtual void Update()
 		{
-			if (table == null)
-				return;
+		}
+
+		public void UpdateLayout()
+		{
 			if (table.horizontal)
-				layoutElement.preferredWidth = table.GetHeight(rowIndex);
+				layoutElement.preferredHeight = info.AbsoluteWidth;
 			else
-				layoutElement.preferredHeight = table.GetHeight(rowIndex);
+				layoutElement.preferredWidth = info.AbsoluteWidth;
+
 		}
 
 		public virtual void UpdateContent()

@@ -6,8 +6,8 @@ using XCharts;
 
 public class DialogTaxReport : Dialog
 {
-    public List<BUFFER_INFO> listBufferTitle;
-    public List<BUFFER_INFO> listBufferInfo;
+    //public List<BUFFER_INFO> listBufferTitle;
+    public List<BUFFER_INFO> listBufferInfo = new List<BUFFER_INFO>();
 
     public List<(string name, double value)> listTaxInfo;
 
