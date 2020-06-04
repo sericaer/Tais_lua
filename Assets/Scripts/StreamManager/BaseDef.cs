@@ -13,24 +13,24 @@ namespace TaisEngine
         public Dictionary<string, T> dict;
 
 
-        public BaseDef(LuaEnv luaenv, string mod, string name)
+        public BaseDef(LuaTable luaTable, string mod, string name)
         {
             this.mod = mod;
 
             dict = new Dictionary<string, T>();
 
-            LuaTable luaTable = luaenv.Global.Get<LuaTable>(name);
-            if (luaTable == null)
+            LuaTable subTable = luaTable.Get<LuaTable>(name);
+            if (subTable == null)
             {
                 return;
             }
 
-            foreach (var key in luaTable.GetKeys<string>())
+            foreach (var key in subTable.GetKeys<string>())
             {
-                var value = luaTable.Get<T>(key);
+                var value = subTable.Get<T>(key);
                 if (value != null)
                 {
-                    dict.Add(key, luaTable.Get<T>(key));
+                    dict.Add(key, subTable.Get<T>(key));
                 }
             }
 

@@ -11,6 +11,7 @@ namespace TaisEngine
     public class ToLua
     {
         public static ToLua inst = new ToLua();
+        public static Depart curr_depart;
 
         public GMDate date
         {

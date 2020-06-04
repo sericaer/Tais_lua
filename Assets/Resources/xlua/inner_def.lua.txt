@@ -52,24 +52,30 @@ DEPART_DEF = {
 
 EVENT_DEF = 
 {
+    DEPART = {},
+    GLOBAL = {},
     init_func = function(self)
         for key,value in pairs(self) do
-            if type(value) == 'table' then
-                value.name = key
-                if(value['title'] == nil) then
-                    value.title = function (self)
-                        return self.name.."_TITLE"
-                    end
-                end
-                if(value['desc'] == nil) then
-                    value.desc = function (self)
-                        return self.name.."_DESC"
-                    end
-                end
-                for keyO,valueO in pairs(value['options']) do
-                    if(valueO['desc'] == nil) then
-                        valueO.desc = function (self)
-                            return value.name.."_"..keyO.."_DESC"
+            if key == 'DEPART' or key == 'GLOBAL' then
+                for key_e, value_e in pairs(value) do
+                    if type(value_e) == 'table' then
+                        value_e.name = key_e
+                        if(value_e['title'] == nil) then
+                            value_e.title = function (self)
+                                return self.name.."_TITLE"
+                            end
+                        end
+                        if(value_e['desc'] == nil) then
+                            value_e.desc = function (self)
+                                return self.name.."_DESC"
+                            end
+                        end
+                        for keyO,valueO in pairs(value_e['options']) do
+                            if(valueO['desc'] == nil) then
+                                valueO.desc = function (self)
+                                    return value_e.name.."_"..keyO.."_DESC"
+                                end
+                            end
                         end
                     end
                 end
@@ -95,4 +101,8 @@ end
 
 gm_data = function ()
     return CS.TaisEngine.ToLua.inst
+end
+
+gm_depart = function()
+    return CS.TaisEngine.ToLua.curr_depart
 end

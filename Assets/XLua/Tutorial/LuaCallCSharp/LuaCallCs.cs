@@ -160,6 +160,14 @@ namespace Tutorial
 			obj.GenericMethod<string>();
 		}
 	}
+
+    [LuaCallCSharp]
+    public class Element
+    {
+        public int a;
+        public static List<Element> elements = new List<Element>() { new Element() { a = 1 },
+                                                                     new Element() { a = 2 }, };
+    }
 }
 
 public class LuaCallCs : MonoBehaviour
@@ -167,6 +175,8 @@ public class LuaCallCs : MonoBehaviour
 	LuaEnv luaenv = null;
 	string script = @"
         function demo()
+            local elements = Element.elements;
+
             --new C#对象
             local newGameObj = CS.UnityEngine.GameObject()
             local newGameObj2 = CS.UnityEngine.GameObject('helloworld')

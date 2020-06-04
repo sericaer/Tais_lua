@@ -11,7 +11,7 @@ namespace TaisEngine
 
     public class TaskDef : BaseDef<TaskDef.Interface>
     {
-        public TaskDef(string mod, LuaEnv luaenv) : base(luaenv, mod, "TASK_DEF")
+        public TaskDef(string mod, LuaTable luaTable) : base(luaTable, mod, "TASK_DEF")
         {
         }
 

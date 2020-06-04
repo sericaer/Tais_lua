@@ -18,7 +18,7 @@ namespace TaisEngine
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();
 
-        public BackgroundDef(string mod, LuaEnv luaenv) : base(luaenv, mod, "BACKGROUND_DEF")
+        public BackgroundDef(string mod, LuaTable luaTable) : base(luaTable, mod, "BACKGROUND_DEF")
         {
             //LuaTable luaTable = luaenv.Global.Get<LuaTable>("BACKGROUND_DEF");
             //if(luaTable == null)

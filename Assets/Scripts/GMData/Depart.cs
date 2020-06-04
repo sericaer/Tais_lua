@@ -46,7 +46,10 @@ namespace TaisEngine
         }
 
         [JsonProperty]
-        internal string name;
+        public string name;
+
+        [JsonProperty]
+        public double crop_growing_percent;
 
         internal DepartDef.Interface def
         {
@@ -55,8 +58,6 @@ namespace TaisEngine
                 return DepartDef.Find(name);
             }
         }
-
-        public double cropGrowing;
 
         //internal List<(string name, double value)> growSpeedDetail
         //{
@@ -92,11 +93,11 @@ namespace TaisEngine
         {
             if(GMData.inst.isCropGrowing)
             {
-                cropGrowing += 1.0 / growingdays;
+                crop_growing_percent += 1.0 / growingdays;
             }
             else
             {
-                cropGrowing = 0;
+                crop_growing_percent = 0;
             }
         }
 

@@ -234,13 +234,11 @@ namespace TaisEngine
 
             internal void Load(string mod, LuaEnv luaenv)
             {
-                popDef = new PopDef(mod, luaenv);
-                departDef = new DepartDef(mod, luaenv);
-                backgroundDef = new BackgroundDef(mod,luaenv);
-                eventDef = new EventDef(mod, luaenv);
-                taskDef = new TaskDef(mod, luaenv);
-
-               
+                popDef = new PopDef(mod, luaenv.Global);
+                departDef = new DepartDef(mod, luaenv.Global);
+                backgroundDef = new BackgroundDef(mod,luaenv.Global);
+                eventDef = new EventDef(mod, luaenv.Global.Get<LuaTable>("EVENT_DEF"));
+                taskDef = new TaskDef(mod, luaenv.Global);
             }
         }
 

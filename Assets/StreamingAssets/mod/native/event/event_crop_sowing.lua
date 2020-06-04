@@ -1,4 +1,4 @@
-EVENT_DEF.EVENT_CROP_SOWING = 
+EVENT_DEF.GLOBAL.EVENT_CROP_SOWING = 
 {
     occur_rate = function ()
         if gm_data().date.month == 2 and gm_data().date.day == 1 then
