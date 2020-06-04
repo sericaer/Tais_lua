@@ -84,6 +84,22 @@ EVENT_DEF =
     end
 }
 
+BUFFER_DEF = 
+{
+    DEPART = {},
+    init_func = function(self)
+        for key,value in pairs(self) do
+            if key == 'DEPART' then
+                for key_e, value_e in pairs(value) do
+                    if type(value_e) == 'table' then
+                        value_e.name = key_e
+                    end
+                end
+            end
+        end
+    end
+}
+
 TASK_DEF = 
 {
     init_func = function(self)

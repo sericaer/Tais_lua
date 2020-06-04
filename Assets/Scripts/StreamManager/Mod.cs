@@ -182,6 +182,7 @@ namespace TaisEngine
                                                 $"{path}/depart/",
                                                 $"{path}/event/",
                                                 $"{path}/task/",
+                                                $"{path}/buffer/"
                                               };
 
             var initSelectLuas = luaDirs.SelectMany(x=>Directory.EnumerateFiles(x, "*.lua"))
@@ -219,6 +220,7 @@ namespace TaisEngine
             internal PopDef popDef;
             internal EventDef eventDef;
             internal TaskDef taskDef;
+            internal BufferDef bufferDef;
 
             //internal Dictionary<string, GEvent> dictEvent = new Dictionary<string, GEvent>();
             //internal Dictionary<string, DepartDef> dictDepart = new Dictionary<string, DepartDef>();
@@ -239,6 +241,7 @@ namespace TaisEngine
                 backgroundDef = new BackgroundDef(mod,luaenv.Global);
                 eventDef = new EventDef(mod, luaenv.Global.Get<LuaTable>("EVENT_DEF"));
                 taskDef = new TaskDef(mod, luaenv.Global);
+                bufferDef = new BufferDef(mod, luaenv.Global.Get<LuaTable>("BUFFER_DEF"));
             }
         }
 

@@ -16,6 +16,8 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_START =
             end,
 
             selected = function ()
+                --gm_depart().buffers:find('HUANGZAI').exist = true
+                print(gm_depart().buffers:find('HUANGZAI').name)
             end
         }
     }

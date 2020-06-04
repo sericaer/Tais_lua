@@ -6,11 +6,13 @@ using System.Dynamic;
 using System.Linq;
 using Tools;
 using UnityEngine;
+using XLua;
 
 namespace TaisEngine
 {
 
     //[JsonConverter(typeof(DepartConverter))]
+    [LuaCallCSharp]
     [JsonObject(MemberSerialization.OptIn)]
     public class Depart
     {
@@ -51,6 +53,9 @@ namespace TaisEngine
         [JsonProperty]
         public double crop_growing_percent;
 
+        [JsonProperty]
+        public BufferManager buffers;
+
         internal DepartDef.Interface def
         {
             get
@@ -75,10 +80,16 @@ namespace TaisEngine
         internal Depart(DepartDef.Interface def)
         {
             this.name = def.name;
+            this.buffers = new BufferManager();
 
             foreach (var elem in def.pop_init)
             {
                 new Pop(PopDef.Find(elem.Key), this.name, elem.Value);
+            }
+
+            foreach (var elem in BufferDef.BufferDepartDef.Enumerate())
+            {
+                buffers.Add(new Buffer(elem));
             }
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);

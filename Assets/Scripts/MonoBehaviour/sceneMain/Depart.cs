@@ -74,26 +74,26 @@ public class Depart : MonoBehaviour
 
     private void UpdateBuffers()
     {
-        //var needDestroys = listBufferPanels.Where(x => !gmDepart.buffers.Contains(x.gmBuffer)).ToArray();
-        //foreach (var elem in needDestroys)
-        //{
-        //    Destroy(elem.gameObject);
+        var needDestroys = listBufferPanels.Where(x => !x.gmBuffer.exist).ToArray();
+        foreach (var elem in needDestroys)
+        {
+            Destroy(elem.gameObject);
 
-        //    listBufferPanels.Remove(elem);
-        //}
+            listBufferPanels.Remove(elem);
+        }
 
-        //var needCreate = gmDepart.buffers.Where(x => listBufferPanels.All(y => y.gmBuffer != x)).ToArray();
-        //foreach (var elem in needCreate)
-        //{
-        //    var taskObj = Instantiate(buffPrefabs, buffContent.transform);
+        var needCreate = gmDepart.buffers.Where(x => x.exist && listBufferPanels.All(y => y.gmBuffer != x)).ToArray();
+        foreach (var elem in needCreate)
+        {
+            var taskObj = Instantiate(buffPrefabs, buffContent.transform);
 
-        //    taskObj.name = elem.def.key;
-        //    taskObj.GetComponent<BufferPanel>().gmBuffer = elem;
+            taskObj.name = elem.name;
+            taskObj.GetComponent<BufferPanel>().gmBuffer = elem;
 
-        //    listBufferPanels.Add(taskObj.GetComponent<BufferPanel>());
-        //}
+            listBufferPanels.Add(taskObj.GetComponent<BufferPanel>());
+        }
     }
 
     private List<DepartPop> listDepartPops = new List<DepartPop>();
-    //private List<BufferPanel> listBufferPanels = new List<BufferPanel>();
+    private List<BufferPanel> listBufferPanels = new List<BufferPanel>();
 }
