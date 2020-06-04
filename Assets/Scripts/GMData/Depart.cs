@@ -18,7 +18,7 @@ namespace TaisEngine
     {
         public static int growingdays = 240;
 
-        internal static IEnumerable<GEvent> DaysInc()
+        internal static IEnumerable<EventDef.Interface> DaysInc()
         {
             foreach(var depart in GMData.inst.departs)
             {
@@ -56,6 +56,15 @@ namespace TaisEngine
         [JsonProperty]
         public BufferManager buffers;
 
+        internal double cropGrowingSpeed
+        {
+            get
+            {
+                return growSpeedDetail.Sum(x => x.value);
+            }
+        }
+
+
         internal DepartDef.Interface def
         {
             get
@@ -64,18 +73,19 @@ namespace TaisEngine
             }
         }
 
-        //internal List<(string name, double value)> growSpeedDetail
-        //{
-        //    get
-        //    {
-        //        var rslt = new List<(string name, double value)>();
+        internal List<(string name, double value)> growSpeedDetail
+        {
+            get
+            {
+                var rslt = new List<(string name, double value)>();
 
-        //        rslt.Add(("BASE_VALUE", 100.0/ growingdays));
-        //        rslt.AddRange(buffers.Where(x => x.def.cropGrowingEffect != null).Select(x => (x.key, x.def.cropGrowingEffect() * 100.0 / growingdays)));
+                rslt.Add(("BASE_VALUE", 100.0 / growingdays));
+                rslt.AddRange(buffers.Where(x => x.exist && x.def.crop_growing_effect != null)
+                                     .Select(x => (x.name, x.def.crop_growing_effect() * 100.0 / growingdays)));
 
-        //        return rslt;
-        //    }
-        //}
+                return rslt;
+            }
+        }
 
         internal Depart(DepartDef.Interface def)
         {
@@ -104,9 +114,14 @@ namespace TaisEngine
         {
             if(GMData.inst.isCropGrowing)
             {
-                crop_growing_percent += 1.0 / growingdays;
+                crop_growing_percent += cropGrowingSpeed;
             }
             else
+            {
+                crop_growing_percent = 0;
+            }
+
+            if(crop_growing_percent < 0)
             {
                 crop_growing_percent = 0;
             }

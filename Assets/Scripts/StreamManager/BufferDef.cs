@@ -17,6 +17,8 @@ namespace TaisEngine
         public interface Interface
         {
             string name { get; }
+            Func<double> tax_effect { get; }
+            Func<double> crop_growing_effect { get; }
         }
 
         public class BufferDepartDef : BaseDef<BufferDepartDef.Interface>

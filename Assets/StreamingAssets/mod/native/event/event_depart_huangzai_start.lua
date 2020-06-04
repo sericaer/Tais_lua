@@ -1,13 +1,13 @@
 EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_START = 
 {
     occur_rate = function ()
-        if gm_depart().crop_growing_percent ~= 0 then
+        if gm_depart().crop_growing_percent == 0 then
             return 0
         end
         if gm_depart().buffers:find('HUANGZAI').exist  then
             return 0
         end
-        return 1
+        return 0.1
     end,
 
     options = 

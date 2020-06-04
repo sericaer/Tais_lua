@@ -582,28 +582,27 @@ namespace UnityUITable
 			if (currentState != State.Valid)
 				return;
 			targetCollection.UpdateCache();
-			int bottomRows = (rowAddButton ? 1 : 0);
 			int titleRows = (hasTitles ? 1 : 0);
-			int expectedNbRows = ActualElementCount + titleRows;
-			int actualNbRows = tableRows.Count;
+			int expectedNbRows = ActualElementCount;
+			int actualNbRows = tableRows.Count - titleRows;
 			if (actualNbRows != expectedNbRows)
 			{
 				UpdateSortedElements();
-				UpdateRows(expectedNbRows, actualNbRows, bottomRows, titleRows);
+				UpdateRows(expectedNbRows, actualNbRows, titleRows);
 			}
 
 			foreach (TableRow row in tableRows)
 				row.UpdateContent();
 		}
 
-		void UpdateRows(int expectedNbRows, int actualNbRows, int bottomRows, int titleRows)
+		void UpdateRows(int expectedNbRows, int actualNbRows, int titleRows)
 		{
 			if (actualNbRows < expectedNbRows)
 			{
 				int nbToAdd = expectedNbRows - actualNbRows;
 				for (int i = 0; i < nbToAdd; i++)
 				{
-					int rowIndex = actualNbRows + i - 1 + titleRows - bottomRows;
+					int rowIndex = actualNbRows + i;
 					TableRow tableRow = CreateRow("Row_" + rowIndex);
 					tableRow.Initialize(rowIndex);
 					tableRows.Add(tableRow);
@@ -612,7 +611,7 @@ namespace UnityUITable
 			else if (actualNbRows > expectedNbRows)
 			{
 				int nbToRemove = actualNbRows - expectedNbRows;
-				int removalIndex = expectedNbRows - bottomRows + titleRows;
+				int removalIndex = expectedNbRows + titleRows;
 				for (int i = 0; i < nbToRemove; i++)
 				{
 					DestroyImmediate(tableRows[removalIndex].gameObject);
@@ -649,10 +648,6 @@ namespace UnityUITable
 			return State.Valid;
 		}
 
-#if UNITY_EDITOR
-
-		public ScrollTableContainer scrollContainerPrefab;
-
 		public bool IsScrollable
 		{
 			get
@@ -660,6 +655,10 @@ namespace UnityUITable
 				return transform.parent != null && transform.parent.parent != null && transform.parent.parent.GetComponent<ScrollRect>() != null;
 			}
 		}
+
+#if UNITY_EDITOR
+
+		public ScrollTableContainer scrollContainerPrefab;
 
 		public void MakeScrollable(bool scrollable)
 		{

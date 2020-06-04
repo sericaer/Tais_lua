@@ -39,7 +39,6 @@ namespace TaisEngine
             }
         }
 
-
         internal static string GetLocalString(string arg)
         {
             object[] objs = { };
@@ -56,52 +55,6 @@ namespace TaisEngine
                 }
             }
         }
-
-        //internal static IEnumerable<BackgroundDef> EnumerateBackground()
-        //{
-        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
-        //    {
-        //        foreach (var bk in mod.content.dictBackground.Values)
-        //        {
-        //            yield return bk;
-        //        }
-        //    }
-        //}
-
-        //internal static IEnumerable<DepartDef> EnumerateDepart()
-        //{
-        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
-        //    {
-        //        foreach (var depart in mod.content.dictDepart.Values)
-        //        {
-        //            yield return depart;
-        //        }
-        //    }
-        //}
-
-        //internal static IEnumerable<TaskDef> EnumerateTask()
-        //{
-        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
-        //    {
-        //        foreach (var depart in mod.content.dictTask.Values)
-        //        {
-        //            yield return depart;
-        //        }
-        //    }
-        //}
-
-        //internal static IEnumerable<PopDef> EnumratePop()
-        //{
-        //    foreach (var mod in listMod)
-        //    {
-        //        foreach (var pop in mod.dictPop.Values)
-        //        {
-        //            yield return pop;
-        //        }
-        //    }
-
-        //    yield break;
-        //}
 
         internal static string GetLocalString(string arg, params object[] objs)
         {
@@ -130,19 +83,6 @@ namespace TaisEngine
 
             return rslt;
         }
-
-        //internal static GEvent getEvent(string finish_event)
-        //{
-        //    foreach (var mod in Mod.listMod.Where(x => x.content != null))
-        //    {
-        //        if (mod.content.dictEvent.ContainsKey(finish_event))
-        //        {
-        //            return mod.content.dictEvent[finish_event];
-        //        }
-        //    }
-
-        //    return null;
-        //}
 
         internal string path;
         internal Info info;

@@ -46,12 +46,12 @@ public class Depart : MonoBehaviour
             departPop.gameObject.SetActive(false);
         }
 
-        //var cropGrowingToolTip = cropGrowing.transform.GetComponent<TooltipTrigger>();
-        //cropGrowingToolTip.funcGetTooltipStr = () =>
-        //{
-        //    return ("CROP_GROWING",
-        //           string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N1")} </color>")));
-        //};
+        var cropGrowingToolTip = cropGrowing.transform.GetComponent<TooltipTrigger>();
+        cropGrowingToolTip.funcGetTooltipStr = () =>
+        {
+            return ("CROP_GROWING",
+                   string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N1")} </color>")));
+        };
 
     }
 
@@ -62,7 +62,7 @@ public class Depart : MonoBehaviour
                                     gmDepart.pops.Where(x => x.def.is_tax).Sum(x => x.num),
                                     gmDepart.pops.Sum(x => x.num));
 
-        cropGrowing.transform.Find("value").GetComponent<Text>().text = gmDepart.crop_growing_percent.ToString("N1");
+        cropGrowing.transform.Find("value").GetComponent<Text>().text = gmDepart.crop_growing_percent.ToString("N2");
 
         foreach (var pop in listDepartPops)
         {

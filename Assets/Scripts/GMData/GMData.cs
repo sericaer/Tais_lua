@@ -112,11 +112,11 @@ namespace TaisEngine
                 await act(gevent);
             }
 
-            //Debug.Log("DaysInc_2");
-            //foreach (var gevent in Depart.DaysInc())
-            //{
-            //    await act(gevent);
-            //}
+            Debug.Log("DaysInc_2");
+            foreach (var gevent in Depart.DaysInc())
+            {
+                await act(gevent);
+            }
 
             //Debug.Log("DaysInc_3");
             _days++;

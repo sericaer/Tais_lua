@@ -60,7 +60,8 @@ public static class ExampleGenConfig
                 typeof(Action<double>),
                 typeof(Dictionary<string, int>),
                 typeof(UnityEngine.Events.UnityAction),
-                typeof(System.Collections.IEnumerator)
+                typeof(System.Collections.IEnumerator),
+                typeof(Func<double>)
             };
 
     //黑名单
