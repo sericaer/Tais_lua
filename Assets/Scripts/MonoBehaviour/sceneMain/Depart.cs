@@ -50,7 +50,7 @@ public class Depart : MonoBehaviour
         cropGrowingToolTip.funcGetTooltipStr = () =>
         {
             return ("CROP_GROWING",
-                   string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N1")} </color>")));
+                   string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N2")} </color>")));
         };
 
     }

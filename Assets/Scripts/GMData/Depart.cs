@@ -16,7 +16,7 @@ namespace TaisEngine
     [JsonObject(MemberSerialization.OptIn)]
     public class Depart
     {
-        public static int growingdays = 240;
+        public static int growingdays = 250;
 
         internal static IEnumerable<EventDef.Interface> DaysInc()
         {
