@@ -26,6 +26,11 @@ namespace TaisEngine
         {
             this.name = def.name;
         }
+
+        internal Buffer()
+        {
+
+        }
     }
 
     [LuaCallCSharp]

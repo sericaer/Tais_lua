@@ -3431,7 +3431,8 @@ MonoBehaviour:
   popPrefabs: {fileID: 7003351842002278686, guid: 971aa505c7443aa4a981f6ed52c2f880,
     type: 3}
   popContent: {fileID: 7227523827765936357}
-  buffPrefabs: {fileID: 0}
+  buffPrefabs: {fileID: 5037811727827105404, guid: 0e30f6029d63aac44b1fe2bc369bbd02,
+    type: 3}
   buffContent: {fileID: 2976499275068900887}
 --- !u!1 &7078100566191627734
 GameObject:
