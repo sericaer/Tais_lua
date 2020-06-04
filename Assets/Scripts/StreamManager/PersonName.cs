@@ -13,7 +13,7 @@ namespace TaisEngine
         {
             foreach(var mod in Mod.listMod.Where(x=>x.content!= null))
             {
-                if(mod.content.dictlan2PersonName[Config.inst.lang] == null)
+                if(!mod.content.dictlan2PersonName.ContainsKey(Config.inst.lang))
                 {
                     continue;
                 }
@@ -29,7 +29,7 @@ namespace TaisEngine
         {
             foreach (var mod in Mod.listMod.Where(x => x.content != null))
             {
-                if (mod.content.dictlan2PersonName[Config.inst.lang] == null)
+                if (!mod.content.dictlan2PersonName.ContainsKey(Config.inst.lang))
                 {
                     continue;
                 }

@@ -10,7 +10,7 @@ using TaisEngine;
 
 public class sceneLoad : MonoBehaviour
 {
-    GameObject loadErrorPanel;
+    public GameObject loadErrorPanel;
 
     // Use this for initialization
     void Start()
@@ -33,6 +33,7 @@ public class sceneLoad : MonoBehaviour
 
             loadErrorPanel.transform.Find("title").GetComponent<Text>().text = e.Message;
             loadErrorPanel.transform.Find("detail").GetComponent<Text>().text = e.InnerException.Message;
+            return;
         }
 
         LocalText.getLocalString = Mod.GetLocalString;
@@ -46,9 +47,13 @@ public class sceneLoad : MonoBehaviour
 
     }
 
-    void OnLoadErrorConfirm()
+    public void OnLoadErrorConfirm()
     {
         loadErrorPanel.SetActive(false);
+        Config.Reset();
+        Config.Save();
+
+        SceneManager.LoadScene("sceneLoad");
     }
 
 }

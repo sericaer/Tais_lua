@@ -67,6 +67,11 @@ namespace TaisEngine
 
                 foreach (var mod in listMod.Where(y => y.content != null))
                 {
+                    if(!mod.content.dictlang.ContainsKey(Config.inst.lang))
+                    {
+                        continue;
+                    }
+
                     if(mod.content.dictlang[Config.inst.lang].ContainsKey(x))
                     {
                         tRslt = mod.content.dictlang[Config.inst.lang][x];
@@ -94,7 +99,7 @@ namespace TaisEngine
         {
             path = modPath;
 
-            Debug.Log($"****************load mod {path} *************");
+            Debug.Log($"****************Read mod info {path} *************");
 
             info = JsonConvert.DeserializeObject<Info>(File.ReadAllText($"{path}/info.json"));
 
@@ -125,7 +130,8 @@ namespace TaisEngine
                                                 $"{path}/buffer/"
                                               };
 
-            var initSelectLuas = luaDirs.SelectMany(x=>Directory.EnumerateFiles(x, "*.lua"))
+            var initSelectLuas = luaDirs.Where(x=> Directory.Exists(x))
+                                          .SelectMany(x=>Directory.EnumerateFiles(x, "*.lua"))
                                           .Select(y => y.Replace($"{Application.streamingAssetsPath}/", "").Replace(".lua", "").Replace('/', '.'))
                                           .ToArray();
 

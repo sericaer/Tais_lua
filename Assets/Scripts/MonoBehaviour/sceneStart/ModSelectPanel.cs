@@ -33,13 +33,11 @@ public class ModSelectPanel : MonoBehaviour
         var selected = modToggleContent.GetComponentsInChildren<Toggle>().Where(x => x.isOn).Select(x => x.GetComponentInChildren<Text>().text).ToList();
         Debug.Log($"select mod {string.Join(",", selected)}");
 
-
-        if (Config.inst.select_mods.All(selected.Contains))
+        if (Enumerable.SequenceEqual(Config.inst.select_mods.OrderBy(t => t), selected.OrderBy(t => t)))
         {
             this.gameObject.SetActive(false);
             return;
         }
-
 
         Config.inst.select_mods = selected;
         Config.Save();

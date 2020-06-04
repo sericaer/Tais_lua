@@ -22,9 +22,15 @@ namespace TaisEngine
             File.WriteAllText(configPath, JsonConvert.SerializeObject(inst));
         }
 
+        public static void Reset()
+        {
+            inst.select_mods.Clear();
+            inst.select_mods.Add("native");
+        }
+
         public string lang;
 
 
-        public IList<string> select_mods;
+        public List<string> select_mods;
     }
 }
