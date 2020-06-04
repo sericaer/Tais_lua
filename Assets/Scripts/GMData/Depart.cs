@@ -16,28 +16,16 @@ namespace TaisEngine
     {
         public static int growingdays = 240;
 
-        //internal static IEnumerable<GEvent> DaysInc()
-        //{
-        //    foreach(var depart in GMData.inst.listDepart)
-        //    {
-        //        if (depart.cropGrowing != null)
-        //        {
-        //            depart.cropGrowing += depart.growSpeedDetail.Sum(x => x.value);
-        //        }
+        internal static IEnumerable<GEvent> DaysInc()
+        {
+            foreach(var depart in GMData.inst.departs)
+            {
+                depart.cropGrowingProcess();
+            }
 
-        //        if (GMData.inst.date.month == 1 && GMData.inst.date.day == 1)
-        //        {
-        //            depart.growStart();
-        //        }
+            yield break;
+        }
 
-        //        if (GMData.inst.date.month == 8 && GMData.inst.date.day == 1)
-        //        {
-        //            depart.growFinish();
-        //        }
-        //    }
-
-        //    yield break;
-        //}
         internal IEnumerable<Pop> pops
         {
             get
@@ -68,7 +56,7 @@ namespace TaisEngine
             }
         }
 
-        //internal double? cropGrowing;
+        public double cropGrowing;
 
         //internal List<(string name, double value)> growSpeedDetail
         //{
@@ -98,6 +86,18 @@ namespace TaisEngine
         internal Depart()
         {
 
+        }
+
+        private void cropGrowingProcess()
+        {
+            if(GMData.inst.isCropGrowing)
+            {
+                cropGrowing += 1.0 / growingdays;
+            }
+            else
+            {
+                cropGrowing = 0;
+            }
         }
 
         //internal void growStart()

@@ -3427,12 +3427,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: {fileID: 1263403268967003239}
   popNum: {fileID: 8318781030987778294}
-  cropGrowing: {fileID: 0}
+  cropGrowing: {fileID: 7029064349799023069}
   popPrefabs: {fileID: 7003351842002278686, guid: 971aa505c7443aa4a981f6ed52c2f880,
     type: 3}
   popContent: {fileID: 7227523827765936357}
   buffPrefabs: {fileID: 0}
-  buffContent: {fileID: 0}
+  buffContent: {fileID: 2976499275068900887}
 --- !u!1 &7078100566191627734
 GameObject:
   m_ObjectHideFlags: 0

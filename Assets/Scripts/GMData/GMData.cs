@@ -46,6 +46,7 @@ namespace TaisEngine
         internal GMDate date = new GMDate();
 
         internal bool quit;
+        internal bool isCropGrowing;
 
         //internal static IEnumerable<GEvent> GenerateEvent()
         //{
