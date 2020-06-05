@@ -43,6 +43,8 @@ namespace TaisEngine
         [JsonProperty]
         internal List<Pop> pops = new List<Pop>();
 
+        internal List<string> record = new List<string>();
+
         internal GMDate date = new GMDate();
 
         internal bool quit;
@@ -120,7 +122,9 @@ namespace TaisEngine
 
         internal async UniTask ProcessEvent(EventDef.Interface gevent, Func<EventDef.Interface, UniTask> act)
         {
-            if(gevent.hide)
+            record.Insert(0, gevent.title());
+
+            if (gevent.hide)
             {
                 gevent.options["OPTION_1"].selected();
                 return;
