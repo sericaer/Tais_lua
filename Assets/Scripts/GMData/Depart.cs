@@ -54,7 +54,7 @@ namespace TaisEngine
         public bool is_crop_growing;
 
         [JsonProperty]
-        public double crop_growing_percent;
+        public double crop_grow_percent;
 
         [JsonProperty]
         public BufferManager buffers;
@@ -117,16 +117,16 @@ namespace TaisEngine
         {
             if(is_crop_growing)
             {
-                crop_growing_percent += cropGrowingSpeed;
+                crop_grow_percent += cropGrowingSpeed;
             }
             else
             {
-                crop_growing_percent = 0;
+                crop_grow_percent = 0;
             }
 
-            if(crop_growing_percent < 0)
+            if(crop_grow_percent < 0)
             {
-                crop_growing_percent = 0;
+                crop_grow_percent = 0;
             }
         }
 

@@ -60,5 +60,18 @@ namespace TaisEngine
 
             throw new Exception("can not find:" + name);
         }
+
+        internal static T FindOrDefault(string name)
+        {
+            foreach (var elem in all)
+            {
+                if (elem.dict.ContainsKey(name))
+                {
+                    return elem.dict[name];
+                }
+            }
+
+            return default(T);
+        }
     }
 }

@@ -126,7 +126,14 @@ namespace TaisEngine
 
             if (gevent.hide)
             {
-                gevent.options["OPTION_1"].selected();
+                var opt = gevent.options["OPTION_1"];
+                opt.selected();
+
+                var next = opt.next_event();
+                if (next != "")
+                {
+                    await act(EventDef.find(next));
+                }
                 return;
             }
 

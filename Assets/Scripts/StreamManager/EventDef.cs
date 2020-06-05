@@ -97,13 +97,13 @@ namespace TaisEngine
 
         internal static Interface find(string next_event)
         {
-            Interface gevent = EventGlobalDef.Find(next_event);
+            Interface gevent = EventGlobalDef.FindOrDefault(next_event);
             if (gevent != null)
             {
                 return gevent;
             }
 
-            gevent = EventDepartDef.Find(next_event);
+            gevent = EventDepartDef.FindOrDefault(next_event);
             if (gevent != null)
             {
                 return gevent;

@@ -21,6 +21,7 @@ public class MsgPanel : MonoBehaviour
         {
             var gmObj = Instantiate(msgElemtPrefabs, this.transform) as GameObject;
             gmObj.GetComponent<LocalText>().format = GMData.inst.record[i];
+            gmObj.transform.SetAsFirstSibling();
         }
     }
 }
