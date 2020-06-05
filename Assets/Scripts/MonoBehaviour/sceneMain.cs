@@ -7,6 +7,8 @@ public class sceneMain : MonoBehaviour
 {
     public GameObject dialogCommon;
     public GameObject reportCollectTax;
+    public MsgPanel msgPanel;
+
     //public FamilyTop familyTop;
     //public GameObject familyContent;
 
@@ -31,6 +33,21 @@ public class sceneMain : MonoBehaviour
 
     internal async UniTask CreateEventDialogAsync(EventDef.Interface eventobj)
     {
+        msgPanel.AddMessage(eventobj.title());
+
+        if (eventobj.hide)
+        {
+            var opt = eventobj.options["OPTION_1"];
+            opt.selected();
+
+            var next = opt.next_event();
+            if (next != "")
+            {
+                await CreateEventDialogAsync(EventDef.find(next));
+            }
+            return;
+        }
+
         var panelDialog = Instantiate(dialogCommon, this.transform) as GameObject;
         panelDialog.GetComponentInChildren<DialogCommon>().gEvent = eventobj;
     }

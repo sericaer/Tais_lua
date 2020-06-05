@@ -4302,6 +4302,7 @@ MonoBehaviour:
     type: 3}
   reportCollectTax: {fileID: 3185733581725049646, guid: 8995a4854feaaee43a33dcb203ba29a6,
     type: 3}
+  msgPanel: {fileID: 285238178}
 --- !u!1 &847901342
 GameObject:
   m_ObjectHideFlags: 0

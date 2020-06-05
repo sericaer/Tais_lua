@@ -43,6 +43,7 @@ namespace TaisEngine
         [JsonProperty]
         internal List<Pop> pops = new List<Pop>();
 
+        [JsonProperty]
         internal List<string> record = new List<string>();
 
         internal GMDate date = new GMDate();
@@ -101,43 +102,23 @@ namespace TaisEngine
             Debug.Log("DaysInc_0");
             foreach (var gevent in EventDef.Generate())
             {
-                await ProcessEvent(gevent, act);
+                await act(gevent);
             }
 
             foreach (var gevent in Task.DaysInc())
             {
-                await ProcessEvent(gevent, act);
+                await act(gevent);
             }
 
             foreach (var gevent in Depart.DaysInc())
             {
-                await ProcessEvent(gevent, act);
+                await act(gevent);
             }
 
             //Debug.Log("DaysInc_3");
             _days++;
 
             //Debug.Log(listTask[0].def.is_start());
-        }
-
-        internal async UniTask ProcessEvent(EventDef.Interface gevent, Func<EventDef.Interface, UniTask> act)
-        {
-            record.Insert(0, gevent.title());
-
-            if (gevent.hide)
-            {
-                var opt = gevent.options["OPTION_1"];
-                opt.selected();
-
-                var next = opt.next_event();
-                if (next != "")
-                {
-                    await act(EventDef.find(next));
-                }
-                return;
-            }
-
-            await act(gevent);
         }
 
         internal Depart FindDepartByColor(string color)
