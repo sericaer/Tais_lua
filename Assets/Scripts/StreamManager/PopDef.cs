@@ -14,6 +14,7 @@ namespace TaisEngine
         {
             string name { get; }
             bool is_tax { get; }
+            double? consume { get; }
         }
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();

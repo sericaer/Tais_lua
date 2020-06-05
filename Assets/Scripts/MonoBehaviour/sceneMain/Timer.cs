@@ -62,7 +62,8 @@ public class Timer : MonoBehaviour
     {
 
     }
-    async UniTask CreateDialog(EventDef.Interface gevent)
+
+    public async UniTask CreateDialog(EventDef.Interface gevent)
     {
         if (gevent != null)
         {

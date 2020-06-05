@@ -46,7 +46,6 @@ namespace TaisEngine
         internal GMDate date = new GMDate();
 
         internal bool quit;
-        internal bool isCropGrowing;
 
         //internal static IEnumerable<GEvent> GenerateEvent()
         //{
@@ -100,28 +99,34 @@ namespace TaisEngine
             Debug.Log("DaysInc_0");
             foreach (var gevent in EventDef.Generate())
             {
-                Debug.Log("DaysInc_0_0");
-                await act(gevent);
-
-                Debug.Log("DaysInc_0_1");
+                await ProcessEvent(gevent, act);
             }
 
-            Debug.Log("DaysInc_1");
             foreach (var gevent in Task.DaysInc())
             {
-                await act(gevent);
+                await ProcessEvent(gevent, act);
             }
 
-            Debug.Log("DaysInc_2");
             foreach (var gevent in Depart.DaysInc())
             {
-                await act(gevent);
+                await ProcessEvent(gevent, act);
             }
 
             //Debug.Log("DaysInc_3");
             _days++;
 
             //Debug.Log(listTask[0].def.is_start());
+        }
+
+        internal async UniTask ProcessEvent(EventDef.Interface gevent, Func<EventDef.Interface, UniTask> act)
+        {
+            if(gevent.hide)
+            {
+                gevent.options["OPTION_1"].selected();
+                return;
+            }
+
+            await act(gevent);
         }
 
         internal Depart FindDepartByColor(string color)

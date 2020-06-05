@@ -16,18 +16,19 @@ namespace TaisEngine
         internal string name;
 
         [JsonProperty]
-        internal string depart;
+        internal string depart_name;
 
         [JsonProperty]
         internal double num;
 
-        //internal List<Buffer> buffers = new List<Buffer>();
+        [JsonProperty]
+        BufferManager buffers = new BufferManager();
 
         internal string key
         {
             get
             {
-                return $"{depart}|{name}";
+                return $"{depart_name}|{name}";
             }
         }
 
@@ -39,49 +40,49 @@ namespace TaisEngine
             }
         }
 
-        //{
-        //    get
-        //    {
-        //        return Mod.
-        //    }
-        //}
+        internal Depart depart
+        {
+            get
+            {
+                return GMData.inst.departs.Single(x => x.name == depart_name);
+            }
+        }
 
-        //internal double? consume
-        //{
-        //    get
-        //    {
-        //        if(consumeDetail == null)
-        //        {
-        //            return null;
-        //        }
+        internal double? consume
+        {
+            get
+            {
+                if(consumeDetail == null)
+                {
+                    return null;
+                }
 
-        //        return consumeDetail.Sum(x => x.value);
-        //    }
-        //}
+                return consumeDetail.Sum(x => x.value);
+            }
+        }
 
-        //internal IEnumerable<(string name, double value)> consumeDetail
-        //{
-        //    get
-        //    {
-        //        if(def.consume == null)
-        //        {
-        //            return null;
-        //        }
+        internal IEnumerable<(string name, double value)> consumeDetail
+        {
+            get
+            {
+                if(def.consume == null)
+                {
+                    return null;
+                }
 
-        //        List<(string name, double value)> rslt = new List<(string name, double value)>();
-        //        rslt.Add(("BASE_VALUE", def.consume.Value));
-        //        rslt.AddRange(depart.buffers.Where(x => x.def.consumeEffect != null).Select(x => (x.key, x.def.consumeEffect() * def.consume.Value)));
+                List<(string name, double value)> rslt = new List<(string name, double value)>();
+                rslt.Add(("BASE_VALUE", def.consume.Value));
+                rslt.AddRange(depart.buffers.Where(x => x.def.consume_effect != null).Select(x => (x.name, x.def.consume_effect() * def.consume.Value)));
 
-        //        return rslt;
-        //    }
-        //}
+                return rslt;
+            }
+        }
 
-        //internal Depart depart;
 
         internal Pop(PopDef.Interface popDef, string depart, double num)
         {
             this.name = popDef.name;
-            this.depart = depart;
+            this.depart_name = depart;
             this.num = num;
 
             //if(def.with_family)
@@ -104,27 +105,27 @@ namespace TaisEngine
         //}
     }
 
-    public class PopConverter : JsonConverter
-    {
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(Pop) == objectType;
-        }
+    //public class PopConverter : JsonConverter
+    //{
+    //    public override bool CanConvert(Type objectType)
+    //    {
+    //        return typeof(Pop) == objectType;
+    //    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+    //    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var pop = value as Pop;
+    //    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    //    {
+    //        var pop = value as Pop;
 
-            var popJObject = new JObject();
-            popJObject.Add("name", pop.name);
-            popJObject.Add("num", pop.num);
+    //        var popJObject = new JObject();
+    //        popJObject.Add("name", pop.name);
+    //        popJObject.Add("num", pop.num);
 
-            popJObject.WriteTo(writer);
-        }
-    }
+    //        popJObject.WriteTo(writer);
+    //    }
+    //}
 }

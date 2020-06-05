@@ -11,7 +11,8 @@ namespace TaisEngine
         [CSharpCallLua]
         public interface Interface
         {
-            double occur_rate();
+            bool hide { get; }
+            Func<double> occur_rate { get; }
             string title();
             string desc();
 
@@ -23,6 +24,7 @@ namespace TaisEngine
         {
             string desc();
             void selected();
+            string next_event();
         }
 
         public class EventGlobalDef : BaseDef<EventGlobalDef.Interface>
@@ -64,7 +66,7 @@ namespace TaisEngine
         {
             foreach (var eventDef in EventGlobalDef.all)
             {
-                foreach (var gevent in eventDef.dict.Values)
+                foreach (var gevent in eventDef.dict.Values.Where(x=>x.occur_rate != null))
                 {
                     if (Tools.GRandom.isOccur(gevent.occur_rate() * 100))
                     {
@@ -75,7 +77,7 @@ namespace TaisEngine
 
             foreach (var eventDef in EventDepartDef.all)
             {
-                foreach (var gevent in eventDef.dict.Values)
+                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_rate != null))
                 {
                     foreach (var depart in GMData.inst.departs)
                     {
@@ -91,6 +93,23 @@ namespace TaisEngine
             }
 
             ToLua.curr_depart = null;
+        }
+
+        internal static Interface find(string next_event)
+        {
+            Interface gevent = EventGlobalDef.Find(next_event);
+            if (gevent != null)
+            {
+                return gevent;
+            }
+
+            gevent = EventDepartDef.Find(next_event);
+            if (gevent != null)
+            {
+                return gevent;
+            }
+
+            return null;
         }
     }
 }

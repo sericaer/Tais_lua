@@ -175,7 +175,11 @@ public class LuaCallCs : MonoBehaviour
 	LuaEnv luaenv = null;
 	string script = @"
         function demo()
-            local elements = Element.elements;
+            local elements = CS.Tutorial.Element.elements;
+            print(elements.Count)
+            for k, v in pairs(elements) do
+                print(v.a)
+            end
 
             --new C#对象
             local newGameObj = CS.UnityEngine.GameObject()
@@ -290,7 +294,8 @@ public class LuaCallCs : MonoBehaviour
 	{
 		luaenv = new LuaEnv();
 		luaenv.DoString(script);
-	}
+
+    }
 
 	// Update is called once per frame
 	void Update()

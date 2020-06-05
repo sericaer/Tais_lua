@@ -1,4 +1,5 @@
 POP_DEF.HAOQIANG = 
 {
-    is_tax = true
+    is_tax = true,
+    consume = 100
 }

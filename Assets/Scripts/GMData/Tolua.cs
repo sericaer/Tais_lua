@@ -36,18 +36,6 @@ namespace TaisEngine
 
             EXPECT_TAX.Start(0.001);
         }
-
-        public bool is_crop_growing
-        {
-            get
-            {
-                return GMData.inst.isCropGrowing;
-            }
-            set
-            {
-                GMData.inst.isCropGrowing = value;
-            }
-        }
     }
 
     [LuaCallCSharp]

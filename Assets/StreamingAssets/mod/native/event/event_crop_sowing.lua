@@ -1,7 +1,9 @@
-EVENT_DEF.GLOBAL.EVENT_CROP_SOWING = 
+EVENT_DEF.DEPART.EVENT_CROP_SOWING = 
 {
+    hide = true,
+
     occur_rate = function ()
-        if gm_data().date.month == 1 and gm_data().date.day == 1 then
+        if gm_data().date.month == 1 and gm_data().date.day == 10 then
             return 1
         end
         return 0
@@ -13,7 +15,7 @@ EVENT_DEF.GLOBAL.EVENT_CROP_SOWING =
         OPTION_1 = 
         {
             selected = function ()
-                gm_data().is_crop_growing = true
+                gm_depart().is_crop_growing = true
             end
         }
     }

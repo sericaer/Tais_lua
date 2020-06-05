@@ -32,7 +32,7 @@ namespace TaisEngine
         {
             get
             {
-                return GMData.inst.pops.Where(x=>x.depart == name);
+                return GMData.inst.pops.Where(x=>x.depart_name == name);
             }
         }
 
@@ -49,6 +49,9 @@ namespace TaisEngine
 
         [JsonProperty]
         public string name;
+
+        [JsonProperty]
+        public bool is_crop_growing;
 
         [JsonProperty]
         public double crop_growing_percent;
@@ -112,7 +115,7 @@ namespace TaisEngine
 
         private void cropGrowingProcess()
         {
-            if(GMData.inst.isCropGrowing)
+            if(is_crop_growing)
             {
                 crop_growing_percent += cropGrowingSpeed;
             }

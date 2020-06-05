@@ -60,6 +60,9 @@ EVENT_DEF =
                 for key_e, value_e in pairs(value) do
                     if type(value_e) == 'table' then
                         value_e.name = key_e
+                        if(value_e['hide'] == nil) then
+                            value_e.hide = false
+                        end
                         if(value_e['title'] == nil) then
                             value_e.title = function (self)
                                 return self.name.."_TITLE"
@@ -74,6 +77,11 @@ EVENT_DEF =
                             if(valueO['desc'] == nil) then
                                 valueO.desc = function (self)
                                     return value_e.name.."_"..keyO.."_DESC"
+                                end
+                            end
+                            if(valueO['next_event'] == nil) then
+                                valueO.next_event = function (self)
+                                    return ''
                                 end
                             end
                         end

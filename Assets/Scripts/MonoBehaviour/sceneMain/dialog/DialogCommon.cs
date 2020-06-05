@@ -34,7 +34,7 @@ public class DialogCommon : Dialog
 
             btn.GetComponentInChildren<Text>().text = opt.desc();
 
-            btn.onClick.AddListener(() =>
+            btn.onClick.AddListener(async () =>
             {
                 //opt.Do();
                 //var resumeRslt = opt.MakeResume();
@@ -54,6 +54,14 @@ public class DialogCommon : Dialog
                 opt.selected();
 
                 Destroy(this.gameObject);
+
+                string next_event = opt.next_event();
+
+                if(next_event != "")
+                {
+                    await GetComponentInParent<Timer>().CreateDialog(EventDef.find(next_event));
+                }
+
                 //gEvent.DestroyAction?.Invoke();
 
 
