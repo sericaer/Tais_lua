@@ -12,6 +12,7 @@ namespace TaisEngine
     public class BufferDef
     {
         public BufferDepartDef bufferDepart;
+        public BufferPopDef bufferPop;
 
         [CSharpCallLua]
         public interface Interface
@@ -34,9 +35,22 @@ namespace TaisEngine
             }
         }
 
+        public class BufferPopDef : BaseDef<BufferPopDef.Interface>
+        {
+            [CSharpCallLua]
+            public interface Interface : BufferDef.Interface
+            {
+            }
+
+            public BufferPopDef(string mod, LuaTable luaTable) : base(luaTable, mod, "POP")
+            {
+            }
+        }
+
         public BufferDef(string mod, LuaTable luaTable)
         {
             bufferDepart = new BufferDepartDef(mod, luaTable);
+            bufferPop = new BufferPopDef(mod, luaTable);
         }
 
         //public double init_speed

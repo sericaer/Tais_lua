@@ -95,6 +95,7 @@ EVENT_DEF =
 BUFFER_DEF = 
 {
     DEPART = {},
+    POP = {},
     init_func = function(self)
         for key,value in pairs(self) do
             if key == 'DEPART' then

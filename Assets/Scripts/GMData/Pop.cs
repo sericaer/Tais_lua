@@ -22,7 +22,7 @@ namespace TaisEngine
         internal double num;
 
         [JsonProperty]
-        BufferManager buffers = new BufferManager();
+        internal BufferManager buffers = new BufferManager();
 
         internal string key
         {
@@ -85,6 +85,10 @@ namespace TaisEngine
             this.depart_name = depart;
             this.num = num;
 
+            foreach (var elem in BufferDef.BufferPopDef.Enumerate())
+            {
+                buffers.Add(new Buffer(elem));
+            }
             //if(def.with_family)
             //{
             //    family = Family.Generate(BackgroundDef.Enumerate().OrderBy(x => Guid.NewGuid()).First().key);

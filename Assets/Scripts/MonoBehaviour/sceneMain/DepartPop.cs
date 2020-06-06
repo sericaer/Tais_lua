@@ -15,8 +15,8 @@ public class DepartPop : MonoBehaviour
 
     public void onClick()
     {
-        //var popObj = Instantiate(popPrefabs, this.GetComponentInParent<Depart>().transform);
-        //popObj.GetComponentInChildren<Pop>().gmPop = gmPop;
+        var popObj = Instantiate(popPrefabs, this.GetComponentInParent<Depart>().transform);
+        popObj.GetComponentInChildren<Pop>().gmPop = gmPop;
     }
 
     // Update is called once per frame
