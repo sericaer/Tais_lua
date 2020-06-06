@@ -98,7 +98,7 @@ BUFFER_DEF =
     POP = {},
     init_func = function(self)
         for key,value in pairs(self) do
-            if key == 'DEPART' then
+            if key == 'DEPART' or key == 'POP' then
                 for key_e, value_e in pairs(value) do
                     if type(value_e) == 'table' then
                         value_e.name = key_e

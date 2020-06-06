@@ -16,18 +16,17 @@ public class Pop : MonoBehaviour
     public LocalText depart;
     public LocalText num;
     public LocalText farm;
-    public LocalText consume;
+
     //public LocalText expcetTax;
     //public LocalText attitude;
     //public LocalText background;
+
+    public GameObject consume;
 
     public GameObject buffContent;
     public GameObject buffPrefabs;
     public GameObject personTable;
     //public Buffer bufferPrefabs;
-
-    public TooltipTrigger consumeTooltipTrigger;
-    public TooltipTrigger expectTaxTooltipTrigger;
 
     public TaisEngine.Pop gmPop;
 
@@ -58,6 +57,14 @@ public class Pop : MonoBehaviour
         name.format = gmPop.name;
         depart.format = gmPop.depart.name;
 
+        if (gmPop.def.consume != null)
+        {
+            consume.GetComponent<TooltipTrigger>().funcGetTooltipStr = () =>
+            {
+                var detail = string.Join("\n", gmPop.consumeDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N2")} </color>"));
+                return ("consume", detail);
+            };
+        }
         //personTable.SetActive(pop.);
         //if (pop.familyValid)
         //{
@@ -80,11 +87,11 @@ public class Pop : MonoBehaviour
 
         if(gmPop.def.consume != null)
         {
-            consume.format = gmPop.consume.ToString();
+            consume.transform.Find("value").GetComponent<LocalText>().format = gmPop.consume.ToString();
         }
         else
         {
-            consume.transform.parent.gameObject.SetActive(false);
+            consume.SetActive(false);
         }
 
         //if(pop.farmVaild)
@@ -105,12 +112,7 @@ public class Pop : MonoBehaviour
         //    expcetTax.transform.parent.gameObject.SetActive(false);
         //}
 
-        //var consumeDetail = pop.consumeDetail;
-        //if (consumeDetail != null)
-        //{
-        //    var consumeDetailStr = pop.consumeDetail.Select(x => $"<color={(x.value > 0 ? LocalString.getColorStr(LocalString.COLOR.green) : LocalString.getColorStr(LocalString.COLOR.red))}>{x.value.ToString("+00;-00")}    {new LocalString(x.cause).ToString()}</color>");
-        //    consumeTooltipTrigger.SetTextDetail("POP_CONSUME_DETAIL", string.Join("\n", consumeDetailStr));
-        //}
+
 
         //var expcetTaxDetail = pop.expectTaxDetail;
         //if (expcetTaxDetail != null)

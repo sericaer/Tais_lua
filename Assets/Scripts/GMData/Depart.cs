@@ -28,7 +28,7 @@ namespace TaisEngine
             yield break;
         }
 
-        internal IEnumerable<Pop> pops
+        public IEnumerable<Pop> pops
         {
             get
             {

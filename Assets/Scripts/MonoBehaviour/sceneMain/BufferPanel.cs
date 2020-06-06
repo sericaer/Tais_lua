@@ -31,24 +31,24 @@ public class BufferPanel : MonoBehaviour
         string title = TaisEngine.Mod.GetLocalString(gmBuffer.def.name);
 
         string desc = "";
-        //if(gmBuffer.def.taxEffect != null)
-        //{
-        //    var effect = gmBuffer.def.taxEffect();
+        if (gmBuffer.def.tax_effect != null)
+        {
+            var effect = gmBuffer.def.tax_effect();
 
-        //    desc += $"<color={(effect <0? "red" : "green")}>" + TaisEngine.Mod.GetLocalString("TAX_EFFECT", effect.ToString("P1")) + "</color> \n";
-        //}
+            desc += $"<color={(effect < 0 ? "red" : "green")}>" + TaisEngine.Mod.GetLocalString("TAX_EFFECT", effect.ToString("P1")) + "</color> \n";
+        }
         if (gmBuffer.def.crop_growing_effect != null)
         {
             var effect = gmBuffer.def.crop_growing_effect();
 
             desc += $"<color={(effect < 0 ? "red" : "green")}>" + TaisEngine.Mod.GetLocalString("CROP_GROWING_EFFECT", effect.ToString("P1")) + "</color> \n";
         }
-        //if (gmBuffer.def.consumeEffect != null)
-        //{
-        //    var effect = gmBuffer.def.consumeEffect();
+        if (gmBuffer.def.consume_effect != null)
+        {
+            var effect = gmBuffer.def.consume_effect();
 
-        //    desc += $"<color={(effect < 0 ? "red" : "green")}>" + TaisEngine.Mod.GetLocalString("CONSUME_EFFECT", effect.ToString("P1")) + "</color> \n";
-        //}
+            desc += $"<color={(effect < 0 ? "red" : "green")}>" + TaisEngine.Mod.GetLocalString("CONSUME_EFFECT", effect.ToString("P1")) + "</color> \n";
+        }
 
         return (title, desc);
     }

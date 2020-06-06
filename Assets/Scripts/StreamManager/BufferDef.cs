@@ -23,6 +23,23 @@ namespace TaisEngine
             Func<double> consume_effect { get; }
         }
 
+        internal static Interface Find(string name)
+        {
+            Interface def = BufferDepartDef.FindOrDefault(name);
+            if (def != null)
+            {
+                return def;
+            }
+
+            def = BufferPopDef.FindOrDefault(name);
+            if(def != null)
+            {
+                return def;
+            }
+
+            throw new Exception("can not find" + name);
+        }
+
         public class BufferDepartDef : BaseDef<BufferDepartDef.Interface>
         {
             [CSharpCallLua]

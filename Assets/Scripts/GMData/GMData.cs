@@ -99,7 +99,6 @@ namespace TaisEngine
 
         internal async UniTask DaysInc(Func<EventDef.Interface, UniTask> act)
         {
-            Debug.Log("DaysInc_0");
             foreach (var gevent in EventDef.Generate())
             {
                 await act(gevent);

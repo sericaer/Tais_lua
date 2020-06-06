@@ -38,8 +38,11 @@ public class Timer : MonoBehaviour
 
     void Start()
     {
+#if UNITY_EDITOR
+        _currSpeed = 10;
+#else
         _currSpeed = MinSpeed;
-
+#endif
         UniTask.Run(async () =>
         {
             try
@@ -48,7 +51,7 @@ public class Timer : MonoBehaviour
                 {
                     await UniTask.WaitUntil(() => !isPaused);
                     await GMData.inst.DaysInc(CreateDialog);
-                    await UniTask.Delay(1000);
+                    await UniTask.Delay(1000/ currSpeed);
                 }
             }
             catch(Exception e)

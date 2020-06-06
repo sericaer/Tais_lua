@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 8256066309235488311}
   - component: {fileID: 6546508014335475554}
   - component: {fileID: 4632037106733643652}
+  - component: {fileID: 5195846486735944690}
   m_Layer: 5
   m_Name: consume
   m_TagString: Untagged
@@ -419,6 +420,36 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &5195846486735944690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664632961714116741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 11455346, guid: 9952077d28cebd14ba1458c91a86d457, type: 3}
+  parameterizedTextFields:
+  - name: TitleText
+    placeholder: '%TitleText%'
+    value: 
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: 
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  remoteTrigger: {fileID: 0}
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  tipPosition: 7
+  minTextWidth: 100
+  maxTextWidth: 200
+  staysOpen: 0
+  isBlocking: 0
 --- !u!1 &1118342625710645157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,8 +1356,10 @@ MonoBehaviour:
   depart: {fileID: 6105276582407648070}
   num: {fileID: 8768740474796060073}
   farm: {fileID: 6331635331603640755}
-  consume: {fileID: 2921392252951584880}
-  bufferContuent: {fileID: 7788110722911687398}
+  consume: {fileID: 664632961714116741}
+  buffContent: {fileID: 7788110722911687398}
+  buffPrefabs: {fileID: 5037811727827105404, guid: 0e30f6029d63aac44b1fe2bc369bbd02,
+    type: 3}
   personTable: {fileID: 0}
   consumeTooltipTrigger: {fileID: 0}
   expectTaxTooltipTrigger: {fileID: 0}
@@ -2568,7 +2601,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5401580496556042125
 CanvasRenderer:

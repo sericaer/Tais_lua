@@ -3,26 +3,28 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XLua;
 
 namespace TaisEngine
 {
 
     //[JsonConverter(typeof(PopConverter))]
+    [LuaCallCSharp]
     [JsonObject(MemberSerialization.OptIn)]
     public class Pop
     {
         //internal Family family;
         [JsonProperty]
-        internal string name;
+        public string name;
 
         [JsonProperty]
-        internal string depart_name;
+        public string depart_name;
 
         [JsonProperty]
-        internal double num;
+        public double num;
 
         [JsonProperty]
-        internal BufferManager buffers = new BufferManager();
+        public BufferManager buffers = new BufferManager();
 
         internal string key
         {

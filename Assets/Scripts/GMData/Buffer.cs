@@ -18,7 +18,7 @@ namespace TaisEngine
         {
             get
             {
-                return BufferDef.BufferDepartDef.Find(name);
+                return BufferDef.Find(name);
             }
         }
 
