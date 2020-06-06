@@ -19,9 +19,13 @@ public class Timer : MonoBehaviour
         }
         set
         {
-            if(value >= MinSpeed && value <= MaxSpeed)
+            if(value > MaxSpeed)
             {
-                _currSpeed = value;
+                _currSpeed = MaxSpeed;
+            }
+            if(value < MinSpeed)
+            {
+                _currSpeed = MinSpeed;
             }
         }
     }

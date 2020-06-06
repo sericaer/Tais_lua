@@ -109,7 +109,7 @@ namespace TaisEngine
                 return gevent;
             }
 
-            return null;
+            throw new Exception("can not find " + next_event);
         }
     }
 }
