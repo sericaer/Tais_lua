@@ -1,20 +1,20 @@
-﻿//using UnityEngine;
-//using System.Collections;
-//using UnityEngine.UI;
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
 
-//public class Economy : MonoBehaviour
-//{
-//    public Text value;
-    
-//    // Use this for initialization
-//    void Start()
-//    {
+public class Economy : MonoBehaviour
+{
+    public Text value;
 
-//    }
+    // Use this for initialization
+    void Start()
+    {
 
-//    // Update is called once per frame
-//    void Update()
-//    {
-//        value.text = TaisEngine.GMData.inst.economy.value.ToString("f1");
-//    }
-//}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        value.text = TaisEngine.GMData.inst.economy.ToString("N0");
+    }
+}

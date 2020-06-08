@@ -24,7 +24,7 @@ namespace TaisEngine
         public double num;
 
         [JsonProperty]
-        public BufferManager buffers = new BufferManager();
+        public List<Buffer> buffers = new List<Buffer>();
 
         internal string key
         {
@@ -34,7 +34,7 @@ namespace TaisEngine
             }
         }
 
-        internal PopDef.Interface def
+        public PopDef.Interface def
         {
             get
             {
@@ -42,7 +42,7 @@ namespace TaisEngine
             }
         }
 
-        internal Depart depart
+        public Depart depart
         {
             get
             {
@@ -50,7 +50,7 @@ namespace TaisEngine
             }
         }
 
-        internal double? consume
+        public double? consume
         {
             get
             {
@@ -67,7 +67,7 @@ namespace TaisEngine
         {
             get
             {
-                if(def.consume == null)
+                if (def.consume == null)
                 {
                     return null;
                 }

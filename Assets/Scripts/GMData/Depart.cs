@@ -57,7 +57,7 @@ namespace TaisEngine
         public double crop_grow_percent;
 
         [JsonProperty]
-        public BufferManager buffers;
+        public List<Buffer> buffers;
 
         internal double cropGrowingSpeed
         {
@@ -93,7 +93,7 @@ namespace TaisEngine
         internal Depart(DepartDef.Interface def)
         {
             this.name = def.name;
-            this.buffers = new BufferManager();
+            this.buffers = new List<Buffer>();
 
             foreach (var elem in def.pop_init)
             {

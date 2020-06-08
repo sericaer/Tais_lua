@@ -9,15 +9,31 @@ namespace TaisEngine
         internal List<(EXPECT_TAX taxed, int days)> histroy = new List<(EXPECT_TAX taxed, int days)>();
         internal EXPECT_TAX current;
 
+        public double expect(double rate)
+        {
+            var exp = getExpectRoot(rate);
+            return exp.value;
+        }
+
         public void start(double rate)
         {
             current = getExpectRoot(rate);
+        }
+
+        public double value
+        {
+            get
+            {
+                return current.value;
+            }
         }
 
         public void finish()
         {
             current.onFinish();
             histroy.Add((current, GMData.inst.days));
+
+            GMData.inst.economy += current.value;
 
             current = null;
         }

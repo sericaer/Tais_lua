@@ -7,15 +7,15 @@ using UnityEngine;
 namespace TaisEngine
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal class Taishou
+    public class Taishou
     {
         [JsonProperty]
-        internal string name;
+        public string name;
 
         [JsonProperty]
-        internal int age;
+        public int age;
 
-        internal BackgroundDef.Interface background
+        public BackgroundDef.Interface background
         {
             get
             {

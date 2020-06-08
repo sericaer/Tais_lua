@@ -28,6 +28,9 @@ namespace TaisEngine
         internal int _days;
 
         [JsonProperty]
+        public double economy;
+
+        [JsonProperty]
         public Taishou taishou;
 
         //internal Economy economy = new Economy();

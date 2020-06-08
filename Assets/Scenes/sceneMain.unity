@@ -2440,6 +2440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b197034d48a44674bbdf5b01fe1eeab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: {fileID: 1386533840}
 --- !u!1 &596713866
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,8 +4335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NowVersion: 1.5.1_20200603
   m_NewVersion: 
-  m_ChartList:
-  - {fileID: 0}
+  m_ChartList: []
 --- !u!4 &844314662
 Transform:
   m_ObjectHideFlags: 0

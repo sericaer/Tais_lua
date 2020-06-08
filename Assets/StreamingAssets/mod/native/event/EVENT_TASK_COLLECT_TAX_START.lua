@@ -1,20 +1,15 @@
-EVENT_DEF.GLOBAL.EVENT_TASK_COLLECT_TAX_START = 
+EVENT_DEF.GLOBAL.EVENT_TASK_COLLECT_TAX_FINISH = 
 {
-    hide = true,
-
     options = 
     {
         OPTION_1 = 
         {
-            selected = function ()
-                local task = gm_data().tasks:find('COLLECT_TAX')
-                gm_data().tax_expect:start(task:get_tax_rate());
+            desc = function ()
+                return gm_data().tax_expect.value
+            end,
 
-            --[[for key,pop in pairs(gm_data().pops) do
-                    if(pop.def.is_tax == true) then
-                        pop.buffers:find("TAXED_LEVEL"..task.level).start = true;
-                    end
-                end]]
+            selected = function ()
+                gm_data().tax_expect:finish();
             end
         }
     }
