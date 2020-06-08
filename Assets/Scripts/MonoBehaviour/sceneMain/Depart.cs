@@ -49,8 +49,15 @@ public class Depart : MonoBehaviour
         var cropGrowingToolTip = cropGrowing.transform.GetComponent<TooltipTrigger>();
         cropGrowingToolTip.funcGetTooltipStr = () =>
         {
-            return ("CROP_GROWING",
-                   string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N2")} </color>")));
+            if (gmDepart.is_crop_growing)
+            {
+                return ("CROP_GROWING",
+                       string.Join("\n", gmDepart.growSpeedDetail.Select(x => $"<color={(x.value < 0 ? "red" : "green")}>{TaisEngine.Mod.GetLocalString(x.name)} {x.value.ToString("N2")} </color>")));
+            }
+            else
+            {
+                return ("CROP_GROWING", "NOT_CROP_GROW_SEASON");
+            }
         };
 
     }
@@ -62,7 +69,7 @@ public class Depart : MonoBehaviour
                                     gmDepart.pops.Where(x => x.def.is_tax).Sum(x => x.num),
                                     gmDepart.pops.Sum(x => x.num));
 
-        cropGrowing.transform.Find("value").GetComponent<Text>().text = gmDepart.crop_grow_percent.ToString("N2");
+        cropGrowing.transform.Find("value").GetComponent<Text>().text = gmDepart.is_crop_growing ? gmDepart.crop_grow_percent.ToString("N2") : "--";
 
         foreach (var pop in listDepartPops)
         {
