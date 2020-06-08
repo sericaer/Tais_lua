@@ -7,7 +7,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_START =
         if gm_depart().buffers:find('HUANGZAI').exist  then
             return 0
         end
-        return 0.001
+        return 0.0001
     end,
 
     options = 

@@ -21,7 +21,7 @@ namespace Tools
 
             if (prob.CompareTo(0.0) == 0)
             {
-                return true;
+                return false;
             }
 
             int prb = (int)(prob * 100);

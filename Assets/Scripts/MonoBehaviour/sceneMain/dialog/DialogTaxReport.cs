@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using XCharts;
+using TaisEngine;
 
 public class DialogTaxReport : Dialog
 {
@@ -23,7 +24,7 @@ public class DialogTaxReport : Dialog
     {
         listBufferInfo.Clear();
 
-        var buffInfo = TaisEngine.EXPECT_TAX.current.GetBufferInfo();
+        var buffInfo = GMData.inst.tax_expect.current.GetBufferInfo();
         listBufferInfo.AddRange(buffInfo.Select(x => new BUFFER_INFO() { name = TaisEngine.Mod.GetLocalString(x.name), 
                                                                          percent = x.value.ToString("P1"),
                                                                          value = x.effect.ToString("N1")}));
@@ -32,7 +33,7 @@ public class DialogTaxReport : Dialog
         {
             listBufferInfo.Add(new BUFFER_INFO() { name = "--", percent = "--", value = "--" });
         }
-        listTaxInfo = TaisEngine.EXPECT_TAX.current.GetTaxInfo().ToList();
+        listTaxInfo = GMData.inst.tax_expect.current.GetTaxInfo().ToList();
 
         pieChartExt.funcGetData = () =>
         {

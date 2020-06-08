@@ -4,10 +4,23 @@ using System.Collections.Generic;
 
 namespace TaisEngine
 {
-    abstract class EXPECT_TAX
+    public class EXPECT_TAX_ROOT
     {
-        internal static List<(EXPECT_TAX taxed, int days)> histroy = new List<(EXPECT_TAX taxed, int days)>();
-        internal static EXPECT_TAX current;
+        internal List<(EXPECT_TAX taxed, int days)> histroy = new List<(EXPECT_TAX taxed, int days)>();
+        internal EXPECT_TAX current;
+
+        public void start(double rate)
+        {
+            current = getExpectRoot(rate);
+        }
+
+        public void finish()
+        {
+            current.onFinish();
+            histroy.Add((current, GMData.inst.days));
+
+            current = null;
+        }
 
         internal static EXPECT_TAX getExpectRoot(double rate)
         {
@@ -17,7 +30,7 @@ namespace TaisEngine
             {
                 var expectDepart = new EXPECT_BRANCH(depart.def.name, null);
 
-                foreach(var pop in depart.pops.Where(x => x.def.is_tax))
+                foreach (var pop in depart.pops.Where(x => x.def.is_tax))
                 {
                     var expectPop = new EXPECT_LEAF(pop.key, pop.num * rate, null);
                     expectPop.getBuffs = () => new List<(string, double)>(); //pop.buffers.Where(y => y.def.taxEffect != null).Select(y => (y.key, y.def.taxEffect()));
@@ -32,31 +45,16 @@ namespace TaisEngine
 
             return expect;
         }
+    }
 
-        internal static double Expect(double rate)
-        {
-            return getExpectRoot(rate).value;
-        }
-
-        internal static void Start(double rate)
-        {
-            EXPECT_TAX.current = getExpectRoot(rate);
-        }
+    abstract class EXPECT_TAX
+    {
 
         internal abstract IEnumerable<(string name, double value)> GetTaxInfo();
-
 
         internal virtual IEnumerable<(string name, double value, double effect)> GetBufferInfo()
         {
             return buffs.Select(x => (x.name, x.value, x.value * basevalue));
-        }
-
-        internal static void Finish()
-        {
-            current.onFinish();
-            histroy.Add((current, GMData.inst.days));
-
-            current = null;
         }
 
         internal string name;
@@ -103,8 +101,8 @@ namespace TaisEngine
 
         protected virtual double basevalue { get; }
 
-        private Func<IEnumerable<(string name, double value)>> getBuffs;
-        private List<(string name, double value)> _buffs;
+        internal Func<IEnumerable<(string name, double value)>> getBuffs;
+        internal List<(string name, double value)> _buffs;
     }
 
     class EXPECT_LEAF : EXPECT_TAX

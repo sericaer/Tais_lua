@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UniRx.Async;
 using UnityEngine;
+using XLua;
 
 namespace TaisEngine
 {
+    [LuaCallCSharp]
     [JsonObject(MemberSerialization.OptIn)]
-    internal class GMData
+    public class GMData
     {
-        internal static GMData inst;
-        internal static void New(InitData initData)
-        {
-            inst = new GMData(initData);
-        }
+        public static GMData inst;
 
-        internal int days
+        public int days
         {
             get
             {
@@ -30,25 +28,32 @@ namespace TaisEngine
         internal int _days;
 
         [JsonProperty]
-        internal Taishou taishou;
-
+        public Taishou taishou;
 
         //internal Economy economy = new Economy();
         [JsonProperty]
-        internal List<Depart> departs = new List<Depart>();
+        public List<Depart> departs = new List<Depart>();
 
         [JsonProperty]
-        internal List<Task> tasks = new List<Task>();
+        public List<Task> tasks = new List<Task>();
 
         [JsonProperty]
-        internal List<Pop> pops = new List<Pop>();
+        public List<Pop> pops = new List<Pop>();
+
+        [JsonProperty]
+        public EXPECT_TAX_ROOT tax_expect = new EXPECT_TAX_ROOT();
+
+        public GMDate date = new GMDate();
 
         [JsonProperty]
         internal List<string> record = new List<string>();
 
-        internal GMDate date = new GMDate();
-
         internal bool quit;
+
+        internal static void New(InitData initData)
+        {
+            inst = new GMData(initData);
+        }
 
         //internal static IEnumerable<GEvent> GenerateEvent()
         //{
