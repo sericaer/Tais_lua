@@ -8,8 +8,16 @@ using Newtonsoft.Json;
 namespace TaisEngine
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal class Person
+    public class Person
     {
+        public string name
+        {
+            get
+            {
+                return familyName + givenName;
+            }
+        }
+
         [JsonProperty]
         internal string familyName;
 

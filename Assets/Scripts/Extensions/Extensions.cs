@@ -66,7 +66,7 @@ namespace TaisEngine
         public static void set_invalid(this List<Buffer> list, string name)
         {
             var buffer = list.Single(x => x.name == name);
-            buffer.valid = true;
+            buffer.valid = false;
         }
 
         public static bool is_valid(this List<Buffer> list, string name)

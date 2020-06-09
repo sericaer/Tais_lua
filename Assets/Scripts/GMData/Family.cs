@@ -43,6 +43,8 @@ namespace TaisEngine
 
         private Family(string name, string background)
         {
+            GMData.inst.families.Add(this);
+
             this.name = name;
             this._background = background;
 
@@ -50,8 +52,6 @@ namespace TaisEngine
             {
                 persons.Add(new Person(name));
             }
-
-            GMData.inst.families.Add(this);
         }
 
         [JsonProperty]

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace UnityUITable
@@ -31,7 +32,8 @@ namespace UnityUITable
 		}
 		public object KeySelector(object elmt)
 		{
-			PropertyOrFieldInfo property = new PropertyOrFieldInfo(elmt.GetType().GetMember(sortingColumn.fieldName)[0]);
+			PropertyOrFieldInfo property = new PropertyOrFieldInfo(elmt.GetType().GetMember(sortingColumn.fieldName, 
+                                                                                            BindingFlags.Instance |BindingFlags.NonPublic |BindingFlags.Public)[0]);
 			return property.GetValue(elmt);
 		}
 	}

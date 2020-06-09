@@ -110,6 +110,7 @@ namespace TaisEngine
             this.name = popDef.name;
             this.depart_name = depart;
             this.num = num;
+            this.family_name = "";
 
             foreach (var elem in BufferDef.BufferPopDef.Enumerate())
             {
