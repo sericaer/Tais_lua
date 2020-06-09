@@ -1,3 +1,4 @@
+INIT_SELECT:init_func()
 BACKGROUND_DEF:init_func()
 POP_DEF:init_func()
 DEPART_DEF:init_table()

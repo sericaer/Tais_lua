@@ -58,6 +58,9 @@ namespace TaisEngine
 
         internal static string GetLocalString(string arg, params object[] objs)
         {
+#if UNITY_EDITOR_OSX
+            return arg;
+#endif
             var args = arg.Split('|');
 
             string rslt = String.Join("", args.Select(x =>
@@ -254,7 +257,12 @@ namespace TaisEngine
 
             foreach (var key in luaTable.GetKeys<string>())
             {
-                content.dictInitSelect.Add(key, luaTable.Get<InitSelectDef>(key).DefaultSet(key));
+                var value = luaTable.Get<InitSelectDef>(key);
+                if(value != null)
+                {
+                    content.dictInitSelect.Add(key, value);
+                }
+                
             }
         }
 

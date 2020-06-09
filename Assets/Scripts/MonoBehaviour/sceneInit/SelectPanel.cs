@@ -49,8 +49,8 @@ public class SelectPanel : MonoBehaviour
 
                 Destroy(this.gameObject);
 
-                var next = opt.next_select;
-                if (next != null)
+                var next = opt.next_select();
+                if (next != "")
                 {
                     //GetComponentInParent<sceneInit>().CreateSelectPanel(next);
                 }

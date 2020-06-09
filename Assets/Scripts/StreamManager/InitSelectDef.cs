@@ -7,16 +7,16 @@ using XLua;
 
 namespace TaisEngine
 {
-    [CSharpCallLua]
-    public delegate string delegateGetString();
+    //[CSharpCallLua]
+    //public delegate string delegateGetString();
 
-    [CSharpCallLua]
-    public delegate void delegateSelected();
+    //[CSharpCallLua]
+    //public delegate void delegateSelected();
 
     [CSharpCallLua]
     public interface InitSelectDef
     {
-        delegateGetString desc { get; set; }
+        string desc();
 
         bool is_first { get; }
 
@@ -35,54 +35,54 @@ namespace TaisEngine
     [CSharpCallLua]
     public interface SelectOptionDef
     {
-        delegateGetString desc { get; set; }
+        string desc();
 
-        delegateSelected selected { get; set; }
+        void selected();
 
-        string next_select { get; set; }
+        string next_select();
     }
 
-    static class ExtendInitSelect
-    {
-        public static InitSelectDef DefaultSet(this InitSelectDef luaItf, string name)
-        {
-            if(luaItf.desc == null)
-            {
-                luaItf.desc = () => $"{name}_DESC";
-            }
+    //static class ExtendInitSelect
+    //{
+    //    public static InitSelectDef DefaultSet(this InitSelectDef luaItf, string name)
+    //    {
+    //        if(luaItf.desc == null)
+    //        {
+    //            luaItf.desc = () => $"{name}_DESC";
+    //        }
 
-            (string name, SelectOptionDef value)[] optionLuas = {
-                                                      ("OPTION_1", luaItf.OPTION_1),
-                                                      ("OPTION_2", luaItf.OPTION_2),
-                                                      ("OPTION_3", luaItf.OPTION_3),
-                                                      ("OPTION_4", luaItf.OPTION_4),
-                                                      ("OPTION_5", luaItf.OPTION_5),
-                                                      ("OPTION_6", luaItf.OPTION_6),
-                                                      ("OPTION_7", luaItf.OPTION_7),
-                                                      ("OPTION_8", luaItf.OPTION_8),
-                                                      ("OPTION_9", luaItf.OPTION_9),
-                                                      ("OPTION_10", luaItf.OPTION_10),
-                                                    };
+    //        (string name, SelectOptionDef value)[] optionLuas = {
+    //                                                  ("OPTION_1", luaItf.OPTION_1),
+    //                                                  ("OPTION_2", luaItf.OPTION_2),
+    //                                                  ("OPTION_3", luaItf.OPTION_3),
+    //                                                  ("OPTION_4", luaItf.OPTION_4),
+    //                                                  ("OPTION_5", luaItf.OPTION_5),
+    //                                                  ("OPTION_6", luaItf.OPTION_6),
+    //                                                  ("OPTION_7", luaItf.OPTION_7),
+    //                                                  ("OPTION_8", luaItf.OPTION_8),
+    //                                                  ("OPTION_9", luaItf.OPTION_9),
+    //                                                  ("OPTION_10", luaItf.OPTION_10),
+    //                                                };
 
-            for (int i = 0; i < optionLuas.Count(); i++)
-            {
-                var optLua = optionLuas[i];
-                if (optLua.value == null)
-                {
-                    break;
-                }
+    //        for (int i = 0; i < optionLuas.Count(); i++)
+    //        {
+    //            var optLua = optionLuas[i];
+    //            if (optLua.value == null)
+    //            {
+    //                break;
+    //            }
 
-                if(optLua.value.desc == null)
-                {
-                    optLua.value.desc = () => $"{name}_{optLua.name}_DESC";
-                }
-                if(optLua.value.selected == null)
-                {
-                    optLua.value.selected = () => { };
-                }
-            }
+    //            if(optLua.value.desc == null)
+    //            {
+    //                optLua.value.desc = () => $"{name}_{optLua.name}_DESC";
+    //            }
+    //            if(optLua.value.selected == null)
+    //            {
+    //                optLua.value.selected = () => { };
+    //            }
+    //        }
 
-            return luaItf;
-        }
-    }
+    //        return luaItf;
+    //    }
+    //}
 }

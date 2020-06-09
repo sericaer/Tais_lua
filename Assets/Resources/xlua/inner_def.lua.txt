@@ -1,4 +1,29 @@
-INIT_SELECT = {}
+INIT_SELECT = 
+{
+    init_func = function(self)
+         for key,value in pairs(self) do
+            if type(value) == 'table' then
+                if value['desc'] == nil then
+                    value.desc = function()
+                        return key..'_DESC'
+                    end
+                end
+                for keyO,valueO in pairs(value['options']) do
+                    if(valueO['desc'] == nil) then
+                        valueO.desc = function (self)
+                            return key.."_"..keyO.."_DESC"
+                        end
+                    end
+                    if(valueO['next_event'] == nil) then
+                        valueO.next_event = function (self)
+                            return ''
+                        end
+                    end
+                end
+            end
+        end
+    end
+}
 
 BACKGROUND_DEF = {
     init_func = function(self)
