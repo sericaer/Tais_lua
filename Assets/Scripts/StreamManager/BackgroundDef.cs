@@ -14,6 +14,8 @@ namespace TaisEngine
         public interface Interface
         {
             string name { get; }
+
+            Dictionary<string, double> relation { get; }
         }
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();
@@ -35,6 +37,7 @@ namespace TaisEngine
             //    }
             //}
         }
+
 
         //internal static IEnumerable<BackgroundDef.Interface> Enumerate()
         //{

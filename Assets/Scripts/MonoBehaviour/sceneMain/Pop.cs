@@ -22,10 +22,11 @@ public class Pop : MonoBehaviour
     //public LocalText background;
 
     public GameObject consume;
+    public GameObject familyPanel;
 
     public GameObject buffContent;
     public GameObject buffPrefabs;
-    public GameObject personTable;
+
     //public Buffer bufferPrefabs;
 
     public TaisEngine.Pop gmPop;
@@ -65,6 +66,13 @@ public class Pop : MonoBehaviour
                 return ("consume", detail);
             };
         }
+
+        if (gmPop.family != null)
+        {
+            familyPanel.SetActive(true);
+            familyPanel.GetComponent<FamilyPanel>().gmFamily = gmPop.family;
+        }
+
         //personTable.SetActive(pop.);
         //if (pop.familyValid)
         //{

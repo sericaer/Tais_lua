@@ -26,6 +26,9 @@ namespace TaisEngine
         [JsonProperty]
         public List<Buffer> buffers = new List<Buffer>();
 
+        [JsonProperty]
+        public string family_name;
+
         internal string key
         {
             get
@@ -71,6 +74,19 @@ namespace TaisEngine
             }
         }
 
+        public Family family
+        {
+            get
+            {
+                if(family_name == "")
+                {
+                    return null;
+                }
+
+                return GMData.inst.families.Single(x => x.name == family_name);
+            }
+        }
+
         internal IEnumerable<(string name, double value)> consumeDetail
         {
             get
@@ -99,10 +115,12 @@ namespace TaisEngine
             {
                 buffers.Add(new Buffer(elem));
             }
-            //if(def.with_family)
-            //{
-            //    family = Family.Generate(BackgroundDef.Enumerate().OrderBy(x => Guid.NewGuid()).First().key);
-            //}
+
+            if(def.is_family)
+            {
+                var family = Family.Generate(BackgroundDef.Enumerate().OrderBy(x => Guid.NewGuid()).First().name);
+                this.family_name = family.name;
+            }
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
 

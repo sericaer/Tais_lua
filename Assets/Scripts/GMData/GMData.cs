@@ -44,6 +44,9 @@ namespace TaisEngine
         public List<Pop> pops = new List<Pop>();
 
         [JsonProperty]
+        public List<Family> families = new List<Family>();
+
+        [JsonProperty]
         public EXPECT_TAX_ROOT tax_expect = new EXPECT_TAX_ROOT();
 
         public GMDate date = new GMDate();

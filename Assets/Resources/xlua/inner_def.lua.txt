@@ -15,6 +15,9 @@ POP_DEF = {
         for key,value in pairs(self) do
             if type(value) == 'table' then
                 value.name = key
+                if value['is_family'] == nil then
+                    value.is_family = false
+                end
                 value.new = function(self, num)
                     local lookup_table = {}
                     local function copyObj( self )

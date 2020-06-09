@@ -14,6 +14,8 @@ namespace TaisEngine
         {
             string name { get; }
             bool is_tax { get; }
+            bool is_family { get; }
+
             double? consume { get; }
         }
 
