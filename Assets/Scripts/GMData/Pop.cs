@@ -82,7 +82,7 @@ namespace TaisEngine
 
                 List<(string name, double value)> rslt = new List<(string name, double value)>();
                 rslt.Add(("BASE_VALUE", def.consume.Value));
-                rslt.AddRange(depart.buffers.Where(x => x.exist && x.def.consume_effect != null).Select(x => (x.name, x.def.consume_effect() * def.consume.Value)));
+                rslt.AddRange(depart.buffers.exist_consume_effects().Select(x => (x.name, x.value * def.consume.Value)));
 
                 return rslt;
             }

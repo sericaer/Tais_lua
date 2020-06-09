@@ -83,8 +83,8 @@ namespace TaisEngine
                 var rslt = new List<(string name, double value)>();
 
                 rslt.Add(("BASE_VALUE", 100.0 / growingdays));
-                rslt.AddRange(buffers.Where(x => x.exist && x.def.crop_growing_effect != null)
-                                     .Select(x => (x.name, x.def.crop_growing_effect() * 100.0 / growingdays)));
+                rslt.AddRange(buffers.exist_crop_growing_effects()
+                                     .Select(x => (x.name, x.value * 100.0 / growingdays)));
 
                 return rslt;
             }

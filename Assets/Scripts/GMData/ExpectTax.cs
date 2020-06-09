@@ -49,12 +49,12 @@ namespace TaisEngine
                 foreach (var pop in depart.pops.Where(x => x.def.is_tax))
                 {
                     var expectPop = new EXPECT_LEAF(pop.key, pop.num * rate, null);
-                    expectPop.getBuffs = () => new List<(string, double)>(); //pop.buffers.Where(y => y.def.taxEffect != null).Select(y => (y.key, y.def.taxEffect()));
+                    expectPop.getBuffs = () => pop.buffers.exist_tax_effects();
 
                     expectDepart.children.Add(expectPop);
                 }
 
-                expectDepart.getBuffs = () => new List<(string, double)>();//depart.buffers.Where(x => x.def.taxEffect != null).Select(x => (x.key, x.def.taxEffect()));
+                expectDepart.getBuffs = () => depart.buffers.exist_tax_effects();
 
                 expect.children.Add(expectDepart);
             }
