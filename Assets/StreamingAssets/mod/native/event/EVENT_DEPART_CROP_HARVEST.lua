@@ -1,6 +1,6 @@
 EVENT_DEF.DEPART.EVENT_CROP_HARVEST = 
 {
-    hide = true,
+    hide = false,
 
     occur_rate = function ()
         if gm_data().date.month == 8 and gm_data().date.day == 15 then
@@ -25,7 +25,7 @@ EVENT_DEF.DEPART.EVENT_CROP_HARVEST =
                 if gm_depart().crop_grow_percent < 70 then
                     return 'EVENT_DEPART_HARVEST_LESS'
                 end
-                if gm_depart().crop_grow_percent > 95 then
+                if gm_depart().crop_grow_percent >= 95 then
                     return 'EVENT_DEPART_HARVEST_BETTER'
                 end
                 return ''

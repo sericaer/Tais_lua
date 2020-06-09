@@ -57,7 +57,7 @@ public class Pop : MonoBehaviour
         name.format = gmPop.name;
         depart.format = gmPop.depart.name;
 
-        if (gmPop.def.consume != null)
+        if (gmPop.is_consume)
         {
             consume.GetComponent<TooltipTrigger>().funcGetTooltipStr = () =>
             {
@@ -85,7 +85,7 @@ public class Pop : MonoBehaviour
     {
         num.format = gmPop.num.ToString("N0");
 
-        if(gmPop.def.consume != null)
+        if(gmPop.is_consume)
         {
             consume.transform.Find("value").GetComponent<LocalText>().format = gmPop.consume.ToString();
         }

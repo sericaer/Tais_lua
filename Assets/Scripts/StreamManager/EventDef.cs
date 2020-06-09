@@ -53,13 +53,28 @@ namespace TaisEngine
             }
         }
 
+        public class EventPopDef : BaseDef<EventPopDef.Interface>
+        {
+            [CSharpCallLua]
+            public interface Interface : EventDef.Interface
+            {
+
+            }
+
+            public EventPopDef(LuaTable luaTable, string mod) : base(luaTable, mod, "POP")
+            {
+            }
+        }
+
         internal EventGlobalDef globalEvent;
         internal EventDepartDef departEvent;
+        internal EventPopDef popEvent;
 
         internal EventDef(string mod, LuaTable luaTable) 
         {
             globalEvent = new EventGlobalDef(luaTable, mod);
             departEvent = new EventDepartDef(luaTable, mod);
+            popEvent = new EventPopDef(luaTable, mod);
         }
 
         internal static IEnumerable<EventDef.Interface> Generate()
@@ -87,12 +102,32 @@ namespace TaisEngine
                         {
                             yield return gevent;
                         }
+
+                        ToLua.curr_depart = null;
+                    }
+                }
+            }
+
+
+
+            foreach (var eventDef in EventPopDef.all)
+            {
+                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_rate != null))
+                {
+                    foreach (var pop in GMData.inst.pops)
+                    {
+                        ToLua.curr_pop = pop;
+
+                        if (Tools.GRandom.isOccur(gevent.occur_rate() * 100))
+                        {
+                            yield return gevent;
+                        }
+
+                        ToLua.curr_pop = null;
                     }
 
                 }
             }
-
-            ToLua.curr_depart = null;
         }
 
         internal static Interface find(string next_event)

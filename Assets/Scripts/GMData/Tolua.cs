@@ -12,7 +12,7 @@ namespace TaisEngine
     {
         public static GMData inst = GMData.inst;
         public static Depart curr_depart;
-
+        public static Pop curr_pop;
         //    public GMDate date
         //    {
         //        get

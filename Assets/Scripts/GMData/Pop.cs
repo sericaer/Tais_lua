@@ -50,6 +50,14 @@ namespace TaisEngine
             }
         }
 
+        public bool is_consume
+        {
+            get
+            {
+                return def.consume != null;
+            }
+        }
+
         public double? consume
         {
             get
@@ -67,14 +75,14 @@ namespace TaisEngine
         {
             get
             {
-                if (def.consume == null)
+                if (!is_consume)
                 {
                     return null;
                 }
 
                 List<(string name, double value)> rslt = new List<(string name, double value)>();
                 rslt.Add(("BASE_VALUE", def.consume.Value));
-                rslt.AddRange(depart.buffers.Where(x => x.def.consume_effect != null).Select(x => (x.name, x.def.consume_effect() * def.consume.Value)));
+                rslt.AddRange(depart.buffers.Where(x => x.exist && x.def.consume_effect != null).Select(x => (x.name, x.def.consume_effect() * def.consume.Value)));
 
                 return rslt;
             }

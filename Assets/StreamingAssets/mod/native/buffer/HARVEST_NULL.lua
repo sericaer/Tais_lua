@@ -1,4 +1,4 @@
-BUFFER_DEF.DEPART.QIANSHOU = 
+BUFFER_DEF.DEPART.HARVEST_NULL = 
 {
     consume_effect =function ()
         return -0.7
