@@ -5,10 +5,10 @@ EVENT_DEF.POP.EVENT_POP_PINKUN =
             return 0
         end
         
-        if gm_pop().buffers:find('PINKUN').exist == true then
+        if gm_pop().buffers:is_valid('PINKUN') then
             return 0
         end
-        
+
         if gm_pop().consume >= 80 then
             return 0
         end
@@ -30,7 +30,7 @@ EVENT_DEF.POP.EVENT_POP_PINKUN =
         OPTION_1 = 
         {
             selected = function()
-                gm_pop().buffers:find('PINKUN').exist = true
+                gm_pop().buffers:set_valid('PINKUN')
             end
         }
     }

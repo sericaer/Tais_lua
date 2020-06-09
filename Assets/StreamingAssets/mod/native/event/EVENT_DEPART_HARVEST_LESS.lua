@@ -5,7 +5,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HARVEST_LESS =
         OPTION_1 = 
         {
             selected = function ()
-                gm_depart().buffers:find('HARVEST_LESS').exist = true
+                gm_depart().buffers:set_valid('HARVEST_LESS')
             end,
         }
     }

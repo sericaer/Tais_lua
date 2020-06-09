@@ -4,7 +4,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_START =
         if gm_depart().crop_grow_percent < 40 then
             return 0
         end
-        if gm_depart().buffers:find('HUANGZAI').exist then
+        if gm_depart().buffers:is_valid('HUANGZAI') then
             return 0
         end
         return 0.005
@@ -19,7 +19,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_START =
             end,
 
             selected = function ()
-                gm_depart().buffers:find('HUANGZAI').exist = true
+                gm_depart().buffers:set_valid('HUANGZAI')
             end
         }
     }

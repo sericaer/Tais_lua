@@ -18,6 +18,8 @@ namespace TaisEngine
         public interface Interface
         {
             string name { get; }
+            string group { get; }
+
             Func<double> tax_effect { get; }
             Func<double> crop_growing_effect { get; }
             Func<double> consume_effect { get; }

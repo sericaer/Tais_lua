@@ -55,7 +55,7 @@ EVENT_DEF =
     DEPART = {},
     GLOBAL = {},
     POP = {},
-    
+
     init_func = function(self)
         for key,value in pairs(self) do
             if key == 'DEPART' or key == 'GLOBAL' or key == 'POP' then
@@ -104,6 +104,9 @@ BUFFER_DEF =
                 for key_e, value_e in pairs(value) do
                     if type(value_e) == 'table' then
                         value_e.name = key_e
+                        if(value_e['group'] == nil) then
+                            value_e.group = ''
+                        end
                     end
                 end
             end

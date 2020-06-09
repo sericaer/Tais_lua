@@ -1,7 +1,7 @@
 EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_STOP = 
 {
     occur_rate = function ()
-        if gm_depart().buffers:find('HUANGZAI').exist == false then
+        if gm_depart().buffers:is_valid('HUANGZAI') == false then
             return 0
         end
 
@@ -21,7 +21,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_STOP =
         OPTION_1 = 
         {
             selected = function ()
-                gm_depart().buffers:find('HUANGZAI').exist = false
+                gm_depart().buffers:set_valid('HUANGZAI')
             end
         }
     }

@@ -26,7 +26,7 @@ EVENT_DEF.GLOBAL.EVENT_COLLECT_TAX_START =
 
                 for key,pop in pairs(gm_data().pops) do
                     if(pop.def.is_tax == true) then
-                        pop.buffers:find("TAXED_LEVEL1").exist = true;
+                        pop.buffers:set_valid("TAXED_LEVEL1")
                     end
                 end
             end

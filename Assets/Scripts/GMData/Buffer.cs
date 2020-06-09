@@ -13,7 +13,7 @@ namespace TaisEngine
     {
         public string name;
 
-        public bool exist { get; set; }
+        public bool valid { get; set; }
 
         public BufferDef.Interface def
         {
