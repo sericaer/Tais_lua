@@ -41,6 +41,11 @@ namespace TaisEngine
             return family;
         }
 
+        public Family()
+        {
+
+        }
+
         private Family(string name, string background)
         {
             GMData.inst.families.Add(this);

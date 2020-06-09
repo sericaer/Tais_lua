@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TaisEngine
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class EXPECT_TAX_ROOT
     {
-        internal List<(EXPECT_TAX taxed, int days)> histroy = new List<(EXPECT_TAX taxed, int days)>();
-        internal EXPECT_TAX current;
+        [JsonProperty]
+        internal List<(EXPECT_BRANCH taxed, int days)> histroy = new List<(EXPECT_BRANCH taxed, int days)>();
+
+        [JsonProperty]
+        internal EXPECT_BRANCH current;
 
         public double expect(double rate)
         {
@@ -38,7 +43,7 @@ namespace TaisEngine
             current = null;
         }
 
-        internal static EXPECT_TAX getExpectRoot(double rate)
+        internal static EXPECT_BRANCH getExpectRoot(double rate)
         {
             var expect = new EXPECT_BRANCH("POP_TAX", null);
 
@@ -63,6 +68,7 @@ namespace TaisEngine
         }
     }
 
+    [JsonObject(MemberSerialization.OptIn)]
     abstract class EXPECT_TAX
     {
 
@@ -73,7 +79,9 @@ namespace TaisEngine
             return buffs.Select(x => (x.name, x.value, x.value * basevalue));
         }
 
+        [JsonProperty]
         internal string name;
+
         internal double value { get => basevalue * buffEffect; }
         internal double buffEffect
         {
@@ -101,6 +109,11 @@ namespace TaisEngine
             }
         }
 
+        public EXPECT_TAX()
+        {
+
+        }
+
         internal EXPECT_TAX(string name, Func<List<(string name, double value)>> getBuffs)
         {
             this.name = name;
@@ -121,8 +134,14 @@ namespace TaisEngine
         internal List<(string name, double value)> _buffs;
     }
 
+    [JsonObject(MemberSerialization.OptIn)]
     class EXPECT_LEAF : EXPECT_TAX
     {
+        public EXPECT_LEAF()
+        {
+
+        }
+
         internal EXPECT_LEAF(string name, double baseValue, Func<List<(string name, double value)>> getBuffs) : base(name, getBuffs)
         {
             _basevalue = baseValue;
@@ -130,6 +149,7 @@ namespace TaisEngine
 
         protected override double basevalue { get => _basevalue; }
 
+        [JsonProperty]
         private double _basevalue;
 
         internal override IEnumerable<(string name, double value)> GetTaxInfo()
@@ -138,8 +158,15 @@ namespace TaisEngine
         }
     }
 
+    [JsonObject(MemberSerialization.OptIn)]
     class EXPECT_BRANCH : EXPECT_TAX
     {
+        public EXPECT_BRANCH()
+        {
+
+        }
+
+        [JsonProperty]
         internal List<EXPECT_TAX> children = new List<EXPECT_TAX>();
 
         internal EXPECT_BRANCH(string name, Func<List<(string name, double value)>> getBuffs) : base(name, getBuffs)

@@ -59,5 +59,10 @@ namespace TaisEngine
                                        .OrderBy(a => Guid.NewGuid())
                                        .First(x => family.persons.All(y => y.givenName != x));
         }
+
+        public Person()
+        {
+
+        }
     }
 }
