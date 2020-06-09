@@ -28,7 +28,7 @@ EVENT_DEF.DEPART.EVENT_CROP_HARVEST =
                 if gm_depart().crop_grow_percent >= 95 then
                     return 'EVENT_DEPART_HARVEST_BETTER'
                 end
-                return ''
+                return 'EVENT_DEPART_HARVEST_NORMAL'
             end
         }
     }
