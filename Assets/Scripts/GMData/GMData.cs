@@ -72,7 +72,12 @@ namespace TaisEngine
 
         public double tax_collect_expect(double rate = double.Epsilon)
         {
-            if(rate.Equals(double.Epsilon) || rate.Equals(tax_rate))
+            if(rate.Equals(double.Epsilon))
+            {
+                return tax_current.value;
+            }
+
+            if (rate.Equals(tax_rate) && tax_current != null)
             {
                 return tax_current.value;
             }
@@ -83,7 +88,7 @@ namespace TaisEngine
         public void tax_collect_start(double rate)
         {
             tax_rate = rate;
-            tax_current = new TAX_INFO();
+            tax_current = new TAX_INFO(rate);
         }
 
         public double tax_collect_finish()

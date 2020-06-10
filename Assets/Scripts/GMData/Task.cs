@@ -47,7 +47,7 @@ namespace TaisEngine
             {
                 task.curr_percent += task.curr_speed;
 
-                if (task.curr_percent.Equals(100))
+                if (task.curr_percent >= 100)
                 {
                     var eventName = task.def.finish_event();
                     if(eventName != "")

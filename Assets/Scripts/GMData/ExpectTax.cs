@@ -50,11 +50,16 @@ namespace TaisEngine
             var rslt = new List<(string name, double value)>();
             if (curr.name.StartsWith("BUFFER:"))
             {
-                rslt.Add((name, value));
+                rslt.Add((curr.name, curr.value));
                 return rslt;
             }
 
-            foreach(var elem in list)
+            if(curr.list == null)
+            {
+                return rslt;
+            }
+
+            foreach(var elem in curr.list)
             {
                 rslt.AddRange(GetBufferInfo(elem));
             }
@@ -69,13 +74,13 @@ namespace TaisEngine
         private List<(string name, double value)> GetTaxInfo(TAX_INFO curr)
         {
             var rslt = new List<(string name, double value)>();
-            if (curr.list == null)
+            if (curr.list.Any(x=>x.name == "base_value"))
             {
-                rslt.Add((name, value));
+                rslt.Add((curr.name, curr.value));
                 return rslt;
             }
 
-            foreach (var elem in list)
+            foreach (var elem in curr.list)
             {
                 rslt.AddRange(GetTaxInfo(elem));
             }

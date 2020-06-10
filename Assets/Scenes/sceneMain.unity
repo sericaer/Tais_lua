@@ -4303,6 +4303,8 @@ MonoBehaviour:
     type: 3}
   reportCollectTax: {fileID: 3185733581725049646, guid: 8995a4854feaaee43a33dcb203ba29a6,
     type: 3}
+  dialogException: {fileID: 5131388836325640242, guid: 5ffc102e8d875e14da0e7353136cef47,
+    type: 3}
   msgPanel: {fileID: 285238178}
 --- !u!1 &844314660
 GameObject:

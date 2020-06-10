@@ -27,6 +27,10 @@ public class Timer : MonoBehaviour
             {
                 _currSpeed = MinSpeed;
             }
+            else
+            {
+                _currSpeed = value;
+            }
         }
     }
 
@@ -51,15 +55,29 @@ public class Timer : MonoBehaviour
         {
             try
             {
+                Debug.Log("a");
+
                 while (!GMData.inst.quit)
                 {
-                    await UniTask.WaitUntil(() => !isPaused);
+                    Debug.Log("b");
+
+                    Debug.Log(isPaused);
+
+                    //await UniTask.WaitUntil(() => !isPaused);
+
+                    Debug.Log("c");
                     await GMData.inst.DaysInc(CreateDialog);
+
+                    Debug.Log("d");
                     await UniTask.Delay(1000/ currSpeed);
+
+                    Debug.Log("e");
                 }
             }
             catch(Exception e)
             {
+                await UniTask.SwitchToMainThread();
+                GetComponentInParent<sceneMain>().CreatErrorDialog(e.Message);
                 Debug.Log(e);
             }
         });

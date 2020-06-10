@@ -2,11 +2,14 @@
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class sceneMain : MonoBehaviour
 {
     public GameObject dialogCommon;
     public GameObject reportCollectTax;
+    public GameObject dialogException;
+
     public MsgPanel msgPanel;
 
     //public FamilyTop familyTop;
@@ -29,6 +32,12 @@ public class sceneMain : MonoBehaviour
         //{
         //    SceneManager.LoadScene("sceneEnd");
         //}
+    }
+
+    internal void CreatErrorDialog(string error)
+    {
+        var panelDialog = Instantiate(dialogException, this.transform) as GameObject;
+        panelDialog.GetComponentInChildren<Text>().text = error;
     }
 
     internal async UniTask CreateEventDialogAsync(EventDef.Interface eventobj)
