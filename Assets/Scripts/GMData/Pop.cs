@@ -30,7 +30,7 @@ namespace TaisEngine
         public string family_name;
 
         [JsonProperty]
-        internal List<(int days, HISTROY_RECORD histroy)> histroy_rec = new List<(int days, HISTROY_RECORD histroy)>();
+        internal List<(int days, HISTROY_RECORD histroy)> histroy_rec;
 
         internal string key
         {

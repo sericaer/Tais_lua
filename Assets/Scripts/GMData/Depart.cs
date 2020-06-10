@@ -97,7 +97,7 @@ namespace TaisEngine
 
             foreach (var elem in def.pop_init)
             {
-                new Pop(PopDef.Find(elem.name), this.name, elem.value);
+                new Pop(PopDef.Find(elem.Key), this.name, elem.Value);
             }
 
             foreach (var elem in BufferDef.BufferDepartDef.Enumerate())
