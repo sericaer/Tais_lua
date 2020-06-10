@@ -13,6 +13,7 @@ namespace TaisEngine
         public interface Interface
         {
             string name { get; }
+            int sort { get; }
             bool is_tax { get; }
             bool is_family { get; }
 

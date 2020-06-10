@@ -35,7 +35,7 @@ public class Depart : MonoBehaviour
     {
         name.format = gmDepart.def.name;
 
-        foreach (var pop in gmDepart.pops)
+        foreach (var pop in gmDepart.pops.OrderBy(x=>x.def.sort))
         {
             var gameObject = Instantiate(popPrefabs, popContent.transform);
 

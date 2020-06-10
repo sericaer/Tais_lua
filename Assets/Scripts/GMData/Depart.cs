@@ -95,9 +95,10 @@ namespace TaisEngine
             this.name = def.name;
             this.buffers = new List<Buffer>();
 
-            foreach (var elem in def.pop_init)
+            foreach (var elem in PopDef.Enumerate())
             {
-                new Pop(PopDef.Find(elem.Key), this.name, elem.Value);
+                double num = def.pop_init.ContainsKey(elem.name) ? def.pop_init[elem.name] : 0;
+                new Pop(elem, this.name, num);
             }
 
             foreach (var elem in BufferDef.BufferDepartDef.Enumerate())
