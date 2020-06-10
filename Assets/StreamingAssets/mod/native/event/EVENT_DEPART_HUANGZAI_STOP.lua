@@ -21,7 +21,7 @@ EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_STOP =
         OPTION_1 = 
         {
             selected = function ()
-                gm_depart().buffers:set_valid('HUANGZAI')
+                gm_depart().buffers:set_invalid('HUANGZAI')
             end
         }
     }

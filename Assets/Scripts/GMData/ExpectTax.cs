@@ -8,6 +8,7 @@ namespace TaisEngine
     [JsonObject(MemberSerialization.OptIn)]
     public class TAX_INFO
     {
+        [JsonProperty]
         internal string name;
         internal double value
         {
@@ -22,7 +23,10 @@ namespace TaisEngine
             }
         }
 
+        [JsonProperty]
         internal List<TAX_INFO> list;
+
+        [JsonProperty]
         internal double _value;
 
         internal TAX_INFO()
