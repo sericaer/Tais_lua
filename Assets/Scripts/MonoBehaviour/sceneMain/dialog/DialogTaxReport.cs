@@ -24,16 +24,15 @@ public class DialogTaxReport : Dialog
     {
         listBufferInfo.Clear();
 
-        var buffInfo = GMData.inst.tax_expect.current.GetBufferInfo();
+        var buffInfo = GMData.inst.tax_current.GetBufferInfo();
         listBufferInfo.AddRange(buffInfo.Select(x => new BUFFER_INFO() { name = TaisEngine.Mod.GetLocalString(x.name), 
-                                                                         percent = x.value.ToString("P1"),
-                                                                         value = x.effect.ToString("N1")}));
+                                                                         value = x.value.ToString("N1")}));
 
         if(listBufferInfo.Count() == 0)
         {
-            listBufferInfo.Add(new BUFFER_INFO() { name = "--", percent = "--", value = "--" });
+            listBufferInfo.Add(new BUFFER_INFO() { name = "--", value = "--" });
         }
-        listTaxInfo = GMData.inst.tax_expect.current.GetTaxInfo().ToList();
+        listTaxInfo = GMData.inst.tax_current.GetTaxInfo();
 
         pieChartExt.funcGetData = () =>
         {
@@ -53,6 +52,5 @@ public class DialogTaxReport : Dialog
 public class BUFFER_INFO
 {
     public string name;
-    public string percent;
     public string value;
 }

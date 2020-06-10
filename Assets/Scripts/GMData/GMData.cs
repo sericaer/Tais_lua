@@ -46,8 +46,17 @@ namespace TaisEngine
         [JsonProperty]
         public List<Family> families = new List<Family>();
 
+        //[JsonProperty]
+        //public EXPECT_TAX_ROOT tax_expect = new EXPECT_TAX_ROOT();
+
         [JsonProperty]
-        public EXPECT_TAX_ROOT tax_expect = new EXPECT_TAX_ROOT();
+        internal TAX_INFO tax_current;
+
+        [JsonProperty]
+        internal List<(int days, TAX_INFO tax_info)> tax_histroy = new List<(int days, TAX_INFO tax_info)>();
+
+        [JsonProperty]
+        internal double tax_rate;
 
         public GMDate date = new GMDate();
 
@@ -59,6 +68,31 @@ namespace TaisEngine
         internal static void New(InitData initData)
         {
             inst = new GMData(initData);
+        }
+
+        public double tax_collect_expect(double rate = double.Epsilon)
+        {
+            if(rate.Equals(double.Epsilon) || rate.Equals(tax_rate))
+            {
+                return tax_current.value;
+            }
+
+            return new TAX_INFO(rate).value;
+        }
+
+        public void tax_collect_start(double rate)
+        {
+            tax_rate = rate;
+            tax_current = new TAX_INFO();
+        }
+
+        public double tax_collect_finish()
+        {
+            var rslt = tax_current.value;
+            tax_histroy.Add((days, tax_current));
+
+            tax_current = null;
+            return rslt;
         }
 
         //internal static IEnumerable<GEvent> GenerateEvent()
@@ -110,6 +144,11 @@ namespace TaisEngine
 
         internal async UniTask DaysInc(Func<EventDef.Interface, UniTask> act)
         {
+            if(date.day == 1)
+            {
+                RecordHistroy();
+            }
+
             foreach (var gevent in EventDef.Generate())
             {
                 await act(gevent);
@@ -124,11 +163,24 @@ namespace TaisEngine
             {
                 await act(gevent);
             }
+            
+            if(tax_current != null)
+            {
+                tax_current.Update(tax_rate);
+            }
 
             //Debug.Log("DaysInc_3");
             _days++;
 
             //Debug.Log(listTask[0].def.is_start());
+        }
+
+        private void RecordHistroy()
+        {
+            foreach(var pop in pops)
+            {
+                pop.histroy_rec.Add((days, new Pop.HISTROY_RECORD() { num = (int)pop.num }));
+            }
         }
 
         internal Depart FindDepartByColor(string color)

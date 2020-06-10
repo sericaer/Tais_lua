@@ -29,6 +29,9 @@ namespace TaisEngine
         [JsonProperty]
         public string family_name;
 
+        [JsonProperty]
+        internal List<(int days, HISTROY_RECORD histroy)> histroy_rec;
+
         internal string key
         {
             get
@@ -131,6 +134,11 @@ namespace TaisEngine
         internal Pop()
         {
 
+        }
+
+        internal class HISTROY_RECORD
+        {
+            internal int num;
         }
         //internal double getExpectTax(int level)
         //{
