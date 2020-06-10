@@ -4,8 +4,8 @@ DEPART_DEF.JIXIAN =
     
     pop_init = 
     { 
-        HAOQIANG = 1000, 
-        MINHU = 20000,
-        YINHU = 10000
+        {'HAOQIANG', 2000},
+        {'MINHU', 20000},
+        {'YINHU', 10000}
     }
 }

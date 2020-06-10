@@ -13,7 +13,14 @@ namespace TaisEngine
         {
             string name { get; }
             List<double> color { get; }
-            Dictionary<string, double> pop_init { get; }
+            List<PopInit> pop_init { get; }
+        }
+
+        [CSharpCallLua]
+        public interface PopInit
+        {
+            string name { get; }
+            double value { get; }
         }
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();

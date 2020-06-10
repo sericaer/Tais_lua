@@ -80,6 +80,8 @@ namespace Tutorial
 
             DClass d = luaenv.Global.Get<DClass>("d");//映射到有对应字段的class，by value
             Debug.Log("_G.d = {f1=" + d.f1 + ", f2=" + d.f2 + "}");
+            
+            var temp = luaenv.Global.Get<LuaTable>("d").GetKeys();//映射到Dictionary<string, double>，by value
 
             Dictionary<string, double> d1 = luaenv.Global.Get<Dictionary<string, double>>("d");//映射到Dictionary<string, double>，by value
             Debug.Log("_G.d = {f1=" + d1["f1"] + ", f2=" + d1["f2"] + "}, d.Count=" + d1.Count);
