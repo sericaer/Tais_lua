@@ -20,16 +20,7 @@ namespace TaisEngine
 
         bool is_first { get; }
 
-        SelectOptionDef OPTION_1 { get; }
-        SelectOptionDef OPTION_2 { get; }
-        SelectOptionDef OPTION_3 { get; }
-        SelectOptionDef OPTION_4 { get; }
-        SelectOptionDef OPTION_5 { get; }
-        SelectOptionDef OPTION_6 { get; }
-        SelectOptionDef OPTION_7 { get; }
-        SelectOptionDef OPTION_8 { get; }
-        SelectOptionDef OPTION_9 { get; }
-        SelectOptionDef OPTION_10 { get; }
+        Dictionary<string, SelectOptionDef> options { get; }
     }
 
     [CSharpCallLua]

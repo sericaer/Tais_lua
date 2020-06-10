@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI.Extensions;
+using System;
 
 public class SelectPanel : MonoBehaviour
 {
@@ -17,39 +18,26 @@ public class SelectPanel : MonoBehaviour
     {
         textDesc.format = initSelectDef.desc();
 
-        TaisEngine.SelectOptionDef[] options = { initSelectDef.OPTION_1,
-                                              initSelectDef.OPTION_2,
-                                              initSelectDef.OPTION_3,
-                                              initSelectDef.OPTION_4,
-                                              initSelectDef.OPTION_5,
-                                              initSelectDef.OPTION_6,
-                                              initSelectDef.OPTION_7,
-                                              initSelectDef.OPTION_8,
-                                              initSelectDef.OPTION_9,
-                                              initSelectDef.OPTION_10,
-                                            };
-
-        for (int i = 0; i < options.Count(); i++)
+        foreach (var elem in initSelectDef.options)
         {
-            var opt = options[i];
-            if(opt == null)
+            var index = int.Parse(elem.Key.Replace("OPTION_", ""));
+            if (index > btns.Count())
             {
-                break;
+                throw new Exception($"{elem.Key} not match select button");
             }
 
-            var btn = btns[i];
-
+            var btn = btns[index];
             btn.gameObject.SetActive(true);
 
-            btn.GetComponentInChildren<LocalText>().format = opt.desc();
+            btn.GetComponentInChildren<LocalText>().format = elem.Value.desc();
 
             btn.onClick.AddListener(() =>
             {
-                opt.selected();
+                elem.Value.selected();
 
                 Destroy(this.gameObject);
 
-                var next = opt.next_select();
+                var next = elem.Value.next_select();
                 if (next != "")
                 {
                     //GetComponentInParent<sceneInit>().CreateSelectPanel(next);

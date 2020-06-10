@@ -14,8 +14,8 @@ INIT_SELECT =
                             return key.."_"..keyO.."_DESC"
                         end
                     end
-                    if(valueO['next_event'] == nil) then
-                        valueO.next_event = function (self)
+                    if(valueO['next_select'] == nil) then
+                        valueO.next_select = function (self)
                             return ''
                         end
                     end
