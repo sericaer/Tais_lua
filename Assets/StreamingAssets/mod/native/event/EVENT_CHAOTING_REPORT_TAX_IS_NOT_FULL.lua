@@ -1,4 +1,4 @@
-EVENT_DEF.GLOBAL.EVENT_CHAOTING_TAX_IS_NOT_FULL = 
+EVENT_DEF.GLOBAL.EVENT_CHAOTING_REPORT_TAX_IS_NOT_FULL = 
 {
     occur_rate = function ()
         if gm_data().date.month == 12 and gm_data().date.day == 30 then
@@ -15,6 +15,7 @@ EVENT_DEF.GLOBAL.EVENT_CHAOTING_TAX_IS_NOT_FULL =
         {
             selected = function ()
                 gm_data().chaoting.prestige = gm_data().chaoting.prestige - 5
+                gm_data().power_party.prestige = gm_data().power_party.prestige - 2
             end
         }
     }

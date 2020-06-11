@@ -33,6 +33,9 @@ namespace TaisEngine
         [JsonProperty]
         public Taishou taishou;
 
+        [JsonProperty]
+        public Chaoting chaoting;
+
         //internal Economy economy = new Economy();
         [JsonProperty]
         public List<Depart> departs = new List<Depart>();
@@ -45,6 +48,9 @@ namespace TaisEngine
 
         [JsonProperty]
         public List<Family> families = new List<Family>();
+
+        [JsonProperty]
+        public List<Party> parties = new List<Party>();
 
         //[JsonProperty]
         //public EXPECT_TAX_ROOT tax_expect = new EXPECT_TAX_ROOT();
@@ -98,6 +104,11 @@ namespace TaisEngine
 
             tax_current = null;
             return rslt;
+        }
+
+        public double tax_report(int pop_num)
+        {
+            return pop_num * 0.0007;
         }
 
         //internal static IEnumerable<GEvent> GenerateEvent()

@@ -15,6 +15,9 @@ namespace TaisEngine
         [JsonProperty]
         public int age;
 
+        [JsonProperty]
+        public double prestige;
+
         public BackgroundDef.Interface background
         {
             get

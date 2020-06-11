@@ -48,6 +48,11 @@ namespace TaisEngine
             return list.SingleOrDefault(x => x.name == name);
         }
 
+        public static Party find(this List<Party> list, string name)
+        {
+            return list.SingleOrDefault(x => x._background == name);
+        }
+
         public static void set_valid(this List<Buffer> list, string name)
         {
             var buffer = list.Single(x => x.name == name);
