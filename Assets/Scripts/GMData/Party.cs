@@ -8,9 +8,9 @@ namespace TaisEngine
     [JsonObject(MemberSerialization.OptIn)]
     public class Party
     {
-        public Party()
+        public Party(string background)
         {
-
+            _background = background;
         }
 
         public BackgroundDef.Interface background

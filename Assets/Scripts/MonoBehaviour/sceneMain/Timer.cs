@@ -3,6 +3,7 @@ using System.Collections;
 using TaisEngine;
 using UniRx.Async;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
@@ -47,7 +48,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        _currSpeed = 10;
+        _currSpeed = 100;
 #else
         _currSpeed = MinSpeed;
 #endif
@@ -55,24 +56,16 @@ public class Timer : MonoBehaviour
         {
             try
             {
-                Debug.Log("a");
-
-                while (!GMData.inst.quit)
+                while (!GMData.inst.end_flag)
                 {
-                    Debug.Log("b");
-
-                    Debug.Log(isPaused);
-
                     //await UniTask.WaitUntil(() => !isPaused);
 
-                    Debug.Log("c");
                     await GMData.inst.DaysInc(CreateDialog);
 
-                    Debug.Log("d");
                     await UniTask.Delay(1000/ currSpeed);
-
-                    Debug.Log("e");
                 }
+
+                SceneManager.LoadSceneAsync("sceneEnd");
             }
             catch(Exception e)
             {

@@ -50,7 +50,7 @@ public class sceneMain : MonoBehaviour
             opt.selected();
 
             var next = opt.next_event();
-            if (next != "")
+            if (next != "" && next != null)
             {
                 await CreateEventDialogAsync(EventDef.find(next));
             }

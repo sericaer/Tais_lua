@@ -24,6 +24,14 @@ namespace TaisEngine
             }
         }
 
+        public int tax_pop_num
+        {
+            get
+            {
+                return pops.Where(x => x.def.is_tax).Sum(x => (int)x.num);
+            }
+        }
+
         [JsonProperty]
         internal int _days;
 
@@ -64,12 +72,13 @@ namespace TaisEngine
         [JsonProperty]
         internal double tax_rate;
 
+
         public GMDate date = new GMDate();
 
         [JsonProperty]
         internal List<string> record = new List<string>();
 
-        internal bool quit;
+        public bool end_flag;
 
         internal static void New(InitData initData)
         {
@@ -163,6 +172,12 @@ namespace TaisEngine
             if(date.day == 1)
             {
                 RecordHistroy();
+
+                if(date.month == 1)
+                {
+                    chaoting.year_expect_tax_list.Clear();
+                    chaoting.year_report_tax_list.Clear();
+                }
             }
 
             foreach (var gevent in EventDef.Generate())
@@ -242,6 +257,10 @@ namespace TaisEngine
 
             taishou = new Taishou(InitData.taishou.name, InitData.taishou.age, InitData.taishou.background);
 
+            foreach(var background in BackgroundDef.Enumerate())
+            {
+                parties.Add(new Party(background.name));
+            }
             //economy.value = 100;
 
             foreach (var elem in DepartDef.Enumerate())
@@ -254,6 +273,10 @@ namespace TaisEngine
             {
                 tasks.Add(new Task(elem));
             }
+
+            chaoting = new Chaoting(BackgroundDef.Enumerate().OrderBy(x => Guid.NewGuid()).First().name, 
+                pops.Where(x=>x.def.is_tax).Sum(y=>(int)y.num),
+                100);
         }
 
     }

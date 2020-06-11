@@ -57,7 +57,7 @@ public class DialogCommon : Dialog
 
                 string next_event = opt.next_event();
 
-                if(next_event != "")
+                if(next_event != "" && next_event != null)
                 {
                     await GetComponentInParent<Timer>().CreateDialog(EventDef.find(next_event));
                 }

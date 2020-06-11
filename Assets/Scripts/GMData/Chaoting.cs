@@ -10,12 +10,15 @@ namespace TaisEngine
     [JsonObject(MemberSerialization.OptIn)]
     public class Chaoting
     {
-        public Chaoting()
+        public Chaoting(string power_party, int reg_pop_num, double prestige)
         {
-        }
+            power_party_background = power_party;
+            _year_report_pop = reg_pop_num;
+            pre_report_pop = reg_pop_num;
 
-        [JsonProperty]
-        public int reg_pop_num;
+            this.prestige = prestige;
+
+        }
 
         [JsonProperty]
         public int pre_report_pop;
@@ -65,7 +68,7 @@ namespace TaisEngine
             set
             {
                 year_report_tax_list.Add((GMData.inst.days, value));
-                year_expect_tax_list.Add((GMData.inst.days, GMData.inst.tax_report(reg_pop_num)));
+                year_expect_tax_list.Add((GMData.inst.days, GMData.inst.tax_report(year_report_pop)));
             }
         }
 

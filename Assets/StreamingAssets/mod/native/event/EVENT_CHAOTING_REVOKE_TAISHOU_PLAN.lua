@@ -9,6 +9,7 @@ EVENT_DEF.GLOBAL.EVENT_CHAOTING_REVOKE_TAISHOU_PLAN =
             if gm_data().chaoting.year_report_pop <  gm_data().chaoting.pre_report_pop then
                 rate = rate + 0.3
             end
+            return rate
         end
         return 0
     end,
@@ -21,7 +22,7 @@ EVENT_DEF.GLOBAL.EVENT_CHAOTING_REVOKE_TAISHOU_PLAN =
             end,
 
             next_event = function ()
-                if gm_data().chaoting.power_pary.background == gm_data().taishou.background then
+                if gm_data().chaoting.power_party.background == gm_data().taishou.background then
                     return 'EVENT_CHAOTING_POWER_PARTY_DISAGREE_REVOKE'
                 else
                     return 'EVENT_CHAOTING_REVOKE_TAISHOU_PUBLISH'

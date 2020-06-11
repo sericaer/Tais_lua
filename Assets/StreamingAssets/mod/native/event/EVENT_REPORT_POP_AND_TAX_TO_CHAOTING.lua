@@ -5,15 +5,15 @@ EVENT_DEF.GLOBAL.EVENT_REPORT_POP_AND_TAX_TO_CHAOTING =
         OPTION_1 = 
         {
             desc = function (self)
-                return self.report_pop_num()
+                return gm_data():tax_report(self.report_pop_num())..'|'..self.report_pop_num()
             end,
 
             report_pop_num = function ()
-                return gm_data().chaoting.reg_pop_num * 0.008
+                return gm_data().chaoting.year_report_pop * 0.8
             end,
 
             selected = function (self)
-                local report_tax = gm_data():report_tax(self.report_pop_num())
+                local report_tax = gm_data():tax_report(self.report_pop_num())
                 gm_data().economy = gm_data().economy - report_tax
                 gm_data().chaoting.report_tax = report_tax
                 gm_data().chaoting.year_report_pop = self.report_pop_num()
@@ -23,15 +23,15 @@ EVENT_DEF.GLOBAL.EVENT_REPORT_POP_AND_TAX_TO_CHAOTING =
         OPTION_2 = 
         {
             desc = function (self)
-                return self.report_pop_num()
+                return gm_data():tax_report(self.report_pop_num())..'|'..self.report_pop_num()
             end,
 
             report_pop_num = function ()
-                return gm_data().chaoting.reg_pop_num
+                return gm_data().chaoting.year_report_pop
             end,
 
             selected = function (self)
-                local report_tax = gm_data():report_tax(self.report_pop_num())
+                local report_tax = gm_data():tax_report(self.report_pop_num())
                 gm_data().economy = gm_data().economy - report_tax
                 gm_data().chaoting.report_tax = report_tax
                 gm_data().chaoting.year_report_pop = self.report_pop_num()
@@ -41,15 +41,15 @@ EVENT_DEF.GLOBAL.EVENT_REPORT_POP_AND_TAX_TO_CHAOTING =
         OPTION_3 = 
         {
             report_pop_num = function ()
-                return gm_data().chaoting.reg_pop_num * 1.2
+                return gm_data().chaoting.year_report_pop * 1.2
             end,
 
             desc = function (self)
-                return self.report_pop_num()
+                return gm_data():tax_report(self.report_pop_num())..'|'..self.report_pop_num()
             end,
 
             selected = function (self)
-                local report_tax = gm_data():report_tax(self.report_pop_num())
+                local report_tax = gm_data():tax_report(self.report_pop_num())
                 gm_data().economy = gm_data().economy - report_tax
                 gm_data().chaoting.report_tax = report_tax
                 gm_data().chaoting.year_report_pop = self.report_pop_num()
@@ -63,11 +63,11 @@ EVENT_DEF.GLOBAL.EVENT_REPORT_POP_AND_TAX_TO_CHAOTING =
             end,
 
             desc = function (self)
-                return self.report_pop_num()
+                return gm_data():tax_report(self.report_pop_num())..'|'..self.report_pop_num()
             end,
 
             selected = function (self)
-                local report_tax = gm_data():report_tax(self.report_pop_num())
+                local report_tax = gm_data():tax_report(self.report_pop_num())
                 gm_data().economy = gm_data().economy - report_tax
                 gm_data().chaoting.report_tax = report_tax
                 gm_data().chaoting.year_report_pop = self.report_pop_num()

@@ -111,7 +111,7 @@ EVENT_DEF =
                             end
                             if(valueO['next_event'] == nil) then
                                 valueO.next_event = function (self)
-                                    return ''
+                                    return nil
                                 end
                             end
                         end
@@ -170,5 +170,5 @@ gm_pop = function()
 end
 
 gm_is_occur = function(value)
-    return CS.Tools.isOccur(value * 100)
+    return CS.Tools.GRandom.isOccur(value * 100)
 end
