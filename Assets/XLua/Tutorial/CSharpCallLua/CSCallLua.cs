@@ -28,6 +28,7 @@ namespace Tutorial
            1, 2, 3,
            add = function(self, a, b) 
               print('d.add called')
+              a += b
               return a + b 
            end,
 

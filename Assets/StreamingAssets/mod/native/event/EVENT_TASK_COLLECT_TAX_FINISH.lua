@@ -10,7 +10,11 @@ EVENT_DEF.GLOBAL.EVENT_TASK_COLLECT_TAX_FINISH =
 
             selected = function ()
                 gm_data().economy = gm_data().economy  + gm_data():tax_collect_finish()
-            end
+            end,
+
+            next_event = function ()
+                return 'EVENT_REPORT_POP_AND_TAX_TO_CHAOTING'
+            end 
         }
     }
 }
