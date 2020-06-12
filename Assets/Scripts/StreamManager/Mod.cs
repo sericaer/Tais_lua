@@ -100,7 +100,7 @@ namespace TaisEngine
 
         internal Mod(string modPath)
         {
-            path = modPath;
+            path = Path.GetFullPath(modPath);
 
             Debug.Log($"****************Read mod info {path} *************");
 
@@ -136,7 +136,7 @@ namespace TaisEngine
 require 'xlua.inner_def'";
 
             var luaDirs = new List<string>() {
-                                                "INIT_SELECTED",
+                                                "INIT_SELECT",
                                                 "POP",
                                                 "BACKGROUND",
                                                 "DEPART",
@@ -164,18 +164,49 @@ require 'xlua.inner_def'";
                                    .Replace(Path.DirectorySeparatorChar, '.')
                                    .ToUpper();
 
-                var rawLines = File.ReadLines(luapath);
-                rawLines.Select(x =>
+                var rawLines = File.ReadLines(luapath).ToList();
+
+                string convertText = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={";
+
+                int isInFunc = 0;
+                for (int i=0; i< rawLines.Count(); i++ )
                 {
-                    if (x.Trim().EndsWith(","))
-                        return x;
-                    if (x.Contains("end"))
-                        return x+",";
+                    string curr = rawLines[i].Trim();
+                    if(curr == "")
+                    {
+                        convertText += curr + "\n";
+                        continue;
+                    }
 
-                });
-                var luaScript = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={" + .Replace("end", "end,").Replace("}", "},") + "\n}";
+                    if (curr.Contains("function"))
+                    {
+                        convertText += curr + "\n";
+                        isInFunc++;
+                        continue;
+                    }
+                    else if (curr.EndsWith("end"))
+                    {
+                        convertText += curr + "," + "\n";
+                        isInFunc--;
+                        continue;
+                    }
 
-                luaenv.DoString(luaScript);
+                    if (curr.EndsWith(",")
+                        || curr.EndsWith("{")
+                        || curr.EndsWith("=")
+                        || isInFunc != 0)
+                    {
+                        convertText += curr + "\n";
+                        continue;
+                    }
+
+                    convertText += curr + "," + "\n";
+                }
+
+                convertText += "\n}";
+
+
+                luaenv.DoString(convertText, luapath);
             }
 
             luaenv.DoString(endRequire);
