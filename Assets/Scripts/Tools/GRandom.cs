@@ -15,7 +15,7 @@ namespace Tools
             }
 
             System.Random ra = new System.Random(GetRandomSeed());
-            int result = ra.Next(1, days);
+            int result = ra.Next(1, days+1);
             if (result == days)
             {
                 return true;

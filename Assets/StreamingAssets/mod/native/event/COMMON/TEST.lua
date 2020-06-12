@@ -1,5 +1,5 @@
 trigger = function()
-    return  gm_data().date.day % 3 == 0
+    return  false
 end
 
 occur_days = function ()

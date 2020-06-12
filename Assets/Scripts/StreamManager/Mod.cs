@@ -141,8 +141,10 @@ require 'xlua.inner_def'";
                                                 "BACKGROUND",
                                                 "DEPART",
                                                 "EVENT/COMMON",
+                                                "EVENT/DEPART",
+                                                "EVENT/POP",
                                                 "TASK",
-                                                "BUFFER"
+                                                "BUFFER/DEPART"
                                               };
 
             var luaFilePaths = luaDirs.Select(x => $"{path}/{x}/")
@@ -169,10 +171,19 @@ require 'xlua.inner_def'";
                 string convertText = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={";
 
                 int isInFunc = 0;
+                int isInIF = 0;
                 for (int i=0; i< rawLines.Count(); i++ )
                 {
                     string curr = rawLines[i].Trim();
                     if(curr == "")
+                    {
+                        convertText += curr + "\n";
+                        continue;
+                    }
+
+                    if (curr.EndsWith(",")
+                        || curr.EndsWith("{")
+                        || curr.EndsWith("="))
                     {
                         convertText += curr + "\n";
                         continue;
@@ -184,17 +195,30 @@ require 'xlua.inner_def'";
                         isInFunc++;
                         continue;
                     }
-                    else if (curr.EndsWith("end"))
+
+                    if (curr.Contains("if"))
                     {
+                        convertText += curr + "\n";
+                        isInIF++;
+                        continue;
+                    }
+
+                    if (curr.Contains("end"))
+                    {
+                        if(isInIF != 0)
+                        {
+                            convertText += curr + "\n";
+                            isInIF--;
+                            continue;
+                        }
+
                         convertText += curr + "," + "\n";
                         isInFunc--;
                         continue;
                     }
 
-                    if (curr.EndsWith(",")
-                        || curr.EndsWith("{")
-                        || curr.EndsWith("=")
-                        || isInFunc != 0)
+
+                    if(isInFunc != 0)
                     {
                         convertText += curr + "\n";
                         continue;
@@ -205,12 +229,10 @@ require 'xlua.inner_def'";
 
                 convertText += "\n}";
 
-
                 luaenv.DoString(convertText, luapath);
             }
 
             luaenv.DoString(endRequire);
-
             return luaenv;
         }
 
