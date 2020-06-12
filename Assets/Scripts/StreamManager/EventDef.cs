@@ -28,7 +28,7 @@ namespace TaisEngine
             string next_event();
         }
 
-        public class EventGlobalDef : BaseDef<EventGlobalDef.Interface>
+        public class EventCommonDef : BaseDef<EventCommonDef.Interface>
         {
             [CSharpCallLua]
             public interface Interface : EventDef.Interface
@@ -36,7 +36,7 @@ namespace TaisEngine
 
             }
 
-            public EventGlobalDef(LuaTable luaTable, string mod) : base(luaTable, mod, "GLOBAL")
+            public EventCommonDef(LuaTable luaTable, string mod) : base(luaTable, mod, "COMMON")
             {
             }
         }
@@ -67,20 +67,20 @@ namespace TaisEngine
             }
         }
 
-        internal EventGlobalDef globalEvent;
+        internal EventCommonDef globalEvent;
         internal EventDepartDef departEvent;
         internal EventPopDef popEvent;
 
         internal EventDef(string mod, LuaTable luaTable) 
         {
-            globalEvent = new EventGlobalDef(luaTable, mod);
+            globalEvent = new EventCommonDef(luaTable, mod);
             departEvent = new EventDepartDef(luaTable, mod);
             popEvent = new EventPopDef(luaTable, mod);
         }
 
         internal static IEnumerable<EventDef.Interface> Generate()
         {
-            foreach (var eventDef in EventGlobalDef.all)
+            foreach (var eventDef in EventCommonDef.all)
             {
                 foreach (var gevent in eventDef.dict.Values)
                 {
@@ -155,7 +155,7 @@ namespace TaisEngine
 
         internal static Interface find(string next_event)
         {
-            Interface gevent = EventGlobalDef.FindOrDefault(next_event);
+            Interface gevent = EventCommonDef.FindOrDefault(next_event);
             if (gevent != null)
             {
                 return gevent;

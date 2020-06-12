@@ -118,32 +118,7 @@ namespace TaisEngine
                 loadLocalText(Directory.EnumerateDirectories($"{path}/lang/"));
             }
 
-            var allLuaFiles = new List<string>() {
-                                                    "require 'xlua.class_func'",
-                                                    "require 'xlua.inner_def'"
-                                                  };
-
-            var luaDirs = new List<string>() {
-                                                $"{path}/init_select/",
-                                                $"{path}/pop/",
-                                                $"{path}/background/",
-                                                $"{path}/depart/",
-                                                $"{path}/event/",
-                                                $"{path}/task/",
-                                                $"{path}/buffer/"
-                                              };
-
-            var initSelectLuas = luaDirs.Where(x=> Directory.Exists(x))
-                                          .SelectMany(x=>Directory.EnumerateFiles(x, "*.lua"))
-                                          .Select(y => y.Replace($"{Application.streamingAssetsPath}/", "").Replace(".lua", "").Replace('/', '.'))
-                                          .ToArray();
-
-            allLuaFiles.AddRange(initSelectLuas.Select(x => string.Format($"require '{x}'")));
-            allLuaFiles.Add("require 'xlua.inner_def_init'");
-
-            var luaenv = new LuaEnv();
-
-            luaenv.DoString(string.Join("\n", allLuaFiles));
+            var luaenv = DoLuas();
 
             content.Load(info.name, luaenv);
 
@@ -153,6 +128,59 @@ namespace TaisEngine
             //LoadDepart(luaenv);
             //LoadEvent(luaenv);
             //LoadTask(luaenv);
+        }
+
+        private LuaEnv DoLuas()
+        {
+            var startRequire = @"require 'xlua.class_func'
+require 'xlua.inner_def'";
+
+            var luaDirs = new List<string>() {
+                                                "INIT_SELECTED",
+                                                "POP",
+                                                "BACKGROUND",
+                                                "DEPART",
+                                                "EVENT/COMMON",
+                                                "TASK",
+                                                "BUFFER"
+                                              };
+
+            var luaFilePaths = luaDirs.Select(x => $"{path}/{x}/")
+                                        .Where(x => Directory.Exists(x))
+                                        .SelectMany(x => Directory.EnumerateFiles(x, "*.lua"))
+                                        .ToList();
+
+            var endRequire = "require 'xlua.inner_def_init'";
+
+            var luaenv = new LuaEnv();
+
+            luaenv.DoString(startRequire);
+
+            foreach (var luapath in luaFilePaths)
+            {
+                var luaTableName = Path.GetDirectoryName(luapath)
+                                   .Replace(path, "")
+                                   .Trim(Path.DirectorySeparatorChar)
+                                   .Replace(Path.DirectorySeparatorChar, '.')
+                                   .ToUpper();
+
+                var rawLines = File.ReadLines(luapath);
+                rawLines.Select(x =>
+                {
+                    if (x.Trim().EndsWith(","))
+                        return x;
+                    if (x.Contains("end"))
+                        return x+",";
+
+                });
+                var luaScript = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={" + .Replace("end", "end,").Replace("}", "},") + "\n}";
+
+                luaenv.DoString(luaScript);
+            }
+
+            luaenv.DoString(endRequire);
+
+            return luaenv;
         }
 
         public class Info
@@ -188,9 +216,9 @@ namespace TaisEngine
                 popDef = new PopDef(mod, luaenv.Global);
                 departDef = new DepartDef(mod, luaenv.Global);
                 backgroundDef = new BackgroundDef(mod,luaenv.Global);
-                eventDef = new EventDef(mod, luaenv.Global.Get<LuaTable>("EVENT_DEF"));
+                eventDef = new EventDef(mod, luaenv.Global.Get<LuaTable>("EVENT"));
                 taskDef = new TaskDef(mod, luaenv.Global);
-                bufferDef = new BufferDef(mod, luaenv.Global.Get<LuaTable>("BUFFER_DEF"));
+                bufferDef = new BufferDef(mod, luaenv.Global.Get<LuaTable>("BUFFER"));
             }
         }
 

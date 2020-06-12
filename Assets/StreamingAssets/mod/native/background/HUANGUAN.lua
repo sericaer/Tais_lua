@@ -1,8 +1,5 @@
-BACKGROUND_DEF.HUANGUAN = 
+relation = 
 {
-    relation = 
-    {
-        SHIZU = -10,
-        HUANGUAN = 30,
-    }
+    SHIZU = -10,
+    HUANGUAN = 30,
 }

@@ -61,7 +61,9 @@ public static class ExampleGenConfig
                 typeof(Dictionary<string, int>),
                 typeof(UnityEngine.Events.UnityAction),
                 typeof(System.Collections.IEnumerator),
-                typeof(Func<double>)
+                typeof(Func<double>),
+                typeof(Func<int>),
+                typeof(Func<bool>)
             };
 
     //黑名单

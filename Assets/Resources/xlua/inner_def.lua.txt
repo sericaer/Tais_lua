@@ -25,7 +25,7 @@ INIT_SELECT =
     end
 }
 
-BACKGROUND_DEF = {
+BACKGROUND = {
     init_func = function(self)
          for key,value in pairs(self) do
             if type(value) == 'table' then
@@ -35,7 +35,7 @@ BACKGROUND_DEF = {
     end
 }
 
-POP_DEF = {
+POP = {
     init_func = function(self)
         for key,value in pairs(self) do
             if type(value) == 'table' then
@@ -68,7 +68,7 @@ POP_DEF = {
     end
 }
 
-DEPART_DEF = {
+DEPART = {
     init_table = function (self)
         for key,value in pairs(self) do
             if type(value) == "table" then
@@ -78,15 +78,15 @@ DEPART_DEF = {
     end
 }
 
-EVENT_DEF = 
+EVENT = 
 {
     DEPART = {},
-    GLOBAL = {},
+    COMMON = {},
     POP = {},
 
     init_func = function(self)
         for key,value in pairs(self) do
-            if key == 'DEPART' or key == 'GLOBAL' or key == 'POP' then
+            if key == 'DEPART' or key == 'COMMON' or key == 'POP' then
                 for key_e, value_e in pairs(value) do
                     if type(value_e) == 'table' then
                         value_e.name = key_e
@@ -122,7 +122,7 @@ EVENT_DEF =
     end
 }
 
-BUFFER_DEF = 
+BUFFER = 
 {
     DEPART = {},
     POP = {},
@@ -148,7 +148,7 @@ BUFFER_DEF =
     end
 }
 
-TASK_DEF = 
+TASK = 
 {
     init_func = function(self)
         for key,value in pairs(self) do

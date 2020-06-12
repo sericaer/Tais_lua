@@ -22,7 +22,7 @@ namespace TaisEngine
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();
 
-        public PopDef(string mod, LuaTable luaTable) : base(luaTable, mod, "POP_DEF")
+        public PopDef(string mod, LuaTable luaTable) : base(luaTable, mod, "POP")
         {
             //LuaTable luaTable = luaenv.Global.Get<LuaTable>("POP_DEF");
             //if (luaTable == null)

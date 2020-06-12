@@ -18,7 +18,7 @@ namespace TaisEngine
 
         //public Dictionary<string, Interface> dict = new Dictionary<string, Interface>();
 
-        public DepartDef(string mod, LuaTable luaTable) : base(luaTable, mod, "DEPART_DEF")
+        public DepartDef(string mod, LuaTable luaTable) : base(luaTable, mod, "DEPART")
         {
 
         }

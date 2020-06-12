@@ -1,4 +1,0 @@
-BUFFER_DEF.DEPART.HARVEST_NORMAL = 
-{
-    group = 'DEPART_HARVEST',
-}

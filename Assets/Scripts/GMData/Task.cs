@@ -52,7 +52,7 @@ namespace TaisEngine
                     var eventName = task.def.finish_event();
                     if(eventName != "")
                     {
-                        yield return EventDef.EventGlobalDef.Find(eventName);
+                        yield return EventDef.EventCommonDef.Find(eventName);
                     }
                     
                     task._isStart = false;
