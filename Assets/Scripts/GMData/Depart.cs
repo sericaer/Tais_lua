@@ -95,16 +95,18 @@ namespace TaisEngine
             this.name = def.name;
             this.buffers = new List<Buffer>();
 
+            GMData.inst.allBuffers.Add(this.buffers);
+
             foreach (var elem in PopDef.Enumerate())
             {
                 double num = def.pop_init.ContainsKey(elem.name) ? def.pop_init[elem.name] : 0;
                 new Pop(elem, this.name, num);
             }
 
-            foreach (var elem in BufferDef.BufferDepartDef.Enumerate())
-            {
-                buffers.Add(new Buffer(elem));
-            }
+            //foreach (var elem in BufferDef.BufferDepartDef.Enumerate())
+            //{
+            //    buffers.Add(new Buffer(elem));
+            //}
 
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
         }

@@ -72,11 +72,12 @@ namespace TaisEngine
         [JsonProperty]
         internal double tax_rate;
 
-
         public GMDate date = new GMDate();
 
         [JsonProperty]
         internal List<string> record = new List<string>();
+
+        internal List<List<Buffer>> allBuffers = new List<List<Buffer>>();
 
         public bool end_flag;
 
@@ -194,8 +195,13 @@ namespace TaisEngine
             {
                 await act(gevent);
             }
-            
-            if(tax_current != null)
+
+            foreach(var buffers in allBuffers)
+            {
+                buffers.RemoveAll(x => x.end_days_expect == GMData.inst.days);
+            }
+
+            if (tax_current != null)
             {
                 tax_current.Update(tax_rate);
             }

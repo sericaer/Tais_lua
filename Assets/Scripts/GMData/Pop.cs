@@ -116,10 +116,10 @@ namespace TaisEngine
             this.num = num;
             this.family_name = "";
 
-            foreach (var elem in BufferDef.BufferPopDef.Enumerate())
-            {
-                buffers.Add(new Buffer(elem));
-            }
+            //foreach (var elem in BufferDef.BufferPopDef.Enumerate())
+            //{
+            //    buffers.Add(new Buffer(elem));
+            //}
 
             if(def.is_family)
             {
@@ -130,6 +130,7 @@ namespace TaisEngine
             //this.def.mod.AddBuffersPyObj(this.def, buffers);
 
             GMData.inst.pops.Add(this);
+            GMData.inst.allBuffers.Add(this.buffers);
         }
 
         internal Pop()

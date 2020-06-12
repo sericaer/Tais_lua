@@ -152,7 +152,7 @@ public class Pop : MonoBehaviour
 
     private void UpdateBuffers()
     {
-        var needDestroys = listBufferPanels.Where(x => !x.gmBuffer.valid).ToArray();
+        var needDestroys = listBufferPanels.Where(x => gmPop.buffers.All(y=>y!= x.gmBuffer)).ToArray();
         foreach (var elem in needDestroys)
         {
             Destroy(elem.gameObject);
@@ -160,7 +160,7 @@ public class Pop : MonoBehaviour
             listBufferPanels.Remove(elem);
         }
 
-        var needCreate = gmPop.buffers.Where(x => x.valid && listBufferPanels.All(y => y.gmBuffer != x)).ToArray();
+        var needCreate = gmPop.buffers.Where(x => listBufferPanels.All(y => y.gmBuffer != x)).ToArray();
         foreach (var elem in needCreate)
         {
             var taskObj = Instantiate(buffPrefabs, buffContent.transform);

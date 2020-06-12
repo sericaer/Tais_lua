@@ -9,11 +9,11 @@ using XLua;
 namespace TaisEngine
 {
     [LuaCallCSharp]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Buffer
     {
+        [JsonProperty]
         public string name;
-
-        public bool valid { get; set; }
 
         public BufferDef.Interface def
         {
@@ -23,10 +23,26 @@ namespace TaisEngine
             }
         }
 
-        
+        [JsonProperty]
+        internal int start_days;
+
+        internal int end_days_expect
+        {
+            get
+            {
+                if(def.duration <= 0)
+                {
+                    return 0;
+                }
+
+                return start_days + def.duration;
+            }
+        }
+
         internal Buffer(BufferDef.Interface def)
         {
             this.name = def.name;
+            this.start_days = GMData.inst.days;
         }
 
         internal Buffer()

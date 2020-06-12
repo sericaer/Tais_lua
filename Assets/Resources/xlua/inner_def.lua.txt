@@ -135,6 +135,12 @@ BUFFER_DEF =
                         if(value_e['group'] == nil) then
                             value_e.group = ''
                         end
+                        if(value_e['duration'] == nil) then
+                            value_e.duration = 0
+                        end
+                        if(value_e['multiple'] == nil) then
+                            value_e.multiple = false
+                        end
                     end
                 end
             end

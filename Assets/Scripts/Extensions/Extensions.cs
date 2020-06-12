@@ -11,17 +11,17 @@ namespace TaisEngine
     {
         public static IEnumerable<(string name, double value)> exist_tax_effects(this List<Buffer> list)
         {
-            return list.Where(y => y.valid && y.def.tax_effect != null).Select(y => (y.name, y.def.tax_effect()));
+            return list.Where(y => y.def.tax_effect != null).Select(y => (y.name, y.def.tax_effect()));
         }
 
         public static IEnumerable<(string name, double value)> exist_crop_growing_effects(this List<Buffer> list)
         {
-            return list.Where(y => y.valid && y.def.crop_growing_effect != null).Select(y => (y.name, y.def.crop_growing_effect()));
+            return list.Where(y => y.def.crop_growing_effect != null).Select(y => (y.name, y.def.crop_growing_effect()));
         }
 
         public static IEnumerable<(string name, double value)> exist_consume_effects(this List<Buffer> list)
         {
-            return list.Where(y => y.valid && y.def.consume_effect != null).Select(y => (y.name, y.def.consume_effect()));
+            return list.Where(y => y.def.consume_effect != null).Select(y => (y.name, y.def.consume_effect()));
         }
     }
 
@@ -55,29 +55,28 @@ namespace TaisEngine
 
         public static void set_valid(this List<Buffer> list, string name)
         {
-            var buffer = list.Single(x => x.name == name);
-            if(buffer.def.group != "")
+            var buffer = list.SingleOrDefault(x => x.name == name);
+            if(buffer != null && !buffer.def.multiple)
             {
-                var groups = list.FindAll(x => x.def.group == buffer.def.group);
-                foreach (var member in groups)
-                {
-                    member.valid = false;
-                }
+                return;
             }
 
-            buffer.valid = true;
+            var def = BufferDef.Find(name);
+            list.RemoveAll(x => x.def.group == def.group);
+
+            var new_buff = new Buffer(def);
+            list.Add(new_buff);
         }
 
         public static void set_invalid(this List<Buffer> list, string name)
         {
-            var buffer = list.Single(x => x.name == name);
-            buffer.valid = false;
+            list.RemoveAll(x => x.name == name);
         }
 
         public static bool is_valid(this List<Buffer> list, string name)
         {
-            var buffer = list.Single(x => x.name == name);
-            return buffer.valid;
+            var buffer = list.Find(x => x.name == name);
+            return buffer != null;
         }
     }
 }

@@ -19,6 +19,8 @@ namespace TaisEngine
         {
             string name { get; }
             string group { get; }
+            int duration { get; }
+            bool multiple { get; }
 
             Func<double> tax_effect { get; }
             Func<double> crop_growing_effect { get; }
