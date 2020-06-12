@@ -15,7 +15,7 @@ EVENT_DEF.GLOBAL.EVENT_CHAOTING_REPORT_TAX_IS_NOT_FULL =
         {
             selected = function ()
                 gm_data().chaoting.prestige = gm_data().chaoting.prestige - 5
-                gm_data().chaoting.power_party.prestige = gm_data().chaoting.power_party.prestige - 2
+                gm_data().chaoting.power_party.prestige = gm_data().chaoting.power_party.prestige - 10
             end
         }
     }
