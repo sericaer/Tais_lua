@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using XLua;
 
 namespace TaisEngine
 {
+    [LuaCallCSharp]
     [JsonObject(MemberSerialization.OptIn)]
     public class Taishou
     {
@@ -17,6 +20,9 @@ namespace TaisEngine
 
         [JsonProperty]
         public double prestige;
+
+        [JsonProperty]
+        public List<Buffer> buffers;
 
         public BackgroundDef.Interface background
         {
@@ -31,6 +37,9 @@ namespace TaisEngine
             this.name = name;
             this.age = age;
             this._background = background;
+
+            this.buffers = new List<Buffer>();
+            GMData.inst.allBuffers.Add(this.buffers);
         }
 
         internal Taishou()

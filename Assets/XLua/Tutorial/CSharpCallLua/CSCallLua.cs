@@ -28,7 +28,6 @@ namespace Tutorial
            1, 2, 3,
            add = function(self, a, b) 
               print('d.add called')
-              a += b
               return a + b 
            end,
 
@@ -53,6 +52,13 @@ namespace Tutorial
         
         d.init_table(d)
     ";
+        string script2 = @"
+            mn = 
+            {
+                f1=199,
+                f2=299
+            }
+        ";
 
         public class DClass
         {
@@ -73,7 +79,7 @@ namespace Tutorial
         {
             luaenv = new LuaEnv();
             luaenv.DoString(script);
-
+            luaenv.DoString(script2);
             Debug.Log("_G.a = " + luaenv.Global.Get<int>("a"));
             Debug.Log("_G.b = " + luaenv.Global.Get<string>("b"));
             Debug.Log("_G.c = " + luaenv.Global.Get<bool>("c"));
@@ -111,6 +117,8 @@ namespace Tutorial
 
             LuaFunction d_e = luaenv.Global.Get<LuaFunction>("e");
             d_e.Call();
+
+            var mn = luaenv.Global.Get<ItfD>("mn");
 
         }
 
