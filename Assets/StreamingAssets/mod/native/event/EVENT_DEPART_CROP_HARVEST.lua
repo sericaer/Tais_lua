@@ -2,11 +2,8 @@ EVENT_DEF.DEPART.EVENT_CROP_HARVEST =
 {
     hide = false,
 
-    occur_rate = function ()
-        if gm_data().date.month == 8 and gm_data().date.day == 15 then
-            return 1
-        end
-        return 0
+    trigger = function()
+        return gm_data().date.month == 8 and gm_data().date.day == 15
     end,
 
 

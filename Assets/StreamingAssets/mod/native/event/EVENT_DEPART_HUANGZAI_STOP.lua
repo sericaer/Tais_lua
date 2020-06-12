@@ -1,19 +1,19 @@
 EVENT_DEF.DEPART.EVENT_DEPART_HUANGZAI_STOP = 
 {
-    occur_rate = function ()
-        if gm_depart().buffers:is_valid('HUANGZAI') == false then
-            return 0
-        end
+    trigger = function()
+        return gm_depart().buffers.is_valid('HUANGZAI') == true
+    end,
 
+    occur_days = function ()
         if gm_depart().crop_grow_percent < 20 then
-            return 0.1
+            return 7
         end
 
         if gm_depart().crop_grow_percent < 30 then
-            return 0.05
+            return 15
         end
 
-        return 0.01
+        return 30
     end,
 
     options = 

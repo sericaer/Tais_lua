@@ -1,12 +1,8 @@
 EVENT_DEF.GLOBAL.EVENT_COLLECT_TAX_START = 
 {
-    occur_rate = function ()
-        if gm_data().date.month == 9 and gm_data().date.day == 1 then
-            return 1
-        end
-        return 0
+    trigger = function()
+        return gm_data().date.month == 9 and gm_data().date.day == 1
     end,
-
 
     options = 
     {

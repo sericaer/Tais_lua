@@ -1,28 +1,21 @@
 EVENT_DEF.POP.EVENT_POP_PINKUN = 
 {
-    occur_rate = function ()
-        if gm_pop().is_consume == false then
-            return 0
-        end
-        
-        if gm_pop().buffers:is_valid('PINKUN') then
-            return 0
-        end
-
-        if gm_pop().consume >= 80 then
-            return 0
-        end
-
+    trigger = function()
+        return gm_pop().is_consume == false 
+                and gm_pop().buffers:is_valid('PINKUN') ~= true
+                and gm_pop().consume < 80
+    end,
+    
+    occur_days = function ()
         if gm_pop().consume >= 70 then
-            return 0.0001
+            return 5 * 360
         end
 
         if gm_pop().consume >= 60 then
-            return 0.005
+            return 2*360
         end
 
-        return 0.01
-
+        return 180
     end,
 
     options = 

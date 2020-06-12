@@ -7,6 +7,23 @@ namespace Tools
 {
     public class GRandom
     {
+        public static bool isOccurDays(int days)
+        {
+            if (days == 1)
+            {
+                return true;
+            }
+
+            System.Random ra = new System.Random(GetRandomSeed());
+            int result = ra.Next(1, days);
+            if (result == days)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool isOccur(double prob)
         {
             if (Math.Abs(prob) < Double.Epsilon)

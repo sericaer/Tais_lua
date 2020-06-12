@@ -1,12 +1,12 @@
-EVENT_DEF.GLOBAL.EVENT_CHAOTING_PIPING_TAISHOU_PLAN = 
+EVENT_DEF.GLOBAL.EVENT_CHAOTING_BIAOYANG_TAISHOU_PLAN = 
 {
     occur_rate = function ()
         if gm_data().date.month == 12 and gm_data().date.day == 20 then
             local rate = 0
-            if gm_data().chaoting.year_report_tax <  gm_data().chaoting.year_expect_tax then
+            if gm_data().chaoting.year_report_tax >  gm_data().chaoting.year_expect_tax then
                 rate = rate + 0.4
             end
-            if gm_data().chaoting.year_report_pop <  gm_data().chaoting.pre_report_pop then
+            if gm_data().chaoting.year_report_pop >  gm_data().chaoting.pre_report_pop then
                 rate = rate + 0.6
             end
             return rate
@@ -22,11 +22,11 @@ EVENT_DEF.GLOBAL.EVENT_CHAOTING_PIPING_TAISHOU_PLAN =
             end,
 
             next_event = function ()
-                if gm_data().chaoting.power_party.background == gm_data().taishou.background then
+                if gm_data().chaoting.power_party.background ~= gm_data().taishou.background then
                     if gm_is_occur(0.3) then
-                        return 'EVENT_CHAOTING_POWER_PARTY_DISAGREE_PIPING'
+                        return 'EVENT_CHAOTING_POWER_PARTY_DISAGREE_BIAOYANG'
                     end
-                    return 'EVENT_CHAOTING_PIPING_TAISHOU_PUBLISH'
+                    return 'EVENT_CHAOTING_BIAOYANG_TAISHOU_PUBLISH'
                 end
             end
         }

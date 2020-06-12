@@ -12,7 +12,8 @@ namespace TaisEngine
         public interface Interface
         {
             bool hide { get; }
-            Func<double> occur_rate { get; }
+            Func<bool> triggle { get; }
+            Func<int> occur_days { get; }
             string title();
             string desc();
 
@@ -81,24 +82,46 @@ namespace TaisEngine
         {
             foreach (var eventDef in EventGlobalDef.all)
             {
-                foreach (var gevent in eventDef.dict.Values.Where(x=>x.occur_rate != null))
+                foreach (var gevent in eventDef.dict.Values)
                 {
-                    if (Tools.GRandom.isOccur(gevent.occur_rate() * 100))
+                    if(gevent.triggle != null)
                     {
-                        yield return gevent;
+                        if(gevent.triggle())
+                        {
+                            int days = 1;
+                            if (gevent.occur_days != null)
+                            {
+                                days = gevent.occur_days();
+                            }
+
+                            if (Tools.GRandom.isOccur(days))
+                            {
+                                yield return gevent;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (gevent.occur_days != null)
+                        {
+                            if (Tools.GRandom.isOccur(gevent.occur_days()))
+                            {
+                                yield return gevent;
+                            }
+                        }
                     }
                 }
             }
 
             foreach (var eventDef in EventDepartDef.all)
             {
-                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_rate != null))
+                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_days != null))
                 {
                     foreach (var depart in GMData.inst.departs)
                     {
                         ToLua.curr_depart = depart;
 
-                        if (Tools.GRandom.isOccur(gevent.occur_rate() * 100))
+                        if (Tools.GRandom.isOccur(gevent.occur_days() * 100))
                         {
                             yield return gevent;
                         }
@@ -112,13 +135,13 @@ namespace TaisEngine
 
             foreach (var eventDef in EventPopDef.all)
             {
-                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_rate != null))
+                foreach (var gevent in eventDef.dict.Values.Where(x => x.occur_days != null))
                 {
                     foreach (var pop in GMData.inst.pops)
                     {
                         ToLua.curr_pop = pop;
 
-                        if (Tools.GRandom.isOccur(gevent.occur_rate() * 100))
+                        if (Tools.GRandom.isOccur(gevent.occur_days() * 100))
                         {
                             yield return gevent;
                         }

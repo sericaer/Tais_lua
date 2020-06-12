@@ -1,12 +1,12 @@
 EVENT_DEF.GLOBAL.EVENT_CHAOTING_REPORT_TAX_IS_NOT_FULL = 
 {
-    occur_rate = function ()
-        if gm_data().date.month == 12 and gm_data().date.day == 30 then
-            if gm_data().chaoting.year_report_tax < gm_data().chaoting.year_expect_tax then
-                return 0.1
-            end
-        end
-        return 0
+    trigger = function()
+        return  gm_data().date.month == 12 and gm_data().date.day == 30
+                    and  gm_data().chaoting.year_report_tax < gm_data().chaoting.year_expect_tax
+    end,
+
+    occur_days = function ()
+        return 10
     end,
 
     options = 
