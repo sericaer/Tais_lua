@@ -60,9 +60,14 @@ public class Timer : MonoBehaviour
                 {
                     //await UniTask.WaitUntil(() => !isPaused);
 
+                    Debug.Log("a");
+
                     await GMData.inst.DaysInc(CreateDialog);
 
+                    Debug.Log(1000 / currSpeed);
                     await UniTask.Delay(1000/ currSpeed);
+
+                    Debug.Log("b");
                 }
 
                 SceneManager.LoadSceneAsync("sceneEnd");

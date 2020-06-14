@@ -23,8 +23,17 @@ namespace TaisEngine
             }
         }
 
+        public int exist_days
+        {
+            get
+            {
+                return GMData.inst.days - start_days;
+            }
+        }
+
         [JsonProperty]
         internal int start_days;
+
 
         internal int end_days_expect
         {

@@ -58,38 +58,47 @@ namespace TaisEngine
 
         internal static string GetLocalString(string arg, params object[] objs)
         {
+            try
+            {
 #if UNITY_EDITOR_OSX
             return arg;
 #endif
-            var args = arg.Split('|');
+                var args = arg.Split('|');
 
-            string rslt = String.Join("", args.Select(x =>
-            {
-
-                string tRslt = x;
-
-                foreach (var mod in listMod.Where(y => y.content != null))
+                string rslt = String.Join("", args.Select(x =>
                 {
-                    if(!mod.content.dictlang.ContainsKey(Config.inst.lang))
-                    {
-                        continue;
-                    }
 
-                    if(mod.content.dictlang[Config.inst.lang].ContainsKey(x))
+                    string tRslt = x;
+
+                    foreach (var mod in listMod.Where(y => y.content != null))
                     {
-                        tRslt = mod.content.dictlang[Config.inst.lang][x];
-                        if (objs.Count() != 0)
+                        if (!mod.content.dictlang.ContainsKey(Config.inst.lang))
                         {
-                            tRslt = string.Format(tRslt, objs);
+                            continue;
                         }
-                        break;
+
+                        if (mod.content.dictlang[Config.inst.lang].ContainsKey(x))
+                        {
+                            tRslt = mod.content.dictlang[Config.inst.lang][x];
+                            if (objs.Count() != 0)
+                            {
+                                var test = objs.Select(y => y is string ? GetLocalString(y as string) : y).ToArray();
+                                tRslt = string.Format(tRslt, test);
+                            }
+                            break;
+                        }
                     }
-                }
 
-                return tRslt;
-            }));
+                    return tRslt;
+                }));
 
-            return rslt;
+                return rslt;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(arg, e);
+            }
+
         }
 
         internal string path;

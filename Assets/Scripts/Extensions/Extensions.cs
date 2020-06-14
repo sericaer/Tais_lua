@@ -78,5 +78,11 @@ namespace TaisEngine
             var buffer = list.Find(x => x.name == name);
             return buffer != null;
         }
+
+        public static int exist_days(this List<Buffer> list, string name)
+        {
+            var buffer = list.Find(x => x.name == name);
+            return buffer.exist_days;
+        }
     }
 }

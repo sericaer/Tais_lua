@@ -63,7 +63,7 @@ public static class ExampleGenConfig
                 typeof(System.Collections.IEnumerator),
                 typeof(Func<double>),
                 typeof(Func<int>),
-                typeof(Func<bool>)
+                typeof(Func<bool>),
             };
 
     //黑名单

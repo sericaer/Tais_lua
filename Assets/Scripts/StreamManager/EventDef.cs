@@ -14,8 +14,8 @@ namespace TaisEngine
             bool hide { get; }
             Func<bool> trigger { get; }
             Func<int> occur_days { get; }
-            string title();
-            string desc();
+            List<object> title();
+            List<object> desc();
 
             Dictionary<string, Option> options { get; }
         }
@@ -23,7 +23,8 @@ namespace TaisEngine
         [CSharpCallLua]
         public interface Option
         {
-            string desc();
+            List<string> desc();
+            List<List<object>> tooltip();
             void selected();
             string next_event();
         }
@@ -80,6 +81,8 @@ namespace TaisEngine
 
         internal static IEnumerable<EventDef.Interface> Generate()
         {
+            Debug.Log("0");
+
             foreach (var eventDef in EventCommonDef.all)
             {
                 foreach (var gevent in eventDef.dict.Values)
@@ -91,6 +94,7 @@ namespace TaisEngine
                 }
             }
 
+            Debug.Log("1");
             foreach (var eventDef in EventDepartDef.all)
             {
                 foreach (var gevent in eventDef.dict.Values)
@@ -110,7 +114,7 @@ namespace TaisEngine
             }
 
 
-
+            Debug.Log("2");
             foreach (var eventDef in EventPopDef.all)
             {
                 foreach (var gevent in eventDef.dict.Values)

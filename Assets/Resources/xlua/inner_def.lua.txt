@@ -95,23 +95,28 @@ EVENT =
                         end
                         if(value_e['title'] == nil) then
                             value_e.title = function (self)
-                                return self.name.."_TITLE"
+                                return {self.name.."_TITLE"}
                             end
                         end
                         if(value_e['desc'] == nil) then
                             value_e.desc = function (self)
-                                return self.name.."_DESC"
+                                return {self.name.."_DESC"}
                             end
                         end
                         for keyO,valueO in pairs(value_e['options']) do
                             if(valueO['desc'] == nil) then
                                 valueO.desc = function (self)
-                                    return value_e.name.."_"..keyO.."_DESC"
+                                    return { value_e.name.."_"..keyO.."_DESC" }
                                 end
                             end
                             if(valueO['next_event'] == nil) then
                                 valueO.next_event = function (self)
                                     return nil
+                                end
+                            end
+                            if(valueO['tooltip'] == nil) then
+                                valueO.tooltip = function (self)
+                                    return {}
                                 end
                             end
                         end

@@ -17,18 +17,22 @@ namespace ModelShark
             if(bodyText.text.StartsWith("%") && bodyText.text.EndsWith("%"))
             {
                 bodyText.gameObject.SetActive(false);
+                spliteText.gameObject.SetActive(false);
             }
             else
             {
                 bodyText.gameObject.SetActive(true);
+                spliteText.gameObject.SetActive(true);
             }
         }
 
         private void Start()
         {
             bodyText = transform.Find("BodyText").GetComponent<Text>();
+            spliteText = transform.Find("Splite").GetComponent<Text>();
         }
 
         private Text bodyText;
+        private Text spliteText;
     }
 }

@@ -106,7 +106,12 @@ namespace ModelShark
             if (popupTimer > popupTime && Tooltip != null && !Tooltip.StaysOpen) // Turn off the timer and hide the tooltip.
                 HidePopup();
         }
-        
+
+        private void OnDestroy()
+        {
+            HidePopup();
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             // Ignore this event if touch support is on.

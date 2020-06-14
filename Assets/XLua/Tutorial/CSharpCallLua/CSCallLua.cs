@@ -50,7 +50,13 @@ namespace Tutorial
             return e
         end
         
+        function rarry()
+            print('a', a, 'b', b)
+            return {'aa', 'bb', 'cc', 567}
+        end
+
         d.init_table(d)
+
     ";
         string script2 = @"
             mn = 
@@ -70,6 +76,9 @@ namespace Tutorial
 
         [CSharpCallLua]
         public delegate int FDelegate(int a, string b, out DClass c);
+
+        [CSharpCallLua]
+        public delegate List<object> r_array();
 
         [CSharpCallLua]
         public delegate Action GetE();
@@ -119,6 +128,11 @@ namespace Tutorial
             d_e.Call();
 
             var mn = luaenv.Global.Get<ItfD>("mn");
+
+            var func_rarry = luaenv.Global.Get<r_array>("rarry");
+            var rslt = func_rarry();
+
+            rslt.ForEach(x => Debug.Log(x));
 
         }
 
