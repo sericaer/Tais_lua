@@ -23,7 +23,7 @@ namespace TaisEngine
         [CSharpCallLua]
         public interface Option
         {
-            List<string> desc();
+            List<object> desc();
             List<List<object>> tooltip();
             void selected();
             string next_event();

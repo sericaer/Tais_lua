@@ -153,7 +153,8 @@ require 'xlua.inner_def'";
                                                 "EVENT/DEPART",
                                                 "EVENT/POP",
                                                 "TASK",
-                                                "BUFFER/DEPART"
+                                                "BUFFER/DEPART",
+                                                "BUFFER/POP"
                                               };
 
             var luaFilePaths = luaDirs.Select(x => $"{path}/{x}/")
@@ -205,7 +206,7 @@ require 'xlua.inner_def'";
                         continue;
                     }
 
-                    if (curr.Contains("if"))
+                    if (curr.Contains("if") || curr.Contains("for"))
                     {
                         convertText += curr + "\n";
                         isInIF++;
@@ -379,18 +380,15 @@ require 'xlua.inner_def'";
                             continue;
                         }
 
-                        var splits = line.Split(':');
-                        if (splits.Count() != 2)
-                        {
-                            throw new ArgumentException($"format error!, line:{line} in file:{filePath}");
-                        }
+                        var key = line.Substring(0, line.IndexOf(':'));
+                        var value = line.Substring(line.IndexOf(':')+1, line.Count()- line.IndexOf(':') - 1);
 
-                        if (dictText.ContainsKey(splits[0]))
+                        if (dictText.ContainsKey(key))
                         {
                             throw new ArgumentException($"already have the local string key, line:{line} in file:{filePath}");
                         }
 
-                        dictText.Add(splits[0], splits[1]);
+                        dictText.Add(key, value);
                     }
                 }
 

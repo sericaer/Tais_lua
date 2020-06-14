@@ -36,8 +36,8 @@ public class DialogCommon : Dialog
             btn.gameObject.SetActive(true);
             //btn.interactable = opt.isVaild();
 
-            List<string> optDescParams = opt.desc();
-            btn.GetComponentInChildren<Text>().text = Mod.GetLocalString(optDescParams[0], optDescParams.Skip(1).ToArray());
+            List<object> optDescParams = opt.desc();
+            btn.GetComponentInChildren<Text>().text = Mod.GetLocalString(optDescParams[0] as string, optDescParams.Skip(1).ToArray());
             btn.GetComponent<TooltipTrigger>().funcGetTooltipStr = () =>
             {
                 List<List<object>> toolTipParams = opt.tooltip();
