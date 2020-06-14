@@ -171,6 +171,12 @@ namespace ModelShark
             if(funcGetTooltipStr != null)
             {
                 var rslt = funcGetTooltipStr();
+
+                if(rslt.Item1 == "" && rslt.Item2 == "")
+                {
+                    return;
+                }
+
                 SetTextDetail(rslt.Item1, rslt.Item2);
             }
 

@@ -1,3 +1,3 @@
 crop_growing_effect = function ()
-    return 0.8
+    return -2
 end

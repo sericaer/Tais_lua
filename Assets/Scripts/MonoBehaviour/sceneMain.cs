@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TaisEngine;
 using UniRx.Async;
 using UnityEngine;
@@ -44,7 +45,7 @@ public class sceneMain : MonoBehaviour
     internal async UniTask CreateEventDialogAsync(EventDef.Interface eventobj)
     {
         List<object> eventTitleParams = eventobj.title();
-        msgPanel.AddMessage(eventTitleParams[0] as string);
+        msgPanel.AddMessage(Mod.GetLocalString(eventTitleParams[0] as string, eventTitleParams.Skip(1).ToArray()));
 
         if (eventobj.hide)
         {

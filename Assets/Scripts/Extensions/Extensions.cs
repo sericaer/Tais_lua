@@ -62,7 +62,11 @@ namespace TaisEngine
             }
 
             var def = BufferDef.Find(name);
-            list.RemoveAll(x => x.def.group == def.group);
+
+            if(def.group != "")
+            {
+                list.RemoveAll(x => x.def.group == def.group);
+            }
 
             var new_buff = new Buffer(def);
             list.Add(new_buff);
@@ -77,6 +81,11 @@ namespace TaisEngine
         {
             var buffer = list.Find(x => x.name == name);
             return buffer != null;
+        }
+
+        public static bool is_invalid(this List<Buffer> list, string name)
+        {
+            return !list.Any(x => x.name == name);
         }
 
         public static int exist_days(this List<Buffer> list, string name)

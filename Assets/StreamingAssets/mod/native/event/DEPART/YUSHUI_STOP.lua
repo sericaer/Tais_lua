@@ -1,10 +1,10 @@
 trigger = function()
     return  gm_depart().buffers:is_valid('YUSHUI') 
-             and gm_depart().buffers:exist_days('YUSHUI') > 15
+             and gm_depart().buffers:exist_days('YUSHUI') > 30
 end
 
 occur_days = function ()
-    return 20
+    return 60
 end
 
 title = function ()

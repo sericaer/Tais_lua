@@ -31,10 +31,11 @@ public class MsgPanel : MonoBehaviour
 
     internal void AddMessage(string title)
     {
-        GMData.inst.record.Add(title);
+        var item = GMData.inst.date + " " + title;
+        GMData.inst.record.Add(item);
 
         var gmObj = Instantiate(msgElemtPrefabs, this.transform) as GameObject;
-        gmObj.GetComponent<LocalText>().format = title;
+        gmObj.GetComponent<LocalText>().format = item;
         gmObj.transform.SetAsFirstSibling();
     }
 }

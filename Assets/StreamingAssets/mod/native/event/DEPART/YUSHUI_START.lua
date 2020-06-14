@@ -1,6 +1,6 @@
 trigger = function()
     return  gm_depart().is_crop_growing == true 
-                and gm_depart().buffers:is_valid('YUSHUI') == false
+                and gm_depart().buffers:is_invalid('YUSHUI')
 end
 
 occur_days = function ()
