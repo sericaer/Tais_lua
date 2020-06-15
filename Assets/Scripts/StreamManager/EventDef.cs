@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XLua;
+using Tools;
 
 namespace TaisEngine
 {
@@ -77,6 +78,8 @@ namespace TaisEngine
             globalEvent = new EventCommonDef(luaTable, mod);
             departEvent = new EventDepartDef(luaTable, mod);
             popEvent = new EventPopDef(luaTable, mod);
+
+            Log.INFO($"load event count:{globalEvent.dict.Count() + departEvent.dict.Count() + popEvent.dict.Count()}");
         }
 
         internal static IEnumerable<EventDef.Interface> Generate()

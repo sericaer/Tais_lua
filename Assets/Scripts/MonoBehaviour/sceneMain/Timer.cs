@@ -4,6 +4,7 @@ using TaisEngine;
 using Tools;
 using UniRx.Async;
 using UnityEngine;
+using UnityEngine.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -12,6 +13,14 @@ public class Timer : MonoBehaviour
 {
     public const int MaxSpeed = 4;
     public const int MinSpeed = 1;
+
+    // AfterAssembliesLoaded is called before BeforeSceneLoad
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+    public static void InitUniTaskLoop()
+    {
+        var loop = PlayerLoop.GetCurrentPlayerLoop();
+        PlayerLoopHelper.Initialize(ref loop);
+    }
 
     public static int currSpeed
     {
@@ -66,7 +75,7 @@ public class Timer : MonoBehaviour
                     await GMData.inst.DaysInc(CreateDialog);
 
                     Debug.Log(1000 / currSpeed);
-                    await UniTask.Delay(1000/ currSpeed);
+                    await UniTask.Delay(1000/currSpeed, true);
 
                     Debug.Log("b");
                 }

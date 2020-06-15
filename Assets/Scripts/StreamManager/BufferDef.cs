@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using Tools;
 using UnityEngine;
 using XLua;
 
@@ -72,6 +72,8 @@ namespace TaisEngine
         {
             bufferDepart = new BufferDepartDef(mod, luaTable);
             bufferPop = new BufferPopDef(mod, luaTable);
+
+            Log.INFO($"load buffer count:{bufferDepart.dict.Count() + bufferPop.dict.Count()}");
         }
 
         //public double init_speed
