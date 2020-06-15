@@ -1,6 +1,6 @@
 trigger = function()
-    return gm_pop().is_consume == false 
-            and gm_pop().buffers:is_valid('PINKUN') ~= true
+    return gm_pop().is_consume
+            and gm_pop().buffers:is_invalid('PINKUN')
             and gm_pop().consume < 80
 end
 

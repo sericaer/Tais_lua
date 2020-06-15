@@ -4,6 +4,7 @@ using System.IO;
 
 using Newtonsoft.Json;
 using UnityEngine;
+using Tools;
 
 namespace TaisEngine
 {
@@ -14,7 +15,13 @@ namespace TaisEngine
 
         public static void Load()
         {
-            inst = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
+            Log.INFO($"Read config:{configPath} ");
+
+            string configStr = File.ReadAllText(configPath);
+
+            Log.INFO($"{configStr}");
+
+            inst = JsonConvert.DeserializeObject<Config>(configStr);
         }
 
         public static void Save()

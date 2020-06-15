@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using TaisEngine;
 
+using Tools;
 
 public class sceneLoad : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class sceneLoad : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Application.logMessageReceivedThreaded += Log.exceptionLogCallback;
+
+        Log.INFO("!!!!!APPLICATION START!!!!!");
 
         Config.Load();
 
@@ -26,8 +30,8 @@ public class sceneLoad : MonoBehaviour
         }
         catch(Exception e) 
         {
-            Debug.Log(e.Message);
-            Debug.Log(e.InnerException.Message);
+            Log.ERRO(e.Message);
+            Log.ERRO(e.InnerException.Message);
 
             loadErrorPanel.SetActive(true);
 

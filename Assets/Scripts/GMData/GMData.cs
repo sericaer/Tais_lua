@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using UniRx.Async;
 using UnityEngine;
 using XLua;
+using Tools;
 
 namespace TaisEngine
 {
@@ -257,6 +258,8 @@ namespace TaisEngine
 
         private GMData(InitData InitData)
         {
+            Log.INFO("new game start");
+
             inst = this;
 
             _days = 1;

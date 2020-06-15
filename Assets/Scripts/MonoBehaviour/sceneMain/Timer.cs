@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using TaisEngine;
+using Tools;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -76,7 +77,7 @@ public class Timer : MonoBehaviour
             {
                 await UniTask.SwitchToMainThread();
                 GetComponentInParent<sceneMain>().CreatErrorDialog(e.Message);
-                Debug.Log(e);
+                Log.ERRO(e.Message);
             }
         });
     }

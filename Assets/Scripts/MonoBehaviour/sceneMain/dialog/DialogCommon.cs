@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using TaisEngine;
 using ModelShark;
+using Tools;
 
 public class DialogCommon : Dialog
 {
@@ -50,6 +51,9 @@ public class DialogCommon : Dialog
 
             btn.onClick.AddListener(async () =>
             {
+
+                Log.INFO($"EVENT:{eventTitleParams[0]}, SELECT:OPTION_{i}");
+
                 //opt.Do();
                 //var resumeRslt = opt.MakeResume();
                 //if(resumeRslt != null)

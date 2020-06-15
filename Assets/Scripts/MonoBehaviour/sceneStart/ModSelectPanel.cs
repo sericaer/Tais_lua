@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TaisEngine;
+using Tools;
 
 public class ModSelectPanel : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class ModSelectPanel : MonoBehaviour
     public void OnConfirm()
     {
         var selected = modToggleContent.GetComponentsInChildren<Toggle>().Where(x => x.isOn).Select(x => x.GetComponentInChildren<Text>().text).ToList();
-        Debug.Log($"select mod {string.Join(",", selected)}");
+        Log.INFO($"select mod {string.Join(",", selected)}");
 
         if (Enumerable.SequenceEqual(Config.inst.select_mods.OrderBy(t => t), selected.OrderBy(t => t)))
         {
