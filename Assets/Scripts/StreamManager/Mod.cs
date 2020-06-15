@@ -206,14 +206,14 @@ require 'xlua.inner_def'";
                         continue;
                     }
 
-                    if (curr.Contains("if") || curr.Contains("for"))
+                    if (curr.StartsWith("if") || curr.StartsWith("for"))
                     {
                         convertText += curr + "\n";
                         isInIF++;
                         continue;
                     }
 
-                    if (curr.Contains("end"))
+                    if (curr.EndsWith("end"))
                     {
                         if(isInIF != 0)
                         {
@@ -239,7 +239,15 @@ require 'xlua.inner_def'";
 
                 convertText += "\n}";
 
-                luaenv.DoString(convertText, luapath);
+                try
+                {
+                    luaenv.DoString(convertText, luapath);
+                }
+                catch(Exception e)
+                {
+                    Debug.Log("do lua faild!" + convertText);
+                    throw e;
+                }
             }
 
             luaenv.DoString(endRequire);

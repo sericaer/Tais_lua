@@ -15,7 +15,7 @@ options =
         end,
 
         next_event = function ()
-            return 'EVENT_REPORT_POP_AND_TAX_TO_CHAOTING'
+            return 'REPORT_CHAOTING_POP_AND_TAX'
         end 
     }
 }
