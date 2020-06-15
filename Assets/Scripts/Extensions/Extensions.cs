@@ -93,5 +93,10 @@ namespace TaisEngine
             var buffer = list.Find(x => x.name == name);
             return buffer.exist_days;
         }
+
+        public static Party first(this List<Party> list)
+        {
+            return list.OrderByDescending(x => x.prestige).First();
+        }
     }
 }

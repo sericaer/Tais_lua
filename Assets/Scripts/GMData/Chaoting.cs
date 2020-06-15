@@ -17,7 +17,6 @@ namespace TaisEngine
             pre_report_pop = reg_pop_num;
 
             this.prestige = prestige;
-
         }
 
         [JsonProperty]
@@ -31,6 +30,18 @@ namespace TaisEngine
             get
             {
                 return GMData.inst.parties.find(power_party_background);
+            }
+            set
+            {
+                power_party_background = value._background;
+            }
+        }
+
+        public List<Party> other_partys
+        {
+            get
+            {
+                return GMData.inst.parties.Where(x => x.background.name != power_party_background).ToList();
             }
         }
 

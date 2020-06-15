@@ -92,6 +92,11 @@ namespace ModelShark
 
         public void Deactivate()
         {
+            if(TooltipManager.Instance == null)
+            {
+                return;
+            }
+
             // Reset parameterized fields back to their original values.
             for (int i = 0; i < TextFields.Count; i++)
                 TextFields[i].Text.text = TextFields[i].Original;
