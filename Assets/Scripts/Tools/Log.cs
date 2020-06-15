@@ -42,6 +42,17 @@ namespace Tools
 #if UNITY_EDITOR
             UnityEngine.Debug.Log(v);
 #endif
+            if(File.Exists(path) && new FileInfo(path).Length > 10*1024*1024)
+            {
+                var bakfile = path + ".bak";
+                if(File.Exists(bakfile))
+                {
+                    File.Delete(bakfile);
+                }
+
+                File.Replace(path, bakfile, "");
+            }
+
             if (level <= Level.WARN)
             {
                 StackTrace st = new StackTrace(new StackFrame(true));
@@ -50,7 +61,7 @@ namespace Tools
                 v += "\n" + string.Join("\n", stackTrance);
             }
 
-            File.AppendAllText(path, $"{DateTime.Now.ToString("yyyyMMdd HH:mm:ss")} [{level}] " + v + "\n");
+            File.AppendAllText(path, $"{DateTime.Now.ToString("yyyyMMdd HH:mm:ss")} [{pid}] [{level}] " + v + "\n");
         }
 
         internal static void exceptionLogCallback (string condition, string stackTrace, LogType type)
@@ -60,6 +71,8 @@ namespace Tools
                 ERRO(condition + "\n" + stackTrace);
             }
         }
+
+        private static int pid = Tools.GRandom.getNum(10000, 99999);
 
         private static Log instance;
         private static string path = Application.streamingAssetsPath + "/log.txt";
