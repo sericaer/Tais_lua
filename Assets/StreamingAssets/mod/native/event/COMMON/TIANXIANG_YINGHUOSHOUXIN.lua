@@ -1,5 +1,5 @@
 occur_days = function ()
-    return 1
+    return 10*360
 end
 
 options = 
