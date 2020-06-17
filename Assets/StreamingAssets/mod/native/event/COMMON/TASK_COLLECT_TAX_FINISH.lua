@@ -1,5 +1,5 @@
 desc = function ()
-    return { 'TASK_COLLECT_TAX_FINISH_DESC', gm_data():tax_collect_expect() }
+    return { 'TASK_COLLECT_TAX_FINISH_DESC', gm_data().chaoting.year_expect_tax }
 end
 
 options = 

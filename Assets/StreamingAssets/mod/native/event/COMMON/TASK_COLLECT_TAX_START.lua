@@ -2,6 +2,10 @@ trigger = function()
     return gm_data().date.month == 9 and gm_data().date.day == 1
 end
 
+desc = function()
+    return {'TASK_COLLECT_TAX_START_DESC', gm_data().chaoting.year_expect_tax }
+end
+
 options = 
 {
     OPTION_1 = 
