@@ -17,6 +17,7 @@ namespace TaisEngine
             pre_report_pop = reg_pop_num;
 
             this.prestige = prestige;
+            this.tax_level = TAX_LEVEL.level2;
         }
 
         [JsonProperty]
@@ -83,6 +84,15 @@ namespace TaisEngine
             }
         }
 
+
+        public double expect_tax
+        {
+            get
+            {
+                return Defines.getExpectTax(tax_level) * year_report_pop;
+            }
+        }
+
         [JsonProperty]
         internal List<(int days, double report_tax_value)> year_report_tax_list = new List<(int days, double report_tax_value)>();
 
@@ -94,5 +104,8 @@ namespace TaisEngine
 
         [JsonProperty]
         internal string power_party_background;
+
+        [JsonProperty]
+        internal TAX_LEVEL tax_level;
     }
 }

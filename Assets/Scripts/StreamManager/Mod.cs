@@ -268,6 +268,7 @@ require 'xlua.inner_def'";
             internal EventDef eventDef;
             internal TaskDef taskDef;
             internal BufferDef bufferDef;
+            internal Defines defines;
 
             internal Dictionary<string, InitSelectDef> dictInitSelect = new Dictionary<string, InitSelectDef>();
 
@@ -282,6 +283,7 @@ require 'xlua.inner_def'";
                 eventDef = new EventDef(mod, luaenv.Global.Get<LuaTable>("EVENT"));
                 taskDef = new TaskDef(mod, luaenv.Global);
                 bufferDef = new BufferDef(mod, luaenv.Global.Get<LuaTable>("BUFFER"));
+                defines = new Defines(mod, luaenv.Global.Get<LuaTable>("DEFINES"));
             }
         }
 

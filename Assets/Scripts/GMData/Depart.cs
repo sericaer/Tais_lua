@@ -59,6 +59,9 @@ namespace TaisEngine
         [JsonProperty]
         public List<Buffer> buffers;
 
+        [JsonProperty]
+        internal bool cancel_tax;
+
         internal double cropGrowingSpeed
         {
             get
@@ -94,6 +97,7 @@ namespace TaisEngine
         {
             this.name = def.name;
             this.buffers = new List<Buffer>();
+            this.cancel_tax = false;
 
             GMData.inst.allBuffers.Add(this.buffers);
 

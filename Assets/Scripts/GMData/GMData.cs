@@ -82,6 +82,39 @@ namespace TaisEngine
 
         public bool end_flag;
 
+
+        internal double currTax
+        {
+            get
+            {
+                return currTax_average * taxed_pop_num; 
+            }
+            set
+            {
+                currTax_average = value / taxed_pop_num;
+            }
+        }
+
+        internal int taxed_pop_num
+        {
+            get
+            {
+                return GMData.inst.pops.Where(x => x.def.is_tax && !x.depart.cancel_tax).Sum(x => (int)x.num);
+            }
+        }
+
+        [JsonProperty]
+        internal double currTax_average;
+
+
+        internal double maxTax
+        {
+            get
+            {
+                return taxed_pop_num * Defines.getExpectTax(TAX_LEVEL.level5);
+            }
+        }
+
         internal static void New(InitData initData)
         {
             inst = new GMData(initData);
@@ -286,7 +319,18 @@ namespace TaisEngine
             chaoting = new Chaoting(BackgroundDef.Enumerate().OrderBy(x => Guid.NewGuid()).First().name, 
                 pops.Where(x=>x.def.is_tax).Sum(y=>(int)y.num),
                 100);
-        }
 
+            currTax = chaoting.expect_tax;
+        }
+    }
+
+    enum TAX_LEVEL
+    {
+        level0,
+        level1,
+        level2,
+        level3,
+        level4,
+        level5,
     }
 }
