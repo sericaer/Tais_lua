@@ -69,9 +69,47 @@ namespace TaisEngine
                 if (mod.content != null && mod.content.defines.tax_level_define != null)
                 {
                     start_income = mod.content.defines.tax_level_define[$"level{start}"].income;
-                    next_income = mod.content.defines.tax_level_define[$"level{start+1}"].income;
 
-                    return start_income + (next_income - start_income) * offset / 10;
+                    if(mod.content.defines.tax_level_define.ContainsKey($"level{start + 1}"))
+                    {
+                        next_income = mod.content.defines.tax_level_define[$"level{start + 1}"].income;
+
+                        return start_income + (next_income - start_income) * offset / 10;
+                    }
+
+                    return start_income;
+                }
+            }
+
+            throw new Exception();
+        }
+
+        internal static double getExpectConsume(float f)
+        {
+            if (f.Equals(0.0))
+            {
+                return 0.0;
+            }
+
+            int start = (int)f;
+            int offset = (int)((f - (float)start) * 10);
+
+            double start_consume = 0.0;
+            double next_consume = 0.0;
+            foreach (var mod in Mod.listMod)
+            {
+                if (mod.content != null && mod.content.defines.tax_level_define != null)
+                {
+                    start_consume = mod.content.defines.tax_level_define[$"level{start}"].consume;
+
+                    if (mod.content.defines.tax_level_define.ContainsKey($"level{start + 1}"))
+                    {
+                        next_consume = mod.content.defines.tax_level_define[$"level{start + 1}"].consume;
+
+                        return start_consume + (next_consume - start_consume) * offset / 10;
+                    }
+
+                    return start_consume;
                 }
             }
 

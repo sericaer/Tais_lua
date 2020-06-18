@@ -7,35 +7,35 @@ level0 =
 level1 = 
 {
     income = 0.0005,
-    consume = -0.05,
+    consume = -5,
 }
 
 level2 = 
 {
     income = 0.001,
-    consume = -0.1,
+    consume = -10,
 }
 
 level3 = 
 {
     income = 0.002,
-    consume = -0.2,
+    consume = -20,
 }
 
 level4 = 
 {
     income = 0.0025,
-    consume = -0.3,
+    consume = -30,
 }
 
 level5 = 
 {
     income = 0.0028,
-    consume = -0.4,
+    consume = -40,
 }
 
 level6 = 
 {
     income = 0.003,
-    consume = -0.5,
+    consume = -50,
 }

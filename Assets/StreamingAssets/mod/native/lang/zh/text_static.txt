@@ -1,3 +1,6 @@
+country_tax:上缴朝廷
+local_tax:本郡税收
+surplus:盈余
 new:新建
 load:加载
 quit:退出
@@ -17,7 +20,7 @@ histroy_record:历史记录
 current_data:当前信息
 confirm:确认
 farm:农田
-consume:口粮
+consume:民生
 pop_num:人口
 crop_growing:谷物长势
 expect_tax:预计税收

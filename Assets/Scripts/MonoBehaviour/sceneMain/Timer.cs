@@ -58,7 +58,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        _currSpeed = 100;
+        _currSpeed = 10;
 #else
         _currSpeed = MinSpeed;
 #endif
@@ -68,7 +68,7 @@ public class Timer : MonoBehaviour
             {
                 while (!GMData.inst.end_flag)
                 {
-                    //await UniTask.WaitUntil(() => !isPaused);
+                    await UniTask.WaitUntil(() => !isPaused);
 
                     Debug.Log("a");
 

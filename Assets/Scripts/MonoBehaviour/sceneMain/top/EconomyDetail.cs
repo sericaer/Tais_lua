@@ -11,6 +11,9 @@ public class EconomyDetail : MonoBehaviour
     public Slider ChaotingExpectTaxSlider;
     public Text ChaotingExpectTaxText;
 
+    public Text surplusText;
+    public Text consumeText;
+
     public Button btnConfirm;
 
     TaisEngine.Economy economy;
@@ -24,18 +27,37 @@ public class EconomyDetail : MonoBehaviour
 
     public void OnConfirm()
     {
-        TaisEngine.GMData.inst.economy.currTaxChanged(changedCurrTax);
+        if(changedCurrTax != 0.0)
+        {
+            TaisEngine.GMData.inst.economy.currTaxChanged(changedCurrTax);
+        }
+        
         this.gameObject.SetActive(false);
+    }
 
-        Timer.unPause();
+    public void OnCancel()
+    {
+        this.gameObject.SetActive(false);
     }
 
     private float changedCurrTax;
 
-    private void Start()
+    private void OnEnable()
     {
         Timer.Pause();
 
+        RefreshData();
+    }
+
+    private void OnDisable()
+    {
+        changedCurrTax = 0;
+        Timer.unPause();
+    }
+
+    private void Awake()
+    {
+        
         economy = TaisEngine.GMData.inst.economy;
         chaoting = TaisEngine.GMData.inst.chaoting;
 
@@ -48,9 +70,6 @@ public class EconomyDetail : MonoBehaviour
         changedCurrTax = 0;
 
         ChaotingExpectTaxSlider.interactable = false;
-
-        RefreshData();
-
     }
 
     private void RefreshData()
@@ -58,7 +77,7 @@ public class EconomyDetail : MonoBehaviour
         ChaotingExpectTaxSlider.value = (float)chaoting.tax_level;
         LocalCurrTaxSlider.value = (float)economy.curr_tax_level;
 
-        ChaotingExpectTaxText.text = chaoting.expect_tax.ToString();
+        ChaotingExpectTaxText.text = "-" + chaoting.expect_tax.ToString();
         LocalCurrTaxText.text = economy.currTax.ToString();
 
         LocalCurrTaxSlider.interactable = economy.local_tax_change_valid;
@@ -69,11 +88,21 @@ public class EconomyDetail : MonoBehaviour
                 return ("", TaisEngine.Mod.GetLocalString("VALID_DAYS_SPAN", economy.taxChangedDaysSpan, TaisEngine.GMDate.ToString(economy.validTaxChangedDays)));
             };
         }
+        else
+        {
+            LocalCurrTaxSlider.GetComponent<TooltipTrigger>().funcGetTooltipStr = () =>
+            {
+                return ("", "");
+            };
+        }
     }
 
     private void Update()
     {
         LocalCurrTaxText.text = economy.getExpectTaxValue(LocalCurrTaxSlider.value).ToString();
+
+        surplusText.text = economy.surplus.ToString();
+        consumeText.text = TaisEngine.Defines.getExpectConsume(LocalCurrTaxSlider.value).ToString();
     }
 
 }
