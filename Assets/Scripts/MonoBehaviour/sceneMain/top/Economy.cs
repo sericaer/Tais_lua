@@ -6,6 +6,13 @@ public class Economy : MonoBehaviour
 {
     public Text value;
 
+    public GameObject detail;
+
+    public void onDetailClick()
+    {
+        detail.SetActive(true);
+    }
+
     // Use this for initialization
     void Start()
     {

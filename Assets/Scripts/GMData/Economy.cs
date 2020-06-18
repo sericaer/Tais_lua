@@ -13,11 +13,18 @@ namespace TaisEngine
         [JsonProperty]
         public double value;
 
+        public void currTaxChanged(double value)
+        {
+            currTax = value;
+
+            validTaxChangedDays = GMData.inst.days + taxChangedDaysSpan;
+        }
+
         [JsonProperty]
         internal double currTax_average;
 
         [JsonProperty]
-        internal int validTaxChangedDays;
+        internal int validTaxChangedDays = 0;
 
         internal int taxChangedDaysSpan = 60;
 
@@ -39,7 +46,6 @@ namespace TaisEngine
             }
             set
             {
-                validTaxChangedDays = GMData.inst.days + taxChangedDaysSpan;
                 currTax_average = value / taxed_pop_num;
             }
         }

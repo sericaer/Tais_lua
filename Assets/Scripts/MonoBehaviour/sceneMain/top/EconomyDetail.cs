@@ -13,35 +13,45 @@ public class EconomyDetail : MonoBehaviour
 
     public Button btnConfirm;
 
-    public TaisEngine.Economy economy;
+    TaisEngine.Economy economy;
+    TaisEngine.Chaoting chaoting;
 
     public void LocalCurrTaxSliderValueChanged(float value)
     {
-        changedCurrTax = value - (float)economy.currTax;
+        changedCurrTax = value - (float)TaisEngine.GMData.inst.economy.currTax;
     }
 
     public void OnConfirm()
     {
-        economy.currTax += changedCurrTax;
+        TaisEngine.GMData.inst.economy.currTax += changedCurrTax;
         this.gameObject.SetActive(false);
+
+        Timer.unPause();
     }
 
     private float changedCurrTax;
 
     private void Start()
     {
+        Timer.Pause();
+
+        economy = TaisEngine.GMData.inst.economy;
+        chaoting = TaisEngine.GMData.inst.chaoting;
+
         LocalCurrTaxSlider.minValue = 0;
         ChaotingExpectTaxSlider.minValue = 0;
         changedCurrTax = 0;
 
         ChaotingExpectTaxSlider.interactable = false;
 
+        RefreshData();
+
     }
 
-    private void Update()
+    private void RefreshData()
     {
-        ChaotingExpectTaxSlider.maxValue = (float)TaisEngine.GMData.inst.chaoting.max_tax;
-        ChaotingExpectTaxSlider.value = (float)TaisEngine.GMData.inst.chaoting.expect_tax;
+        ChaotingExpectTaxSlider.maxValue = (float)chaoting.max_tax;
+        ChaotingExpectTaxSlider.value = (float)chaoting.expect_tax;
 
         LocalCurrTaxSlider.maxValue = (float)economy.maxTax;
         LocalCurrTaxSlider.value = (float)economy.currTax + changedCurrTax;
@@ -59,5 +69,9 @@ public class EconomyDetail : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        LocalCurrTaxText.text = LocalCurrTaxSlider.value.ToString();
+    }
 
 }
