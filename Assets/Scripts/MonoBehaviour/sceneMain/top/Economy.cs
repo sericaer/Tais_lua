@@ -15,6 +15,6 @@ public class Economy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        value.text = TaisEngine.GMData.inst.economy.ToString("N0");
+        value.text = TaisEngine.GMData.inst.economy.value.ToString("N0");
     }
 }

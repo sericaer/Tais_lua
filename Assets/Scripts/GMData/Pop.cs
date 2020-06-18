@@ -143,31 +143,31 @@ namespace TaisEngine
             internal int num;
         }
 
-        internal double per_tax
-        {
-            get
-            {
-                if(!def.is_tax)
-                {
-                    return 0.0;
-                }
+        //internal double per_tax
+        //{
+        //    get
+        //    {
+        //        if(!def.is_tax)
+        //        {
+        //            return 0.0;
+        //        }
 
-                if (depart.cancel_tax)
-                {
-                    return 0.0;
-                }
+        //        if (depart.cancel_tax)
+        //        {
+        //            return 0.0;
+        //        }
 
-                return GMData.inst.currTax / GMData.inst.pops.Where(x => x.def.is_tax && !depart.cancel_tax).Sum(x => x.num);
-            }
-        }
+        //        return GMData.inst.currTax / GMData.inst.pops.Where(x => x.def.is_tax && !depart.cancel_tax).Sum(x => x.num);
+        //    }
+        //}
 
-        internal double total_tax
-        {
-            get
-            {
-                return per_tax * num;
-            }
-        }
+        //internal double total_tax
+        //{
+        //    get
+        //    {
+        //        return per_tax * num;
+        //    }
+        //}
 
         //internal double getExpectTax(int level)
         //{

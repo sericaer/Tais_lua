@@ -30,13 +30,24 @@ public class sceneLoad : MonoBehaviour
         }
         catch(Exception e) 
         {
-            Log.ERRO(e.Message);
-            Log.ERRO(e.InnerException.Message);
+            var errTitle = e.Message;
+            var errDetail = "";
+
+            while (e.InnerException != null)
+            {
+                errDetail += e.InnerException.Message;
+                e = e.InnerException;
+            }
+
+            Log.ERRO(errTitle);
+            Log.ERRO(errDetail + e.StackTrace);
+
 
             loadErrorPanel.SetActive(true);
 
-            loadErrorPanel.transform.Find("title").GetComponent<Text>().text = e.Message;
-            loadErrorPanel.transform.Find("detail").GetComponent<Text>().text = e.InnerException.Message;
+            loadErrorPanel.transform.Find("title").GetComponent<Text>().text = errTitle;
+            loadErrorPanel.transform.Find("detail").GetComponent<Text>().text = errDetail;
+
             return;
         }
 

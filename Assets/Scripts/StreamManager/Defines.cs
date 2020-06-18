@@ -13,12 +13,12 @@ namespace TaisEngine
 
         public Defines(string mod, LuaTable luaTable)
         {
-            tax_level_define = luaTable.ContainsKey("tax_level") ? luaTable.Get<Dictionary<string, double>>("tax_level") : null;
+            tax_level_define = luaTable.ContainsKey("TAX_LEVEL") ? luaTable.Get<Dictionary<string, double>>("TAX_LEVEL") : null;
         }
 
-        internal static double getExpectTax(TAX_LEVEL level)
+        internal static double getExpectTax(Economy.TAX_LEVEL level)
         {
-            if(level == TAX_LEVEL.level0)
+            if(level == Economy.TAX_LEVEL.level0)
             {
                 return 0.0;
             }

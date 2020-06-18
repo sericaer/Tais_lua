@@ -48,12 +48,7 @@ namespace TaisEngine
         {
             get
             {
-                if(total_days == -1)
-                {
-                    return -1;
-                }
-
-                return total_days % 360 == 0 ? total_days / 360 : total_days / 360 + 1;
+                return _year(total_days);
             }
 
         }
@@ -62,12 +57,7 @@ namespace TaisEngine
         {
             get
             {
-                if (total_days == -1)
-                {
-                    return -1;
-                }
-
-                return total_days % 30 == 0 ? (total_days % 360 == 0 ? 360 : total_days % 360) / 30 : total_days % 360 / 30 + 1;
+                return _month(total_days);
             }
         }
 
@@ -75,12 +65,7 @@ namespace TaisEngine
         {
             get
             {
-                if (total_days == -1)
-                {
-                    return -1;
-                }
-
-                return total_days % 30 == 0 ? 30 : total_days % 30;
+                return _day(total_days);
             }
         }
 
@@ -92,6 +77,31 @@ namespace TaisEngine
             }
 
             return Mod.GetLocalString("date", year, month, day);
+        }
+
+        public static string ToString(int days)
+        {
+            if (days == 0)
+            {
+                return "--";
+            }
+
+            return Mod.GetLocalString("date", _year(days), _month(days), _day(days));
+        }
+
+        internal static int _day(int days)
+        {
+            return days % 30 == 0 ? 30 : days % 30;
+        }
+
+        internal static int _month(int days)
+        {
+            return days % 30 == 0 ? (days % 360 == 0 ? 360 : days % 360) / 30 : days % 360 / 30 + 1;
+        }
+
+        internal static int _year(int days)
+        {
+            return days % 360 == 0 ? days / 360 : days / 360 + 1;
         }
     }
 }

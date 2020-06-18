@@ -25,19 +25,8 @@ namespace TaisEngine
             }
         }
 
-        public int tax_pop_num
-        {
-            get
-            {
-                return pops.Where(x => x.def.is_tax).Sum(x => (int)x.num);
-            }
-        }
-
         [JsonProperty]
         internal int _days;
-
-        [JsonProperty]
-        public double economy;
 
         [JsonProperty]
         public Taishou taishou;
@@ -45,7 +34,9 @@ namespace TaisEngine
         [JsonProperty]
         public Chaoting chaoting;
 
-        //internal Economy economy = new Economy();
+        [JsonProperty]
+        public Economy economy = new Economy();
+
         [JsonProperty]
         public List<Depart> departs = new List<Depart>();
 
@@ -82,38 +73,6 @@ namespace TaisEngine
 
         public bool end_flag;
 
-
-        internal double currTax
-        {
-            get
-            {
-                return currTax_average * taxed_pop_num; 
-            }
-            set
-            {
-                currTax_average = value / taxed_pop_num;
-            }
-        }
-
-        internal int taxed_pop_num
-        {
-            get
-            {
-                return GMData.inst.pops.Where(x => x.def.is_tax && !x.depart.cancel_tax).Sum(x => (int)x.num);
-            }
-        }
-
-        [JsonProperty]
-        internal double currTax_average;
-
-
-        internal double maxTax
-        {
-            get
-            {
-                return taxed_pop_num * Defines.getExpectTax(TAX_LEVEL.level5);
-            }
-        }
 
         internal static void New(InitData initData)
         {
@@ -155,53 +114,6 @@ namespace TaisEngine
             return pop_num * 0.0007;
         }
 
-        //internal static IEnumerable<GEvent> GenerateEvent()
-        //{
-        //    foreach(var gevent in GEvent.Enumerate())
-        //    {
-        //        if(gevent is GEventDepart)
-        //        {
-        //            var departEvnet = gevent as GEventDepart;
-        //            foreach (var depart in inst.listDepart)
-        //            {
-        //                departEvnet.setDepart(depart.def.pyObj);
-        //                if (departEvnet.isTrigger())
-        //                {
-        //                    yield return gevent;
-        //                }
-        //            }
-        //        }
-        //        else if (gevent.isTrigger())
-        //        {
-        //            yield return gevent;
-        //        }
-        //    }
-
-        //    foreach(var taskDef in TaskDef.Enumerate())
-        //    {
-        //        if (taskDef.isStart())
-        //        {
-        //            if (taskDef.start_event != null)
-        //            {
-        //                yield return GEvent.getEvent(taskDef.start_event);
-        //            }
-
-        //            GMData.inst.listTask.Add(new Task(taskDef));
-        //        }
-        //    }
-
-        //    for (int i = 0; i < inst.listTask.Count(); i++)
-        //    {
-        //        var task = inst.listTask[i];
-        //        if (task.isFinished())
-        //        {
-        //            inst.listTask.RemoveAt(i);
-
-        //            yield return GEvent.getEvent(task.def.finish_event);
-        //        }
-        //    }
-        //}
-
         internal async UniTask DaysInc(Func<EventDef.Interface, UniTask> act)
         {
             if(date.day == 1)
@@ -214,6 +126,7 @@ namespace TaisEngine
                     chaoting.year_report_tax_list.Clear();
                 }
             }
+
 
             foreach (var gevent in EventDef.Generate())
             {
@@ -240,6 +153,8 @@ namespace TaisEngine
                 tax_current.Update(tax_rate);
             }
 
+            economy.DayInc();
+
             //Debug.Log("DaysInc_3");
             _days++;
 
@@ -259,30 +174,6 @@ namespace TaisEngine
             return departs.SingleOrDefault(x => x.color == color);
         }
 
-        //internal double collectTaxExpect(string level)
-        //{
-        //    var levelinfo = TaxLevelDef.getInfo(level);
-
-        //    return EXPECT_TAX.Expect(levelinfo.rate);
-        //}
-
-        //internal void collectTaxStart(string level)
-        //{
-        //    var levelinfo = TaxLevelDef.getInfo(level);
-
-        //    EXPECT_TAX.Start(levelinfo.rate);
-
-        //    //foreach(var pop in GMData.inst.listPop.Where(x=>x.def.isTax))
-        //    //{
-        //    //    pop
-        //    //}
-        //}
-
-        //internal double collectTaxFinish()
-        //{
-        //    EXPECT_TAX.Finish();
-        //    return EXPECT_TAX.histroy.Last().taxed.value;
-        //}
 
         internal GMData()
         {
@@ -320,17 +211,7 @@ namespace TaisEngine
                 pops.Where(x=>x.def.is_tax).Sum(y=>(int)y.num),
                 100);
 
-            currTax = chaoting.expect_tax;
+            economy.currTax = chaoting.expect_tax * 1.1;
         }
-    }
-
-    enum TAX_LEVEL
-    {
-        level0,
-        level1,
-        level2,
-        level3,
-        level4,
-        level5,
     }
 }

@@ -139,119 +139,6 @@ namespace TaisEngine
             Log.INFO($"Load mod finish ");
         }
 
-        private LuaEnv DoLuas()
-        {
-            var startRequire = @"require 'xlua.class_func'
-require 'xlua.inner_def'";
-
-            var luaDirs = new List<string>() {
-                                                "INIT_SELECT",
-                                                "POP",
-                                                "BACKGROUND",
-                                                "DEPART",
-                                                "EVENT/COMMON",
-                                                "EVENT/DEPART",
-                                                "EVENT/POP",
-                                                "TASK",
-                                                "BUFFER/DEPART",
-                                                "BUFFER/POP"
-                                              };
-
-            var luaFilePaths = luaDirs.Select(x => $"{path}/{x}/")
-                                        .Where(x => Directory.Exists(x))
-                                        .SelectMany(x => Directory.EnumerateFiles(x, "*.lua"))
-                                        .ToList();
-
-            var endRequire = "require 'xlua.inner_def_init'";
-
-            var luaenv = new LuaEnv();
-
-            luaenv.DoString(startRequire);
-
-            foreach (var luapath in luaFilePaths)
-            {
-                var luaTableName = Path.GetDirectoryName(luapath)
-                                   .Replace(path, "")
-                                   .Trim(Path.DirectorySeparatorChar)
-                                   .Replace(Path.DirectorySeparatorChar, '.')
-                                   .ToUpper();
-
-                var rawLines = File.ReadLines(luapath).ToList();
-
-                string convertText = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={";
-
-                int isInFunc = 0;
-                int isInIF = 0;
-                for (int i=0; i< rawLines.Count(); i++ )
-                {
-                    string curr = rawLines[i].Trim();
-                    if(curr == "")
-                    {
-                        convertText += curr + "\n";
-                        continue;
-                    }
-
-                    if (curr.EndsWith(",")
-                        || curr.EndsWith("{")
-                        || curr.EndsWith("="))
-                    {
-                        convertText += curr + "\n";
-                        continue;
-                    }
-
-                    if (curr.Contains("function"))
-                    {
-                        convertText += curr + "\n";
-                        isInFunc++;
-                        continue;
-                    }
-
-                    if (curr.StartsWith("if") || curr.StartsWith("for"))
-                    {
-                        convertText += curr + "\n";
-                        isInIF++;
-                        continue;
-                    }
-
-                    if (curr.EndsWith("end"))
-                    {
-                        if(isInIF != 0)
-                        {
-                            convertText += curr + "\n";
-                            isInIF--;
-                            continue;
-                        }
-
-                        convertText += curr + "," + "\n";
-                        isInFunc--;
-                        continue;
-                    }
-
-
-                    if(isInFunc != 0)
-                    {
-                        convertText += curr + "\n";
-                        continue;
-                    }
-
-                    convertText += curr + "," + "\n";
-                }
-
-                convertText += "\n}";
-
-                try
-                {
-                    luaenv.DoString(convertText, luapath);
-                }
-                catch(Exception e)
-                {
-                    throw new Exception(convertText, e);
-                }
-            }
-
-            luaenv.DoString(endRequire);
-            return luaenv;
-        }
 
         public class Info
         {
@@ -334,6 +221,126 @@ require 'xlua.inner_def'";
 
                 content.dictlan2PersonName.Add(dirName, PersonName.Generate(dir));
             }
+        }
+
+        private LuaEnv DoLuas()
+        {
+            var startRequire = @"require 'xlua.class_func'
+require 'xlua.inner_def'";
+
+            var luaDirs = new List<string>() {  "DEFINES",
+                                                "INIT_SELECT",
+                                                "POP",
+                                                "BACKGROUND",
+                                                "DEPART",
+                                                "EVENT/COMMON",
+                                                "EVENT/DEPART",
+                                                "EVENT/POP",
+                                                "TASK",
+                                                "BUFFER/DEPART",
+                                                "BUFFER/POP"
+                                              };
+
+            var luaFilePaths = luaDirs.Select(x => $"{path}/{x}/")
+                                        .Where(x => Directory.Exists(x))
+                                        .SelectMany(x => Directory.EnumerateFiles(x, "*.lua"))
+                                        .ToList();
+
+            var endRequire = "require 'xlua.inner_def_init'";
+
+            var luaenv = new LuaEnv();
+
+            luaenv.DoString(startRequire);
+
+            foreach (var luapath in luaFilePaths)
+            {
+                string convertText = convertLua(luapath);
+
+                try
+                {
+                    luaenv.DoString(convertText, luapath);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(convertText, e);
+                }
+            }
+
+            luaenv.DoString(endRequire);
+            return luaenv;
+        }
+
+        private string convertLua(string luapath)
+        {
+            var luaTableName = Path.GetDirectoryName(luapath)
+                                               .Replace(path, "")
+                                               .Trim(Path.DirectorySeparatorChar)
+                                               .Replace(Path.DirectorySeparatorChar, '.')
+                                               .ToUpper();
+
+            var rawLines = File.ReadLines(luapath).ToList();
+
+            string convertText = luaTableName + "." + Path.GetFileNameWithoutExtension(luapath) + "={";
+
+            int isInFunc = 0;
+            int isInIF = 0;
+            for (int i = 0; i < rawLines.Count(); i++)
+            {
+                string curr = rawLines[i].Trim();
+                if (curr == "")
+                {
+                    convertText += curr + "\n";
+                    continue;
+                }
+
+                if (curr.EndsWith(",")
+                    || curr.EndsWith("{")
+                    || curr.EndsWith("="))
+                {
+                    convertText += curr + "\n";
+                    continue;
+                }
+
+                if (curr.Contains("function"))
+                {
+                    convertText += curr + "\n";
+                    isInFunc++;
+                    continue;
+                }
+
+                if (curr.StartsWith("if") || curr.StartsWith("for"))
+                {
+                    convertText += curr + "\n";
+                    isInIF++;
+                    continue;
+                }
+
+                if (curr.EndsWith("end"))
+                {
+                    if (isInIF != 0)
+                    {
+                        convertText += curr + "\n";
+                        isInIF--;
+                        continue;
+                    }
+
+                    convertText += curr + "," + "\n";
+                    isInFunc--;
+                    continue;
+                }
+
+
+                if (isInFunc != 0)
+                {
+                    convertText += curr + "\n";
+                    continue;
+                }
+
+                convertText += curr + "," + "\n";
+            }
+
+            convertText += "\n}";
+            return convertText;
         }
     }
 }
