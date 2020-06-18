@@ -18,12 +18,13 @@ public class EconomyDetail : MonoBehaviour
 
     public void LocalCurrTaxSliderValueChanged(float value)
     {
-        changedCurrTax = value - (float)TaisEngine.GMData.inst.economy.currTax;
+
+        changedCurrTax = value - (float)TaisEngine.GMData.inst.economy.curr_tax_level;
     }
 
     public void OnConfirm()
     {
-        TaisEngine.GMData.inst.economy.currTax += changedCurrTax;
+        TaisEngine.GMData.inst.economy.currTaxChanged(changedCurrTax);
         this.gameObject.SetActive(false);
 
         Timer.unPause();
@@ -39,7 +40,11 @@ public class EconomyDetail : MonoBehaviour
         chaoting = TaisEngine.GMData.inst.chaoting;
 
         LocalCurrTaxSlider.minValue = 0;
+        LocalCurrTaxSlider.maxValue = (float)TaisEngine.Economy.TAX_LEVEL.levelmax;
+
         ChaotingExpectTaxSlider.minValue = 0;
+        ChaotingExpectTaxSlider.maxValue = (float)TaisEngine.Economy.TAX_LEVEL.levelmax;
+
         changedCurrTax = 0;
 
         ChaotingExpectTaxSlider.interactable = false;
@@ -50,14 +55,11 @@ public class EconomyDetail : MonoBehaviour
 
     private void RefreshData()
     {
-        ChaotingExpectTaxSlider.maxValue = (float)chaoting.max_tax;
-        ChaotingExpectTaxSlider.value = (float)chaoting.expect_tax;
+        ChaotingExpectTaxSlider.value = (float)chaoting.tax_level;
+        LocalCurrTaxSlider.value = (float)economy.curr_tax_level;
 
-        LocalCurrTaxSlider.maxValue = (float)economy.maxTax;
-        LocalCurrTaxSlider.value = (float)economy.currTax + changedCurrTax;
-
-        ChaotingExpectTaxText.text = ChaotingExpectTaxSlider.value.ToString();
-        LocalCurrTaxText.text = LocalCurrTaxSlider.value.ToString();
+        ChaotingExpectTaxText.text = chaoting.expect_tax.ToString();
+        LocalCurrTaxText.text = economy.currTax.ToString();
 
         LocalCurrTaxSlider.interactable = economy.local_tax_change_valid;
         if(!LocalCurrTaxSlider.interactable)
@@ -71,7 +73,7 @@ public class EconomyDetail : MonoBehaviour
 
     private void Update()
     {
-        LocalCurrTaxText.text = LocalCurrTaxSlider.value.ToString();
+        LocalCurrTaxText.text = economy.getExpectTaxValue(LocalCurrTaxSlider.value).ToString();
     }
 
 }

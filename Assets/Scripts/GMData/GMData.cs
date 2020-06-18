@@ -211,7 +211,7 @@ namespace TaisEngine
                 pops.Where(x=>x.def.is_tax).Sum(y=>(int)y.num),
                 100);
 
-            economy.currTax = chaoting.expect_tax * 1.1;
+            economy.curr_tax_level = (float)chaoting.tax_level * 1.1f ;
         }
     }
 }

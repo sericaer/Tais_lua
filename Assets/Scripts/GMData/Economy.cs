@@ -13,15 +13,23 @@ namespace TaisEngine
         [JsonProperty]
         public double value;
 
-        public void currTaxChanged(double value)
+        public void currTaxChanged(float value)
         {
-            currTax = value;
+            curr_tax_level += value;
 
             validTaxChangedDays = GMData.inst.days + taxChangedDaysSpan;
         }
 
         [JsonProperty]
-        internal double currTax_average;
+        internal float curr_tax_level;
+
+        internal double curr_tax_per
+        {
+            get
+            {
+                return Defines.getExpectTax(curr_tax_level);
+            }
+        }
 
         [JsonProperty]
         internal int validTaxChangedDays = 0;
@@ -36,17 +44,15 @@ namespace TaisEngine
             level3,
             level4,
             level5,
+            level6,
+            levelmax = level6
         }
 
         internal double currTax
         {
             get
             {
-                return currTax_average * taxed_pop_num;
-            }
-            set
-            {
-                currTax_average = value / taxed_pop_num;
+                return curr_tax_per * taxed_pop_num;
             }
         }
 
@@ -74,6 +80,14 @@ namespace TaisEngine
             }
         }
 
+        internal bool local_tax_change_valid
+        {
+            get
+            {
+                return GMData.inst.days >= validTaxChangedDays;
+            }
+        }
+
         internal void DayInc()
         {
             if(GMData.inst.date.day == 30)
@@ -82,12 +96,9 @@ namespace TaisEngine
             }
         }
 
-        internal bool local_tax_change_valid
+        internal double getExpectTaxValue(float level)
         {
-            get
-            {
-                return GMData.inst.days >= validTaxChangedDays;
-            }
+            return Defines.getExpectTax(level) * taxed_pop_num;
         }
     }
 }
