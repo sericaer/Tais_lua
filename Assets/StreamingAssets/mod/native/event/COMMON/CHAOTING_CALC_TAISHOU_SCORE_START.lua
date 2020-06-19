@@ -1,5 +1,5 @@
 trigger = function()
-    return gm_data().date.month == 12 and gm_data().date.day == 20
+    return false
 end
 
 options = 

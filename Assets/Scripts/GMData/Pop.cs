@@ -101,6 +101,11 @@ namespace TaisEngine
 
                 List<(string name, double value)> rslt = new List<(string name, double value)>();
                 rslt.Add(("BASE_VALUE", def.consume.Value));
+                if(def.is_tax)
+                {
+                    rslt.Add(("CURR_TAX_EFFECT", Defines.getExpectConsume(GMData.inst.economy.curr_tax_level)));
+                }
+
                 rslt.AddRange(buffers.exist_consume_effects().Select(x => (x.name, x.value * def.consume.Value)));
                 rslt.AddRange(depart.buffers.exist_consume_effects().Select(x => (x.name, x.value * def.consume.Value)));
 

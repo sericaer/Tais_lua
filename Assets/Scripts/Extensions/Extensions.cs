@@ -88,6 +88,16 @@ namespace TaisEngine
             return !list.Any(x => x.name == name);
         }
 
+        public static bool is_group_valid(this List<Buffer> list, string group)
+        {
+            return list.Any(x => x.def.group == group);
+        }
+
+        public static bool is_group_invalid(this List<Buffer> list, string group)
+        {
+            return !is_group_valid(list, group);
+        }
+
         public static int exist_days(this List<Buffer> list, string name)
         {
             var buffer = list.Find(x => x.name == name);
